@@ -1,0 +1,2 @@
+# StrategicGameFramework
+Strategic Game Framework
