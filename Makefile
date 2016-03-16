@@ -9,3 +9,5 @@ run: build
 	java \
 		-classpath bin \
 		alphareversi.Main
+
+ci: build
