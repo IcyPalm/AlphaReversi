@@ -19,12 +19,13 @@ public class TicTacToeModel {
 
     private int side;
 
-    private char selfChar, opponentChar;
+    private char selfChar;
+   private char opponentChar;
 
     private TicTacToeView view;
 
     public TicTacToeModel() {
-        view = new TicTacToeView(board, self, opponent);
+        view = new TicTacToeView(self, opponent, this);
         clearBoard( );
         initSide();
     }
@@ -34,7 +35,7 @@ public class TicTacToeModel {
     public void playMove(int move) {
         board[move/3][ move%3] = this.side;
         if (side==self) this.side=opponent;  else this.side=self;
-        view.print(selfChar, opponentChar);
+        view.print();
     }
     // Simple supporting routines
     private void clearBoard( )
@@ -131,18 +132,22 @@ public class TicTacToeModel {
         this.side=opponent;
         initSide();
     }
+    public char getOpponentChar() {
+        return opponentChar;
+    }
+
+    public char getSelfChar() {
+        return selfChar;
+    }
 
     public void setSelfPlays()
     {
         this.side=self;
         initSide();
     }
-    public char getSelfChar() {
-        return selfChar;
-    }
-
-    public char getOpponentChar() {
-        return opponentChar;
+    public boolean opponentPlays()
+    {
+        return side==opponent;
     }
 
 

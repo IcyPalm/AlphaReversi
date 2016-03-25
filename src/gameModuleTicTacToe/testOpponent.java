@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 /**
  * Created by daant on 25-Mar-16.
+ *
+ * This class Simulates an opponent.
  */
 public class testOpponent {
     private boolean running = true;

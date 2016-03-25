@@ -7,14 +7,20 @@ public class TicTacToeView {
     private int[][] board;
     private int self;
     private int opponent;
+    private TicTacToeModel model;
+    private char selfChar;
+    private char opponentChar;
 
-    public TicTacToeView(int[][] board, int self, int opponent) {
-        this.board = board;
+    public TicTacToeView(int self, int opponent, TicTacToeModel model) {
+        this.board = model.getBoard();
         this.self = self;
         this.opponent = opponent;
+        this.model = model;
     }
 
-    public void print(char selfChar, char opponentChar) {
+    public void print() {
+        this.selfChar = model.getSelfChar();
+        this.opponentChar = model.getOpponentChar();
         String string = "";
         // for every row
         for (int x = 0; x < 3; x++) {
