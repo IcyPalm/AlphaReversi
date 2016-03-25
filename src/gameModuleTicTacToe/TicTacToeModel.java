@@ -29,8 +29,6 @@ public class TicTacToeModel {
         clearBoard( );
         initSide();
     }
-
-
     // play move
     public void playMove(int move) {
         board[move/3][ move%3] = this.side;
@@ -84,9 +82,6 @@ public class TicTacToeModel {
     }
     public int[][] getBoard() {
         return board;
-    }
-    public int getSide() {
-        return side;
     }
     // Compute static value of current position (win, draw, etc.)
     public int positionValue() {
