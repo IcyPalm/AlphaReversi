@@ -12,7 +12,11 @@ public class TicTacToeModule implements Runnable {
     private TicTacToeModel model;
     private int opponentMove;
 
+    private volatile boolean opponentPlayed = false;
+
     public TicTacToeModule(String player) {
+        model = new TicTacToeModel();
+        model.setSelfPlays();
         if(!decidePlayer(player)) {
             System.out.println("Wrong Command");
         }
@@ -20,8 +24,7 @@ public class TicTacToeModule implements Runnable {
 
     @Override
     public void run() {
-        model = new TicTacToeModel();
-        model.setSelfPlays();
+
 
         game();
 
@@ -29,16 +32,25 @@ public class TicTacToeModule implements Runnable {
     }
 
     private void game() {
-        model.playMove(player.chooseMove(), 'X');
+        while (!model.gameOver()) {
+            model.playMove(player.chooseMove());
 
-        waitForMove();
-        model.playMove(1, 'O');
+            waitForMove();
+            model.playMove(opponentMove);
+            opponentPlayed = false;
+        }
     }
     private void waitForMove() {
-
+        while(!opponentPlayed) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {}
+        }
     }
     public synchronized void receiveMove(int move) {
         opponentMove = move;
+        opponentPlayed = true;
+
     }
     private boolean decidePlayer(String player) {
         if (player.equals("HUMAN")) {
@@ -46,7 +58,7 @@ public class TicTacToeModule implements Runnable {
             return true;
         }
         if (player.equals("AI")) {
-            this.player = new AI();
+            this.player = new AI(model);
             return true;
         }
         return false;

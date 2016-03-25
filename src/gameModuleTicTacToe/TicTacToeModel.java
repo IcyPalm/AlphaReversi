@@ -6,18 +6,19 @@ package gameModuleTicTacToe;
 public class TicTacToeModel {
     private int [ ] [ ] board = new int[ 3 ][ 3 ];
 
-    private static final int self        = 0;
-    private static final int opponent     = 1;
+    public static final int self        = 0;
+    public static final int opponent     = 1;
     public  static final int EMPTY        = 2;
 
-    public  static final int HUMAN_WIN    = 0;
+    public  static final int SELF_WIN    = 0;
     public  static final int DRAW         = 1;
     public  static final int UNCLEAR      = 2;
-    public  static final int COMPUTER_WIN = 3;
+    public  static final int OPPONENT_WIN = 3;
 
     private int position=UNCLEAR;
 
-    private char side;
+    private int side;
+
     private char selfChar, opponentChar;
 
     private TicTacToeView view;
@@ -30,7 +31,7 @@ public class TicTacToeModel {
 
 
     // play move
-    public void playMove(int move, char side) {
+    public void playMove(int move) {
         board[move/3][ move%3] = this.side;
         if (side==self) this.side=opponent;  else this.side=self;
         view.print(selfChar, opponentChar);
@@ -80,13 +81,26 @@ public class TicTacToeModel {
         }
         return false;
     }
+    public int[][] getBoard() {
+        return board;
+    }
+    public int getSide() {
+        return side;
+    }
     // Compute static value of current position (win, draw, etc.)
     public int positionValue() {
         {
-            if (isAWin(opponent)) {return COMPUTER_WIN;}
-            if (isAWin(self)) {return HUMAN_WIN;}
+            if (isAWin(opponent)) {return OPPONENT_WIN;}
+            if (isAWin(self)) {return SELF_WIN;}
             if (boardIsFull()) {return DRAW;}
             return UNCLEAR;
+        }
+    }
+    public int getOpponent(int side) {
+        if (side == opponent) {
+            return self;
+        } else {
+            return opponent;
         }
     }
     public boolean gameOver()
@@ -105,13 +119,9 @@ public class TicTacToeModel {
         if (this.side==self) { selfChar='X'; opponentChar='O'; }
         else                     { selfChar='O'; opponentChar='X'; }
     }
-    // Play a move, possibly clearing a square
-    private void place( int row, int column, int piece )
-    {
-        board[ row ][ column ] = piece;
-    }
 
-    private boolean squareIsEmpty( int row, int column )
+
+    public boolean squareIsEmpty( int row, int column )
     {
         return board[ row ][ column ] == EMPTY;
     }
@@ -126,6 +136,13 @@ public class TicTacToeModel {
     {
         this.side=self;
         initSide();
+    }
+    public char getSelfChar() {
+        return selfChar;
+    }
+
+    public char getOpponentChar() {
+        return opponentChar;
     }
 
 

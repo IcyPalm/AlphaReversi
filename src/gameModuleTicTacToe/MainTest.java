@@ -8,6 +8,6 @@ public class MainTest {
         TicTacToeModule module = new TicTacToeModule("AI");
         Thread moduleThread = new Thread(module);
         moduleThread.start();
-        //module.receiveMove(1);
+        new testOpponent(module);
     }
 }
