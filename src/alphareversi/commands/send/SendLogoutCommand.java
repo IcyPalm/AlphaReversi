@@ -11,8 +11,12 @@ import alphareversi.commands.SendCommand;
  * S: -
  */
 public class SendLogoutCommand extends SendCommand {
+    public SendLogoutCommand()
+    {
+        this.setMethod("logout");
+    }
     @Override
     public String toString() {
-        return null;
+        return this.getMethod();
     }
 }

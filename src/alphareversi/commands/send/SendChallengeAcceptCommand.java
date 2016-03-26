@@ -11,8 +11,24 @@ import alphareversi.commands.SendCommand;
  * S: OK
  */
 public class SendChallengeAcceptCommand extends SendCommand {
+    private int ChallengeNumber;
+
+    public SendChallengeAcceptCommand()
+    {
+        this.setMethod("challenge");
+        this.setAction("accept");
+    }
+
+    public int getChallengeNumber() {
+        return ChallengeNumber;
+    }
+
+    public void setChallengeNumber(int challengeNumber) {
+        ChallengeNumber = challengeNumber;
+    }
+
     @Override
     public String toString() {
-        return null;
+        return this.getMethod() + " " + this.getAction() + " " + Integer.toString(ChallengeNumber);
     }
 }
