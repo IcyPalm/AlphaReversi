@@ -22,6 +22,8 @@ public class CommandParser {
         put("SVR GAME YOURTURN \\{(.*?)\\}", RecvGameYourturnCommand.class);
         put("SVR PLAYERLIST \\[(.*?)\\]", RecvPlayerlistCommand.class);
         put("SVR HELP (.*?)+", RecvHelpCommand.class);
+        put("ERR (.*?)+", RecvStatusErrCommand.class);
+        put("OK", RecvStatusOkCommand.class);
     }};
 
     public static RecvCommand parseString(String serverCommand) {
@@ -44,6 +46,7 @@ public class CommandParser {
                 }
             }
         }
+        System.out.println("Unknown command received: " +serverCommand);
         return null;
     }
 

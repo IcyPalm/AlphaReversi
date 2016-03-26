@@ -81,9 +81,30 @@ public class testParser {
     }
 
     @Test
-    public void testSvrHelp()
+    public void testSvrHelpCommand()
     {
         RecvCommand RecvHelpCommand = CommandParser.parseString("SVR HELP <help informatie>");
         assertEquals(RecvHelpCommand.getClass().getSimpleName(), "RecvHelpCommand");
+    }
+
+    @Test
+    public void testSvrOkCommand()
+    {
+        RecvCommand RecvStatusOkCommand = CommandParser.parseString("OK");
+        assertEquals(RecvStatusOkCommand.getClass().getSimpleName(), "RecvStatusOkCommand");
+    }
+
+    @Test
+    public void testSvrErrCommand()
+    {
+        RecvCommand RecvStatusErrCommand = CommandParser.parseString("ERR test bericht");
+        assertEquals(RecvStatusErrCommand.getClass().getSimpleName(), "RecvStatusErrCommand");
+    }
+
+    @Test
+    public void testWrongCommand()
+    {
+        RecvCommand WrongCommand = CommandParser.parseString("Bla bla bla");
+        assertEquals(WrongCommand, null);
     }
 }
