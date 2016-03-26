@@ -1,6 +1,6 @@
 package alphareversi.commands.send;
 
-import alphareversi.commands.Command;
+import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
@@ -10,5 +10,9 @@ import alphareversi.commands.Command;
  * C: logout | exit | quit | disconnect | bye
  * S: -
  */
-public class SendLogoutCommand extends Command {
+public class SendLogoutCommand extends SendCommand {
+    @Override
+    public String makeString() {
+        return null;
+    }
 }
