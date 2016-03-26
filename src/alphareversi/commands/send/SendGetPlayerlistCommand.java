@@ -1,6 +1,6 @@
 package alphareversi.commands.send;
 
-import alphareversi.commands.Command;
+import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
@@ -10,7 +10,11 @@ import alphareversi.commands.Command;
  * C: get playerlist
  * S: OK
  */
-public class SendGetPlayerlistCommand extends Command {
+public class SendGetPlayerlistCommand extends SendCommand {
+    @Override
+    public String makeString() {
+        return null;
+    }
 
 
 
