@@ -11,8 +11,23 @@ import alphareversi.commands.SendCommand;
  * S: OK
  */
 public class SendMoveCommand extends SendCommand {
+    private int Move;
+
+    public SendMoveCommand()
+    {
+        this.setMethod("move");
+    }
+
+    public int getMove() {
+        return Move;
+    }
+
+    public void setMove(int move) {
+        Move = move;
+    }
+
     @Override
     public String toString() {
-        return null;
+        return this.getMethod() + " " + Integer.toString(this.getMove());
     }
 }

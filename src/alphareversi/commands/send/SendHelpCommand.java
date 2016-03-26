@@ -11,8 +11,12 @@ import alphareversi.commands.SendCommand;
  * S: OK
  */
 public class SendHelpCommand extends SendCommand {
+    public SendHelpCommand()
+    {
+        this.setMethod("help");
+    }
     @Override
     public String toString() {
-        return null;
+        return this.getMethod();
     }
 }

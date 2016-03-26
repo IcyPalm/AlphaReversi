@@ -11,8 +11,32 @@ import alphareversi.commands.SendCommand;
  * S: OK
  */
 public class SendChallengeCommand extends SendCommand {
+    private String Player;
+    private String GameType;
+
+    public SendChallengeCommand()
+    {
+        this.setMethod("challenge");
+    }
+
+    public String getPlayer() {
+        return Player;
+    }
+
+    public void setPlayer(String player) {
+        Player = player;
+    }
+
+    public String getGameType() {
+        return GameType;
+    }
+
+    public void setGameType(String gameType) {
+        GameType = gameType;
+    }
+
     @Override
     public String toString() {
-        return null;
+        return this.getMethod() + " \"" + this.getPlayer() + "\" \"" + this.getGameType()+"\"";
     }
 }
