@@ -1,6 +1,9 @@
 package alphareversi;
 
+import alphareversi.commands.CommandDispatcher;
 import alphareversi.commands.CommandParser;
+import alphareversi.commands.RecvCommand;
+import alphareversi.commands.SendCommand;
 import com.sun.corba.se.spi.activation.Server;
 
 import java.io.BufferedReader;
@@ -16,7 +19,7 @@ public class Connection {
     private static Connection instance = null;
 
     protected Connection() {
-        // Exists only to defeat instantiation.
+        this.commandDispatcher = new CommandDispatcher();
     }
     public static Connection getInstance() {
         if(instance == null) {
@@ -24,6 +27,8 @@ public class Connection {
         }
         return instance;
     }
+
+    public CommandDispatcher commandDispatcher;
 
     private boolean connected = false;
     private Socket comms;
@@ -41,7 +46,6 @@ public class Connection {
             this.output = new PrintWriter(comms.getOutputStream(), true);
             this.connected = true;
             startServerResponseThread();
-
         } catch (IOException e) {
             this.connected = false;
         }
@@ -53,8 +57,9 @@ public class Connection {
 
             while (true) {
                 try {
-                    //TODO checken of de input een response is van een request. anders doorsturen naar commanddispatcher.
-                    CommandParser.parseString(input.readLine());
+                    //TODO checken of de input een response is van een request.
+                    RecvCommand command = CommandParser.parseString(input.readLine());
+                    this.commandDispatcher.sendCommand(command);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,8 +74,8 @@ public class Connection {
     }
 
     //TODO zorgen dat commands verstuurd worden en onthouden voor een mogelijke return.
-    public void sendMessage(String string){
-        output.println(string);
+    public void sendMessage(SendCommand command){
+        output.println(command.toString());
     }
 
 }
