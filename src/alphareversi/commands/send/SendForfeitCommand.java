@@ -11,8 +11,13 @@ import alphareversi.commands.SendCommand;
  * S: OK
  */
 public class SendForfeitCommand extends SendCommand {
+    public SendForfeitCommand()
+    {
+        this.setMethod("forfeit");
+    }
+
     @Override
     public String toString() {
-        return null;
+        return this.getMethod();
     }
 }
