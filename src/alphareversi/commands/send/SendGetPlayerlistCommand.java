@@ -12,7 +12,7 @@ import alphareversi.commands.SendCommand;
  */
 public class SendGetPlayerlistCommand extends SendCommand {
     @Override
-    public String makeString() {
+    public String toString() {
         return null;
     }
 

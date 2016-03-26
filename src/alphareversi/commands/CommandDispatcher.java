@@ -22,7 +22,7 @@ public class CommandDispatcher {
 
     }
 
-    public void sendCommand(Command command){
+    public void sendCommand(RecvCommand command){
 
         for (CommandListener listener : this.commandListeners){
             listener.commandReceived(command);
