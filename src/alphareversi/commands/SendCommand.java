@@ -5,5 +5,5 @@ package alphareversi.commands;
  */
 public abstract class SendCommand {
 
-    public abstract String makeString();
+    public abstract String toString();
 }
