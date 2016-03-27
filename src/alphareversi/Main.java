@@ -1,4 +1,6 @@
-package alphareversi;
+package src.alphareversi;
+
+import src.GameModules.ReversiModule.ReversiModel;
 
 public class Main {
 

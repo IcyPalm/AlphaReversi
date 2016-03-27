@@ -21,7 +21,7 @@ public class GameBaseModel {
      * Not sure yet if this methode is usefull.
      * @return board.length
      */
-    protected int returnBoadSize(){
+    protected int getBoardSize(){
         return board.length;
     }
 
@@ -29,8 +29,8 @@ public class GameBaseModel {
      * return the value of the Opponent
      * @return Opponent
      */
-    protected int getOpponnent(){
-        if(mySide == playerOne){
+    protected int getOpponnent(int side){
+        if(side == playerOne){
             return playerTwo;
         }else{
             return playerOne;
@@ -44,6 +44,23 @@ public class GameBaseModel {
      * @return
      */
     protected int getPosition(int row, int column){
-        return row*3+column;
+        return row*8+column;
+    }
+
+    protected boolean inBounds(int row, int coloumn){
+        if(row >= 0 && row < getBoardSize() && coloumn >= 0 && coloumn < getBoardSize()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public void printBoard(){
+        for(int i = 0; i < getBoardSize();i++){
+            for(int j =0; j<getBoardSize(); j++){
+                System.out.print(board[i][j]);
+            }
+            System.out.println();
+        }
     }
 }

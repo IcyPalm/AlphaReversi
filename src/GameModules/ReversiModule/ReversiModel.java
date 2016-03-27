@@ -13,6 +13,9 @@ public class ReversiModel extends GameBaseModel {
     private HashSet potentialMoves;
     private ArrayList<Integer> locations;
 
+    private int myScore;
+    private int opponentScore;
+
     public  ReversiModel(int mySide){
         super(mySide);
         board = new int[8][8];
@@ -22,16 +25,19 @@ public class ReversiModel extends GameBaseModel {
         board[4][4] = 1;
         potentialMoves = new HashSet();
         locations = new ArrayList<>();
+        myScore =2;
+        opponentScore =2;
+        getValidMoves(mySide);
     }
 
-    private void placePiece(int move, int side){
+    public void placePiece(int move, int side){
         if(legalMove(move, side)){
-            board[move/3][ move%3] = side;
+            board[move/8][ move%8] = side;
         }
     }
 
     private boolean legalMove(int move, int side){
-        int currentOccupant = board[move/3][ move%3];
+        int currentOccupant = board[move/8][ move%8];
         if(currentOccupant == EMPTHY ){
             if(true) {
                 return true;
@@ -40,111 +46,8 @@ public class ReversiModel extends GameBaseModel {
         return false;
     }
 
-    /**
-     * Basicly if
-     * @param index
-     * @param side
-     */
-    private void doIHaveMoves(int index, int side){
-        int row = index/3;
-        int column = index%3;
-        horizontalMoves(side, row, column);
-        verticalMoves(side, row, column);
-        if(potentialMoves.size() >0){
+    //Region PossibleMoves:
 
-        }
-
-    }
-
-    /**
-     * This methode checks all the potential horizontal moves
-     * @param side
-     * @param row
-     * @param column
-     */
-    private void horizontalMoves(int side, int row, int column){
-        int potentialMove;
-        if(row+1 >=0 && row+1 < returnBoadSize())
-        {
-            if(board[row+1][column] == getOpponnent() ){
-                potentialMove = movesOnTheRight(side, row, column);
-                if(potentialMove >= 0){
-                    potentialMoves.add(potentialMove);
-                }
-            }
-        }
-        if(row-1 >=0 && row-1 < returnBoadSize()){
-            if(board[row-1][column] == getOpponnent()){
-                potentialMove = movesOnTheLeft(side, row, column);
-                if(potentialMove >= 0){
-                    potentialMoves.add(potentialMove);
-                }
-            }
-        }
-    }
-
-    private void verticalMoves(int side, int row, int column){
-        int potentialMove;
-        if(column+1>= 0 && column+1 < returnBoadSize()){
-            if(board[row][column+1] == getOpponnent()){
-                potentialMove = movesAbove(side, row, column);
-                if(potentialMove >= 0){
-                    potentialMoves.add(potentialMove);
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Loops through all the values right of the orginal coordinates and returns a valid move on the right of this
-     * piece. If there isn't a valid move, return -1;
-     * @param side
-     * @param orginalRow
-     * @param column
-     * @return
-     */
-    private int movesOnTheRight(int side, int orginalRow, int column){
-        int row = orginalRow+1;
-        while(true){
-            if(row == 8 || board[row][column] == side){ //The second part of the OR shouldn't be possible if we our job right
-                break;
-            }
-            else if(board[row][column]== EMPTHY ){
-                return getPosition(row, column);
-            }
-            row++;
-        }
-        return -1;
-    }
-
-    /**
-     * Loops through all the values left of the orginal coordinates and returns a valid move on the left of this
-     * piece. If there isn't a valid move, return -1;
-     * @param side
-     * @param orginalRow
-     * @param column
-     * @return
-     */
-    private int movesOnTheLeft(int side, int orginalRow, int column){
-        int row = orginalRow+1;
-        while(true){
-            if(row < 0 ){
-                break;
-            }else if(board[row][column] == side){ //Shouldn't be possible, but just incase
-                break;
-            }
-            else if(board[row][column]== EMPTHY ){
-                return getPosition(row, column);
-            }
-            row--;
-        }
-        return -1;
-    }
-
-    private int movesAbove(int side, int row, int orginalcolumn){
-        return -1;
-    }
     private void getValidMoves(int side){
         locations.clear();
         potentialMoves.clear();
@@ -160,8 +63,8 @@ public class ReversiModel extends GameBaseModel {
      * @param side
      */
     private void getLocations(int side){
-        for(int i = 0; i < returnBoadSize(); i++){
-            for(int p = 0; p < returnBoadSize(); p++){
+        for(int i = 0; i < getBoardSize(); i++){
+            for(int p = 0; p < getBoardSize(); p++){
                 if(board[i][p] == side){
                     locations.add((getPosition(i,p)));
                 }
@@ -169,5 +72,260 @@ public class ReversiModel extends GameBaseModel {
         }
     }
 
+    /**
+     * Basicly if
+     * @param index
+     * @param side
+     */
+    private void doIHaveMoves(int index, int side){ //want to make this a boolean at somepoint
+        int row = index/8;
+        int column = index%8;
+        horizontalMoves(side, row, column);
+        verticalMoves(side, row, column);
+        diagonalMoves(side, row, column);
+    }
+
+    /**
+     * This methode checks all the potential horizontal moves
+     * @param side
+     * @param row
+     * @param column
+     */
+    private void horizontalMoves(int side, int row, int column){
+        int potentialMove;
+        if(inBounds(row, column+1))
+        {
+            if(board[row][column+1] == getOpponnent(side) ){
+                potentialMove = movesOnTheRight(side, row, column);
+                if(potentialMove >= 0){
+                    potentialMoves.add(potentialMove);
+                }
+            }
+        }
+        if(inBounds(row, column-1)){
+            if(board[row][column-1] == getOpponnent(side)){
+                potentialMove = movesOnTheLeft(side, row, column);
+                if(potentialMove >= 0){
+                    potentialMoves.add(potentialMove);
+                }
+            }
+        }
+    }
+
+    //Horizontal Moves
+
+    /**
+     * Loops through all the values right of the orginal coordinates and returns a valid move on the right of this
+     * piece. If there isn't a valid move, return -1;
+     * @param side
+     * @param row
+     * @param orignalColumn
+     * @return
+     */
+    private int movesOnTheRight(int side, int row, int orignalColumn){
+        int column = orignalColumn+2;
+        while(true){
+            if(!inBounds(row, column)){
+                break;
+            }else if(board[row][column] == side) {
+                break;
+            } else if(board[row][column]== EMPTHY ){
+                return getPosition(row, column);
+            }
+            column++;
+        }
+        return -1;
+    }
+
+    /**
+     * Loops through all the values left of the orginal coordinates and returns a valid move on the left of this
+     * piece. If there isn't a valid move, return -1;
+     * @param side
+     * @param orignalColumn
+     * @param row
+     * @return
+     */
+    private int movesOnTheLeft(int side, int row, int orignalColumn){
+        int column = orignalColumn-2;
+        while(true){
+            if(!inBounds(row, column)){
+                break;
+            }else if(board[row][column] == side){ //Shouldn't be possible, but just incase
+                break;
+            }
+            else if(board[row][column]== EMPTHY ){
+                return getPosition(row, column);
+            }
+            column--;
+        }
+        return -1;
+    }
+
+    private void verticalMoves(int side, int row, int column){
+        int potentialMove;
+        if(inBounds(row-1, column)){
+            if(board[row-1][column] == getOpponnent(side)){
+                potentialMove = movesAbove(side, row, column);
+                if(potentialMove >= 0){
+                    potentialMoves.add(potentialMove);
+                }
+            }
+        }
+        if( inBounds(row+1, column)){
+            if(board[row+1][column] == getOpponnent(side)){
+                potentialMove = movesDownUnder(side, row, column);
+                if(potentialMove >= 0){
+                    potentialMoves.add(potentialMove);
+                }
+            }
+        }
+
+    }
+
+    //Vertical Moves
+    private int movesAbove(int side, int orginalRow, int column){
+        int row = orginalRow-2;
+        while(true){
+            if(!inBounds(row, column)){
+                break;
+            }else if(board[row][column] == side) { //Shouldn't be possible, but just incase
+                break;
+            }else if(board[row][column] == EMPTHY){
+                return getPosition(row, column);
+            }
+            row--;
+        }
+        return -1;
+    }
+
+    private int movesDownUnder(int side, int orginalRow, int column){
+        int row = orginalRow+2;
+        while(true){
+            if(!inBounds(row, column)){
+                break;
+            }else if(board[row][column] == side) { //Shouldn't be possible, but just incase
+                break;
+            }else if(board[row][column] == EMPTHY){
+                return getPosition(row, column);
+            }
+            row++;
+        }
+        return -1;
+    }
+
+
+    private void diagonalMoves(int side, int row, int column){
+        int potentialMove;
+        if(inBounds(row-1, column-1)){
+            if(board[row-1][column-1] == getOpponnent(side)){
+                potentialMove = diagonalLeftUp(side, row, column);
+                if(potentialMove >= 0){
+                    potentialMoves.add(potentialMove);
+                }
+            }
+        }
+        if(inBounds(row-1, column+1)){
+            if(board[row-1][column+1] == getOpponnent(side)){
+                potentialMove = diagonalRightUp(side, row, column);
+                if(potentialMove >= 0){
+                    potentialMoves.add(potentialMove);
+                }
+            }
+        }
+        if(inBounds(row+1, column+1)){
+            if(board[row+1][column+1] == getOpponnent(side)){
+                potentialMove = diagonalRightDown(side, row, column);
+                if(potentialMove >= 0){
+                    potentialMoves.add(potentialMove);
+                }
+            }
+        }
+        if(inBounds(row+1, column-1)){
+            if(board[row+1][column-1] == getOpponnent(side)){
+                potentialMove = diagonalLeftDown(side, row, column);
+                if(potentialMove >= 0){
+                    potentialMoves.add(potentialMove);
+                }
+            }
+        }
+    }
+
+    //diagonal Moves
+
+    private int diagonalLeftUp(int side, int orginalRow, int orginalcolumn){
+        int row = orginalRow-2;
+        int column = orginalcolumn -2;
+        while(true){
+            if(inBounds(row, column)){
+                break;
+            }else if(board[row][column] == side){
+                break;
+            }else if(board[row][column] == EMPTHY){
+                return getPosition(row, column);
+            }
+            row--;
+            column--;
+
+        }
+        return -1;
+    }
+
+    private int diagonalRightUp(int side, int orginalRow, int orginalcolumn){
+        int row = orginalRow-2;
+        int column = orginalcolumn +2;
+        while(true){
+            if(!inBounds(row, column)){
+                break;
+            }else if(board[row][column] == side){
+                break;
+            }else if(board[row][column] == EMPTHY){
+                return getPosition(row, column);
+            }
+            row--;
+            column++;
+        }
+        return -1;
+    }
+
+    private int diagonalLeftDown(int side, int orginalRow, int orginalcolumn){
+        int row = orginalRow+2;
+        int column = orginalcolumn -2;
+        while(true){
+            if(!inBounds(row, column)){
+                break;
+            }else if(board[row][column] == side){
+                break;
+            }else if(board[row][column] == EMPTHY){
+                return getPosition(row, column);
+            }
+            row++;
+            column--;
+        }
+        return -1;
+    }
+
+    private int diagonalRightDown(int side, int orginalRow, int orginalcolumn){
+        int row = orginalRow+2;
+        int column = orginalcolumn +2;
+        while(true){
+            if(inBounds(row, column)){
+                break;
+            }else if(board[row][column] == side){
+                break;
+            }else if(board[row][column] == EMPTHY){
+                return getPosition(row, column);
+            }
+            row++;
+            column++;
+        }
+        return -1;
+    }
+
+
+
+
+    public void printPotentialMoves(){
+        System.out.println(potentialMoves.size());
+    }
 
 }
