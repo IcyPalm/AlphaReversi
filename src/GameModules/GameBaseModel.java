@@ -24,4 +24,26 @@ public class GameBaseModel {
     protected int returnBoadSize(){
         return board.length;
     }
+
+    /**
+     * return the value of the Opponent
+     * @return Opponent
+     */
+    protected int getOpponnent(){
+        if(mySide == playerOne){
+            return playerTwo;
+        }else{
+            return playerOne;
+        }
+    }
+
+    /**
+     * Methode to return the position based on the row and column
+     * @param row
+     * @param column
+     * @return
+     */
+    protected int getPosition(int row, int column){
+        return row*3+column;
+    }
 }
