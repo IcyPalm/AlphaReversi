@@ -4,23 +4,23 @@ package gameModuleTicTacToe;
  * Created by Daniël on 25-Mar-16.
  */
 public class TicTacToeModel {
-    private int [ ] [ ] board = new int[ 3 ][ 3 ];
+    private int[][] board = new int[3][3];
 
-    public static final int self        = 0;
-    public static final int opponent     = 1;
-    public  static final int EMPTY        = 2;
+    public static final int self = 0;
+    public static final int opponent = 1;
+    public  static final int EMPTY = 2;
 
-    public  static final int SELF_WIN    = 0;
-    public  static final int DRAW         = 1;
-    public  static final int UNCLEAR      = 2;
+    public  static final int SELF_WIN = 0;
+    public  static final int DRAW = 1;
+    public  static final int UNCLEAR = 2;
     public  static final int OPPONENT_WIN = 3;
 
-    private int position=UNCLEAR;
+    private int position = UNCLEAR;
 
     private int side;
 
     private char selfChar;
-   private char opponentChar;
+    private char opponentChar;
 
     private TicTacToeView view;
 
@@ -29,13 +29,21 @@ public class TicTacToeModel {
         clearBoard( );
         initSide();
     }
-    // play move
+
+    /*
+     * Plays a move on the board.
+     * Switches the turn to the opposite player
+     * Calls the TicTacToeView
+     */
     public void playMove(int move) {
         board[move/3][ move%3] = this.side;
         if (side==self) this.side=opponent;  else this.side=self;
         view.print();
     }
-    // Simple supporting routines
+
+    /*
+     * Clears the board
+     */
     private void clearBoard( )
     {
         // over elk vakje heen gaan en leegmaken.
@@ -45,6 +53,10 @@ public class TicTacToeModel {
             }
         }
     }
+
+    /*
+     * Checks if a board is full
+     */
     private boolean boardIsFull( )
     {
         for (int x = 0; x < 3; x++) {
@@ -57,6 +69,17 @@ public class TicTacToeModel {
         return true;
     }
 
+    /*
+     * Checks if a move is good to set
+     */
+    public boolean moveOk(int move) {
+        return ( move>=0 && move <=8 && board[move/3 ][ move%3 ] == EMPTY );
+    }
+
+    /*
+     * Checks if a side has won
+     * @param side The side to check
+     */
     public boolean isAWin( int side )
     {
         // verticaal
@@ -80,10 +103,10 @@ public class TicTacToeModel {
         }
         return false;
     }
-    public int[][] getBoard() {
-        return board;
-    }
-    // Compute static value of current position (win, draw, etc.)
+
+    /*
+     * Compute static value of current position (win, draw, etc.)
+     */
     public int positionValue() {
         {
             if (isAWin(opponent)) {return OPPONENT_WIN;}
@@ -92,6 +115,10 @@ public class TicTacToeModel {
             return UNCLEAR;
         }
     }
+
+    /*
+     * Returns the opponent
+     */
     public int getOpponent(int side) {
         if (side == opponent) {
             return self;
@@ -99,31 +126,25 @@ public class TicTacToeModel {
             return opponent;
         }
     }
-    public boolean gameOver()
-    {
+    public boolean gameOver() {
         this.position=positionValue();
         return this.position!=UNCLEAR;
     }
 
-    //check if move ok
-    public boolean moveOk(int move) {
-        return ( move>=0 && move <=8 && board[move/3 ][ move%3 ] == EMPTY );
-    }
-
-    private void initSide()
-    {
+    private void initSide() {
         if (this.side==self) { selfChar='X'; opponentChar='O'; }
         else                     { selfChar='O'; opponentChar='X'; }
     }
 
+    public int[][] getBoard() {
+        return board;
+    }
 
-    public boolean squareIsEmpty( int row, int column )
-    {
+    public boolean squareIsEmpty( int row, int column ) {
         return board[ row ][ column ] == EMPTY;
     }
 
-    public void setOpponentPlays()
-    {
+    public void setOpponentPlays() {
         this.side=opponent;
         initSide();
     }
@@ -135,13 +156,12 @@ public class TicTacToeModel {
         return selfChar;
     }
 
-    public void setSelfPlays()
-    {
+    public void setSelfPlays() {
         this.side=self;
         initSide();
     }
-    public boolean opponentPlays()
-    {
+
+    public boolean opponentPlays() {
         return side==opponent;
     }
 

@@ -26,12 +26,14 @@ public class TicTacToeModule implements Runnable {
             System.out.println("Wrong Command");
         }
     }
-
     @Override
     public void run() {
         game();
     }
 
+    /*
+     * Runs the game by deciding if we play or the opponent plays.
+     */
     private void game() {
         while (!model.gameOver()) {
             if (!model.opponentPlays()) {
@@ -51,6 +53,9 @@ public class TicTacToeModule implements Runnable {
             }
         }
     }
+    /*
+     * Wait till the method receiveMove gets called.
+     */
     private void waitForMove() {
         while(!opponentPlayed) {
             try {
@@ -58,11 +63,19 @@ public class TicTacToeModule implements Runnable {
             } catch (InterruptedException e) {}
         }
     }
+    /*
+     * Receives a move and set opponentPlay to true.
+     * @param move The move that the opponent wants to play.
+     * It is not checked if the move is valid.
+     */
     public synchronized void receiveMove(int move) {
         opponentMove = move;
         opponentPlayed = true;
-
     }
+    /*
+     * Decides if the string in the class constructor matches
+     * with on off the classes with the interface Player
+     */
     private boolean decidePlayer(String player) {
         if (player.equals("HUMAN")) {
             this.player = new Human();

@@ -18,6 +18,9 @@ public class TicTacToeView {
         this.model = model;
     }
 
+    /*
+     * Prints the current board of TicTacToe
+     */
     public void print() {
         this.selfChar = model.getSelfChar();
         this.opponentChar = model.getOpponentChar();

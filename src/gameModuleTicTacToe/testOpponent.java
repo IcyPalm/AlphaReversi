@@ -31,7 +31,7 @@ public class testOpponent {
         */
     }
     /*
-    method used by the code against the human player
+     * method used by the code against the human player
      */
     private synchronized void waiting() {
         try {
