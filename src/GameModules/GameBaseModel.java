@@ -63,4 +63,8 @@ public class GameBaseModel {
             System.out.println();
         }
     }
+
+    public int[][] getBoard(){
+        return  board;
+    }
 }

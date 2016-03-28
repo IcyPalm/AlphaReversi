@@ -48,7 +48,7 @@ public class ReversiModel extends GameBaseModel {
 
     //Region PossibleMoves:
 
-    private void getValidMoves(int side){
+    public void getValidMoves(int side){
         locations.clear();
         potentialMoves.clear();
         getLocations(side);
@@ -213,7 +213,6 @@ public class ReversiModel extends GameBaseModel {
         return -1;
     }
 
-
     private void diagonalMoves(int side, int row, int column){
         int potentialMove;
         if(inBounds(row-1, column-1)){
@@ -256,7 +255,7 @@ public class ReversiModel extends GameBaseModel {
         int row = orginalRow-2;
         int column = orginalcolumn -2;
         while(true){
-            if(inBounds(row, column)){
+            if(!inBounds(row, column)){
                 break;
             }else if(board[row][column] == side){
                 break;
@@ -308,7 +307,7 @@ public class ReversiModel extends GameBaseModel {
         int row = orginalRow+2;
         int column = orginalcolumn +2;
         while(true){
-            if(inBounds(row, column)){
+            if(!inBounds(row, column)){
                 break;
             }else if(board[row][column] == side){
                 break;
@@ -321,11 +320,8 @@ public class ReversiModel extends GameBaseModel {
         return -1;
     }
 
-
-
-
     public void printPotentialMoves(){
-        System.out.println(potentialMoves.size());
+        System.out.println(potentialMoves.size() + " potential move(s)");
     }
 
 }
