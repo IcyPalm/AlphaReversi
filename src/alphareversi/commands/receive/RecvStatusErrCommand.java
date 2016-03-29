@@ -4,7 +4,7 @@ import alphareversi.commands.RecvCommand;
 
 /**
  * Created by Joost van Berkel on 3/26/2016.
- *
+ * <p>
  * S: ERR <reden>
  */
 public class RecvStatusErrCommand extends RecvCommand {

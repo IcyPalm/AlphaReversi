@@ -4,17 +4,16 @@ import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- *
+ * <p>
  * Inloggen
- *
+ * <p>
  * C: login <speler>
  * S: OK
  */
 public class SendLoginCommand extends SendCommand {
     private String Player;
 
-    public SendLoginCommand()
-    {
+    public SendLoginCommand() {
         this.setMethod("login");
     }
 

@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- *
+ * <p>
  * Een uitdaging ontvangen.
- *
+ * <p>
  * S: SVR GAME CHALLENGE {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
  * Nu mogelijkheid de uitdaging te accepteren.
  */
@@ -19,17 +19,16 @@ public class RecvGameChallengeCommand extends RecvCommand {
     private int ChallengeNumber;
 
 
-    public RecvGameChallengeCommand(String command)
-    {
+    public RecvGameChallengeCommand(String command) {
         String[] parts = command.split(" ", 4);
         this.setType(parts[0]);
         this.setMethod(parts[1]);
         this.setAction(parts[2]);
 
         HashMap objects = CommandParser.parseObjectMap(parts[3]);
-        this.setChallenger((String)objects.get("CHALLENGER"));
-        this.setGameType((String)objects.get("GAMETYPE"));
-        this.setChallengeNumber(Integer.parseInt((String)objects.get("CHALLENGENUMBER")));
+        this.setChallenger((String) objects.get("CHALLENGER"));
+        this.setGameType((String) objects.get("GAMETYPE"));
+        this.setChallengeNumber(Integer.parseInt((String) objects.get("CHALLENGENUMBER")));
     }
 
 

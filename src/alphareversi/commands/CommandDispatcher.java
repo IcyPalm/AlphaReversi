@@ -10,21 +10,21 @@ public class CommandDispatcher {
 
     private List<CommandListener> commandListeners;
 
-    public CommandDispatcher(){
+    public CommandDispatcher() {
         this.commandListeners = new ArrayList<>();
     }
 
-    public void addListener(CommandListener listener){
+    public void addListener(CommandListener listener) {
 
-        if(!this.commandListeners.contains(listener)){
+        if (!this.commandListeners.contains(listener)) {
             this.commandListeners.add(listener);
         }
 
     }
 
-    public void sendCommand(RecvCommand command){
+    public void sendCommand(RecvCommand command) {
 
-        for (CommandListener listener : this.commandListeners){
+        for (CommandListener listener : this.commandListeners) {
             listener.commandReceived(command);
         }
 

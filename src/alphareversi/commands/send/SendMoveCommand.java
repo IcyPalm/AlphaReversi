@@ -4,17 +4,16 @@ import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- *
+ * <p>
  * Een zet doen na het toegewezen krijgen van een beurt.
- *
+ * <p>
  * C: move <zet>
  * S: OK
  */
 public class SendMoveCommand extends SendCommand {
     private int Move;
 
-    public SendMoveCommand()
-    {
+    public SendMoveCommand() {
         this.setMethod("move");
     }
 

@@ -13,7 +13,7 @@ import java.net.Socket;
 
 /**
  * Created by timmein on 24/03/16.
- *
+ * <p>
  * Singleton implementation of the connection class. Holds connection with server and messaging.
  */
 public class Connection {

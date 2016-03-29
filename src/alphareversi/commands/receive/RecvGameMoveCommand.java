@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- *
+ * <p>
  * Resultaat van een zet ontvangen, bericht naar beide spelers.
- *
+ * <p>
  * S: SVR GAME MOVE {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
  * Er is een zet gedaan, dit bericht geeft aan wie deze gezet heeft, wat de reactie van het spel erop is
  */
@@ -18,17 +18,16 @@ public class RecvGameMoveCommand extends RecvCommand {
     private String Details;
     private String Move;
 
-    public RecvGameMoveCommand(String command)
-    {
+    public RecvGameMoveCommand(String command) {
         String[] parts = command.split(" ", 4);
         this.setType(parts[0]);
         this.setMethod(parts[1]);
         this.setAction(parts[2]);
 
         HashMap objects = CommandParser.parseObjectMap(parts[3]);
-        this.setPlayer((String)objects.get("PLAYER"));
-        this.setDetails((String)objects.get("DETAILS"));
-        this.setMove((String)objects.get("MOVE"));
+        this.setPlayer((String) objects.get("PLAYER"));
+        this.setDetails((String) objects.get("DETAILS"));
+        this.setMove((String) objects.get("MOVE"));
     }
 
     public String getPlayer() {

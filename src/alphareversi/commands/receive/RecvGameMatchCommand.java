@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 /**
  * Created by Joost van Berkel on 3/26/2016.
- *
+ * <p>
  * Match aangeboden krijgen, bericht naar beide spelers.
- *
+ * <p>
  * S: SVR GAME MATCH {GAMTYPE: "<speltype>", PLAYERTOMOVE: "<naam speler1>", OPPONENT: "<naam tegenstander>"}
  * Nu bezig met een match, de inschrijving voor een speltype is vervallen.
  */
@@ -18,17 +18,16 @@ public class RecvGameMatchCommand extends RecvCommand {
     private String PlayerToMove;
     private String Opponent;
 
-    public RecvGameMatchCommand(String command)
-    {
+    public RecvGameMatchCommand(String command) {
         String[] parts = command.split(" ", 4);
         this.setType(parts[0]);
         this.setMethod(parts[1]);
         this.setAction(parts[2]);
 
         HashMap objects = CommandParser.parseObjectMap(parts[3]);
-        this.setGametype((String)objects.get("GAMTYPE"));
-        this.setPlayerToMove((String)objects.get("PLAYERTOMOVE"));
-        this.setOpponent((String)objects.get("OPPONENT"));
+        this.setGametype((String) objects.get("GAMTYPE"));
+        this.setPlayerToMove((String) objects.get("PLAYERTOMOVE"));
+        this.setOpponent((String) objects.get("OPPONENT"));
     }
 
     public String getGametype() {

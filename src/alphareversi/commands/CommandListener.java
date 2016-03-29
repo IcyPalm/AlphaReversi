@@ -6,5 +6,3 @@ package alphareversi.commands;
 public interface CommandListener {
     void commandReceived(RecvCommand command);
 }
-
-
