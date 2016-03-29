@@ -3,6 +3,7 @@ import src.GameModules.GameBaseModel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.jar.Pack200;
 
 /**
  * Created by Robert on 27-3-2016.
@@ -10,11 +11,13 @@ import java.util.HashSet;
 public class ReversiModel extends GameBaseModel {
     private char white = 'W';
     private char black = 'B';
-    private HashSet potentialMoves;
+    private HashSet<Integer> potentialMoves;
     private ArrayList<Integer> locations;
 
     private int myScore;
     private int opponentScore;
+
+    private int playerOnTurn;
 
     public  ReversiModel(int mySide){
         super(mySide);
@@ -27,23 +30,75 @@ public class ReversiModel extends GameBaseModel {
         locations = new ArrayList<>();
         myScore =2;
         opponentScore =2;
-        getValidMoves(mySide);
+        playerOnTurn = playerTwo;
+        getValidMoves(playerOnTurn);
     }
 
-    public void placePiece(int move, int side){
-        if(legalMove(move, side)){
+    public boolean placePiece(int move, int side){
+        if(potentialMoves.contains(move)){
             board[move/8][ move%8] = side;
-        }
-    }
-
-    private boolean legalMove(int move, int side){
-        int currentOccupant = board[move/8][ move%8];
-        if(currentOccupant == EMPTHY ){
-            if(true) {
-                return true;
-            }
+            flipper(move);
+            return true;
         }
         return false;
+    }
+
+    private boolean legalMove(int move){
+        int currentOccupant = board[move/8][ move%8];
+        if(currentOccupant == EMPTHY ){
+            return true;
+        }
+        return false;
+    }
+
+    private void flipper(int move){
+        boolean madeMove = false;
+        int rowMove = move/8;
+        int columnMove = move%8;
+        for(int i: locations){
+            int brotherRow = i/8;
+            int brotherColumn = i%8;
+            if(rowMove == brotherRow){
+                if(columnMove > brotherColumn){
+                    //if the startpoint of the move is bigger than the brother Column start from BrotherColumn
+                    flipHorizontal(rowMove, brotherColumn, columnMove);
+                }else{
+                    flipHorizontal(rowMove, columnMove, brotherColumn);
+                }
+                madeMove = true;
+            }
+            if(columnMove == brotherColumn){
+                if(rowMove > brotherRow){
+                    flipVertical(brotherRow, rowMove,columnMove);
+                }else{
+                    flipVertical(rowMove,brotherRow ,columnMove);
+                }
+                madeMove = true;
+            }
+            if(madeMove){
+                break;
+            }
+        }
+    }
+
+    private void flipHorizontal(int row,int startColumn, int endColumn){
+        int column = startColumn;
+        while(column != endColumn){
+            column++;//We start with the ++ since the startColumn already has the right piece, so does the end column
+            flipPiece(row, column);
+        }
+    }
+
+    private void flipVertical(int startRow, int endRow, int column){
+        int row = startRow;
+        while(row != endRow){
+            row++; //We start with the ++ since the startRow already has the right piece, so does the end row
+            flipPiece(row, column);
+        }
+    }
+
+    private void flipPiece(int row, int column){
+       board[row][column] = getOpponnent(board[row][column]);
     }
 
     //Region PossibleMoves:
@@ -56,6 +111,30 @@ public class ReversiModel extends GameBaseModel {
             doIHaveMoves(locations.get(i), side);
         }
 
+    }
+
+    public HashSet<Integer> getPotentialMoves(){
+        return potentialMoves;
+    }
+
+    public int getPlayerOnTurn(){
+        return playerOnTurn;
+    }
+
+    public int getMyScore(){
+        return myScore;
+    }
+
+    public int getOpponentScore(){
+        return opponentScore;
+    }
+
+    public boolean amIOnTurn(){
+        if(mySide == playerOnTurn){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -323,5 +402,4 @@ public class ReversiModel extends GameBaseModel {
     public void printPotentialMoves(){
         System.out.println(potentialMoves.size() + " potential move(s)");
     }
-
 }
