@@ -10,4 +10,7 @@ run: build
 		-classpath bin \
 		alphareversi.Main
 
-ci: build
+checkstyle: checkstyle.xml build.xml src
+	ant checkstyle
+
+ci: build checkstyle
