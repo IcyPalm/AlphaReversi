@@ -4,7 +4,6 @@ import alphareversi.commands.CommandDispatcher;
 import alphareversi.commands.CommandParser;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.SendCommand;
-import com.sun.corba.se.spi.activation.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,29 +13,40 @@ import java.net.Socket;
 
 /**
  * Created by timmein on 24/03/16.
+ *
+ * Singleton implementation of the connection class. Holds connection with server and messaging.
  */
 public class Connection {
     private static Connection instance = null;
-
-    protected Connection() {
-        this.commandDispatcher = new CommandDispatcher();
-    }
-    public static Connection getInstance() {
-        if(instance == null) {
-            instance = new Connection();
-        }
-        return instance;
-    }
-
     public CommandDispatcher commandDispatcher;
-
     private boolean connected = false;
     private Socket comms;
     private BufferedReader input;
     private PrintWriter output;
     private Thread serverListenerThread;
 
-    public boolean startConnection(String host,int port) {
+    protected Connection() {
+        this.commandDispatcher = new CommandDispatcher();
+    }
+
+    /**
+     * Singleton Implementation
+     *
+     * @return Connection instance
+     */
+    public static Connection getInstance() {
+        if (instance == null) {
+            instance = new Connection();
+        }
+        return instance;
+    }
+
+    /**
+     * @param host String server address
+     * @param port int port number
+     * @return boolean did the server start successfully
+     */
+    public boolean startConnection(String host, int port) {
         try {
             this.comms = new Socket(host, port);
             this.comms.setTcpNoDelay(true);
@@ -52,7 +62,10 @@ public class Connection {
         return this.connected;
     }
 
-    public void startServerResponseThread(){
+    /**
+     * Start listening to the server. And handle incoming commands via the dispatcher
+     */
+    public void startServerResponseThread() {
         Runnable runnable = () -> {
 
             while (true) {
@@ -73,8 +86,11 @@ public class Connection {
         this.serverListenerThread.start();
     }
 
+    /**
+     * @param command SendCommand send command to server
+     */
     //TODO zorgen dat commands verstuurd worden en onthouden voor een mogelijke return.
-    public void sendMessage(SendCommand command){
+    public void sendMessage(SendCommand command) {
         output.println(command.toString());
     }
 
