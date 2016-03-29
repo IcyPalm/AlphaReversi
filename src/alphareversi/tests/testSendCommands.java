@@ -1,29 +1,31 @@
 package alphareversi.tests;
 
-import alphareversi.commands.send.*;
-
 import static junit.framework.TestCase.assertEquals;
+
+import alphareversi.commands.send.SendChallengeAcceptCommand;
+import alphareversi.commands.send.SendChallengeCommand;
+import alphareversi.commands.send.SendForfeitCommand;
+import alphareversi.commands.send.SendGetGamelistCommand;
+import alphareversi.commands.send.SendGetPlayerlistCommand;
+import alphareversi.commands.send.SendHelpCommand;
+import alphareversi.commands.send.SendLoginCommand;
+import alphareversi.commands.send.SendLogoutCommand;
+import alphareversi.commands.send.SendMoveCommand;
+import alphareversi.commands.send.SendSubscribeCommand;
+
 import org.junit.Test;
 
 /**
  * Created by Joost van Berkel on 3/26/2016.
  *
- * C: login <speler>
- * C: logout
- * C: get gamelist
- * C: get playerlist
- * C: subscribe <speltype>
- * C: move <zet>
- * C: forfeit
- * C: challenge "<speler>" "<speltype>"
- * C: challenge accept <uitdaging nummer>
- * C: help
+ * C: login <speler> C: logout C: get gamelist C: get playerlist C: subscribe <speltype> C: move
+ * <zet> C: forfeit C: challenge "<speler>" "<speltype>" C: challenge accept <uitdaging nummer> C:
+ * help
  */
 public class testSendCommands {
 
     @Test
-    public void testSendLoginCommand()
-    {
+    public void testSendLoginCommand() {
         SendLoginCommand loginCommand = new SendLoginCommand();
         loginCommand.setPlayer("Zolero");
 
@@ -31,32 +33,28 @@ public class testSendCommands {
     }
 
     @Test
-    public void testSendLogoutCommand()
-    {
+    public void testSendLogoutCommand() {
         SendLogoutCommand logoutCommand = new SendLogoutCommand();
 
         assertEquals(true, logoutCommand.toString().contains("logout"));
     }
 
     @Test
-    public void testSendGetGamelistCommand()
-    {
+    public void testSendGetGamelistCommand() {
         SendGetGamelistCommand getGameListCommand = new SendGetGamelistCommand();
 
         assertEquals(true, getGameListCommand.toString().contains("get gamelist"));
     }
 
     @Test
-    public void testSendGetPlayerlistCommand()
-    {
+    public void testSendGetPlayerlistCommand() {
         SendGetPlayerlistCommand getPlayerlistCommand = new SendGetPlayerlistCommand();
 
         assertEquals(true, getPlayerlistCommand.toString().contains("get playerlist"));
     }
 
     @Test
-    public void testSendSubscribeCommand()
-    {
+    public void testSendSubscribeCommand() {
         SendSubscribeCommand subscribeCommand = new SendSubscribeCommand();
         subscribeCommand.setGameType("TicTacToe");
 
@@ -64,8 +62,7 @@ public class testSendCommands {
     }
 
     @Test
-    public void testSendMoveCommand()
-    {
+    public void testSendMoveCommand() {
         SendMoveCommand moveCommand = new SendMoveCommand();
         moveCommand.setMove(5);
 
@@ -73,16 +70,14 @@ public class testSendCommands {
     }
 
     @Test
-    public void testSendForfeitCommand()
-    {
+    public void testSendForfeitCommand() {
         SendForfeitCommand forfeitCommand = new SendForfeitCommand();
 
         assertEquals(true, forfeitCommand.toString().contains("forfeit"));
     }
 
     @Test
-    public void testSendChallengeCommand()
-    {
+    public void testSendChallengeCommand() {
         SendChallengeCommand challengeCommand = new SendChallengeCommand();
         challengeCommand.setPlayer("Zolero");
         challengeCommand.setGameType("Reversi");
@@ -91,8 +86,7 @@ public class testSendCommands {
     }
 
     @Test
-    public void testSendChallengeAcceptCommand()
-    {
+    public void testSendChallengeAcceptCommand() {
         SendChallengeAcceptCommand challengeAcceptCommand = new SendChallengeAcceptCommand();
         challengeAcceptCommand.setChallengeNumber(1);
 
@@ -101,8 +95,7 @@ public class testSendCommands {
 
 
     @Test
-    public void testSendHelpCommand()
-    {
+    public void testSendHelpCommand() {
         SendHelpCommand sendHelpCommand = new SendHelpCommand();
 
         assertEquals(true, sendHelpCommand.toString().contains("help"));

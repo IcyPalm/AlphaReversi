@@ -1,21 +1,19 @@
 package alphareversi.commands.receive;
 
+import java.util.HashMap;
+
 import alphareversi.commands.CommandParser;
 import alphareversi.commands.RecvCommand;
 
-import java.util.HashMap;
-
 /**
- * Created by Joost van Berkel on 3/24/2016.
- * <p>
- * Resultaat van een uitdaging die is komen te vervallen.
- * <p>
- * S: SVR GAME CHALLENGE CANCELLED {CHALLENGENUMBER: "<uitdaging nummer>"}
- * De uitdaging is vervallen. Mogelijke oorzaken: speler heeft een andere uitdaging gestart, speler is een match begonnen, speler heeft de verbinding verbroken.
+ * Created by Joost van Berkel on 3/24/2016. <p> Resultaat van een uitdaging die is komen te
+ * vervallen. <p> S: SVR GAME CHALLENGE CANCELLED {CHALLENGENUMBER: "<uitdaging nummer>"} De
+ * uitdaging is vervallen. Mogelijke oorzaken: speler heeft een andere uitdaging gestart, speler is
+ * een match begonnen, speler heeft de verbinding verbroken.
  */
 public class RecvGameChallengeCanceledCommand extends RecvCommand {
-    private String ChallengeResult;
-    private int ChallengeNumber;
+    private String challengeResult;
+    private int challengeNumber;
 
     public RecvGameChallengeCanceledCommand(String command) {
         String[] parts = command.split(" ", 5);
@@ -30,18 +28,18 @@ public class RecvGameChallengeCanceledCommand extends RecvCommand {
 
 
     public String getChallengeResult() {
-        return ChallengeResult;
+        return challengeResult;
     }
 
     public void setChallengeResult(String challengeResult) {
-        ChallengeResult = challengeResult;
+        this.challengeResult = challengeResult;
     }
 
     public int getChallengeNumber() {
-        return ChallengeNumber;
+        return challengeNumber;
     }
 
     public void setChallengeNumber(int challengeNumber) {
-        ChallengeNumber = challengeNumber;
+        this.challengeNumber = challengeNumber;
     }
 }

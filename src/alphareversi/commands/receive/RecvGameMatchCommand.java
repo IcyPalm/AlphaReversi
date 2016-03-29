@@ -5,18 +5,16 @@ import alphareversi.commands.RecvCommand;
 
 import java.util.HashMap;
 
+
 /**
- * Created by Joost van Berkel on 3/26/2016.
- * <p>
- * Match aangeboden krijgen, bericht naar beide spelers.
- * <p>
- * S: SVR GAME MATCH {GAMTYPE: "<speltype>", PLAYERTOMOVE: "<naam speler1>", OPPONENT: "<naam tegenstander>"}
- * Nu bezig met een match, de inschrijving voor een speltype is vervallen.
+ * Created by Joost van Berkel on 3/26/2016. <p> Match aangeboden krijgen, bericht naar beide
+ * spelers. <p> S: SVR GAME MATCH {GAMTYPE: "<speltype>", PLAYERTOMOVE: "<naam speler1>", OPPONENT:
+ * "<naam tegenstander>"} Nu bezig met een match, de inschrijving voor een speltype is vervallen.
  */
 public class RecvGameMatchCommand extends RecvCommand {
-    private String Gametype;
-    private String PlayerToMove;
-    private String Opponent;
+    private String gametype;
+    private String playerToMove;
+    private String opponent;
 
     public RecvGameMatchCommand(String command) {
         String[] parts = command.split(" ", 4);
@@ -31,26 +29,26 @@ public class RecvGameMatchCommand extends RecvCommand {
     }
 
     public String getGametype() {
-        return Gametype;
+        return gametype;
     }
 
     public void setGametype(String gametype) {
-        Gametype = gametype;
+        this.gametype = gametype;
     }
 
     public String getPlayerToMove() {
-        return PlayerToMove;
+        return playerToMove;
     }
 
     public void setPlayerToMove(String playerToMove) {
-        PlayerToMove = playerToMove;
+        this.playerToMove = playerToMove;
     }
 
     public String getOpponent() {
-        return Opponent;
+        return opponent;
     }
 
     public void setOpponent(String opponent) {
-        Opponent = opponent;
+        this.opponent = opponent;
     }
 }

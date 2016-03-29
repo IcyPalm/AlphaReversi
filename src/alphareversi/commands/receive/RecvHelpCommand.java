@@ -10,8 +10,11 @@ import alphareversi.commands.RecvCommand;
  * S: SVR HELP <help informatie>
  */
 public class RecvHelpCommand extends RecvCommand {
-    private String Information;
+    private String information;
 
+    /**
+     * @param command
+     */
     public RecvHelpCommand(String command) {
         String[] parts = command.split(" ", 3);
         this.setType(parts[0]);
@@ -20,10 +23,10 @@ public class RecvHelpCommand extends RecvCommand {
     }
 
     public String getInformation() {
-        return Information;
+        return information;
     }
 
     public void setInformation(String information) {
-        Information = information;
+        this.information = information;
     }
 }
