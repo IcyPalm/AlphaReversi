@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Lijst met spellen ontvangen.
  */
 public class RecvGamelistCommand extends RecvCommand {
-    private ArrayList GameList;
+    private ArrayList gameList;
 
     public RecvGamelistCommand(String command) {
         String[] parts = command.split(" ", 3);
@@ -23,10 +23,10 @@ public class RecvGamelistCommand extends RecvCommand {
     }
 
     public ArrayList getGameList() {
-        return GameList;
+        return gameList;
     }
 
     public void setGameList(ArrayList gameList) {
-        GameList = gameList;
+        this.gameList = gameList;
     }
 }

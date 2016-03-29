@@ -1,6 +1,16 @@
 package alphareversi.commands;
 
-import alphareversi.commands.receive.*;
+import alphareversi.commands.receive.RecvGameChallengeCanceledCommand;
+import alphareversi.commands.receive.RecvGameChallengeCommand;
+import alphareversi.commands.receive.RecvGameMatchCommand;
+import alphareversi.commands.receive.RecvGameMoveCommand;
+import alphareversi.commands.receive.RecvGameResultCommand;
+import alphareversi.commands.receive.RecvGameYourturnCommand;
+import alphareversi.commands.receive.RecvGamelistCommand;
+import alphareversi.commands.receive.RecvHelpCommand;
+import alphareversi.commands.receive.RecvPlayerlistCommand;
+import alphareversi.commands.receive.RecvStatusErrCommand;
+import alphareversi.commands.receive.RecvStatusOkCommand;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -12,19 +22,21 @@ import java.util.Map;
  * Created by timmein on 24/03/16.
  */
 public class CommandParser {
-    private static final Map<String, Class> CommandIdentifiers = new HashMap<String, Class>() {{
-        put("SVR GAME CHALLENGE CANCELLED \\{(.*?)\\}", RecvGameChallengeCanceledCommand.class);
-        put("SVR GAME CHALLENGE \\{(.*?)\\}", RecvGameChallengeCommand.class);
-        put("SVR GAME MATCH \\{(.*?)\\}", RecvGameMatchCommand.class);
-        put("SVR GAMELIST \\[(.*?)\\]", RecvGamelistCommand.class);
-        put("SVR GAME MOVE \\{(.*?)\\}", RecvGameMoveCommand.class);
-        put("SVR GAME (WIN|DRAW|LOSS) \\{(.*?)\\}", RecvGameResultCommand.class);
-        put("SVR GAME YOURTURN \\{(.*?)\\}", RecvGameYourturnCommand.class);
-        put("SVR PLAYERLIST \\[(.*?)\\]", RecvPlayerlistCommand.class);
-        put("SVR HELP (.*?)+", RecvHelpCommand.class);
-        put("ERR (.*?)+", RecvStatusErrCommand.class);
-        put("OK", RecvStatusOkCommand.class);
-    }};
+    private static final Map<String, Class> CommandIdentifiers = new HashMap<String, Class>() {
+        {
+            put("SVR GAME CHALLENGE CANCELLED \\{(.*?)\\}", RecvGameChallengeCanceledCommand.class);
+            put("SVR GAME CHALLENGE \\{(.*?)\\}", RecvGameChallengeCommand.class);
+            put("SVR GAME MATCH \\{(.*?)\\}", RecvGameMatchCommand.class);
+            put("SVR GAMELIST \\[(.*?)\\]", RecvGamelistCommand.class);
+            put("SVR GAME MOVE \\{(.*?)\\}", RecvGameMoveCommand.class);
+            put("SVR GAME (WIN|DRAW|LOSS) \\{(.*?)\\}", RecvGameResultCommand.class);
+            put("SVR GAME YOURTURN \\{(.*?)\\}", RecvGameYourturnCommand.class);
+            put("SVR PLAYERLIST \\[(.*?)\\]", RecvPlayerlistCommand.class);
+            put("SVR HELP (.*?)+", RecvHelpCommand.class);
+            put("ERR (.*?)+", RecvStatusErrCommand.class);
+            put("OK", RecvStatusOkCommand.class);
+        }
+    };
 
     public static RecvCommand parseString(String serverCommand) {
         for (Map.Entry<String, Class> entry : CommandIdentifiers.entrySet()) {
@@ -34,14 +46,14 @@ public class CommandParser {
                 try {
                     Constructor constructor = commandClass.getConstructor(String.class);
                     return (RecvCommand) constructor.newInstance(serverCommand);
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                } catch (InstantiationException exception) {
+                    exception.printStackTrace();
+                } catch (IllegalAccessException exception) {
+                    exception.printStackTrace();
+                } catch (NoSuchMethodException exception) {
+                    exception.printStackTrace();
+                } catch (InvocationTargetException exception) {
+                    exception.printStackTrace();
                 }
             }
         }

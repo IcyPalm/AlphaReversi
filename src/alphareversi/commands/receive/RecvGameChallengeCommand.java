@@ -1,22 +1,19 @@
 package alphareversi.commands.receive;
 
+import java.util.HashMap;
+
 import alphareversi.commands.CommandParser;
 import alphareversi.commands.RecvCommand;
 
-import java.util.HashMap;
-
 /**
- * Created by Joost van Berkel on 3/24/2016.
- * <p>
- * Een uitdaging ontvangen.
- * <p>
- * S: SVR GAME CHALLENGE {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
- * Nu mogelijkheid de uitdaging te accepteren.
+ * Created by Joost van Berkel on 3/24/2016. <p> Een uitdaging ontvangen. <p> S: SVR GAME CHALLENGE
+ * {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"} Nu mogelijkheid de uitdaging
+ * te accepteren.
  */
 public class RecvGameChallengeCommand extends RecvCommand {
-    private String Challenger;
-    private String GameType;
-    private int ChallengeNumber;
+    private String challenger;
+    private String gameType;
+    private int challengeNumber;
 
 
     public RecvGameChallengeCommand(String command) {
@@ -33,26 +30,26 @@ public class RecvGameChallengeCommand extends RecvCommand {
 
 
     public String getChallenger() {
-        return Challenger;
+        return challenger;
     }
 
     public void setChallenger(String challenger) {
-        Challenger = challenger;
+        this.challenger = challenger;
     }
 
     public String getGameType() {
-        return GameType;
+        return gameType;
     }
 
     public void setGameType(String gameType) {
-        GameType = gameType;
+        this.gameType = gameType;
     }
 
     public int getChallengeNumber() {
-        return ChallengeNumber;
+        return challengeNumber;
     }
 
     public void setChallengeNumber(int challengeNumber) {
-        ChallengeNumber = challengeNumber;
+        this.challengeNumber = challengeNumber;
     }
 }
