@@ -7,16 +7,15 @@ import java.util.ArrayList;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- *
+ * <p>
  * Lijst met spelers ontvangen.
- *
+ * <p>
  * S: SVR PLAYERLIST ["<speler>", ...]
  */
 public class RecvPlayerlistCommand extends RecvCommand {
     private ArrayList PlayerList;
 
-    public RecvPlayerlistCommand(String command)
-    {
+    public RecvPlayerlistCommand(String command) {
         String[] parts = command.split(" ", 3);
         this.setType(parts[0]);
         this.setMethod(parts[1]);

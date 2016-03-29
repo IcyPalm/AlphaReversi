@@ -27,14 +27,13 @@ public class CommandParser {
     }};
 
     public static RecvCommand parseString(String serverCommand) {
-        for(Map.Entry<String, Class> entry : CommandIdentifiers.entrySet()) {
+        for (Map.Entry<String, Class> entry : CommandIdentifiers.entrySet()) {
             String regex = entry.getKey();
             Class commandClass = entry.getValue();
-            if(serverCommand.matches(regex))
-            {
+            if (serverCommand.matches(regex)) {
                 try {
                     Constructor constructor = commandClass.getConstructor(String.class);
-                    return (RecvCommand)constructor.newInstance(serverCommand);
+                    return (RecvCommand) constructor.newInstance(serverCommand);
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
@@ -46,22 +45,21 @@ public class CommandParser {
                 }
             }
         }
-        System.out.println("Unknown command received: " +serverCommand);
+        System.out.println("Unknown command received: " + serverCommand);
         return null;
     }
 
-    public static String[] trimStringArray(String[] stringArray)
-    {
+    public static String[] trimStringArray(String[] stringArray) {
         String[] trimmedArray = new String[stringArray.length];
-        for (int i = 0; i < stringArray.length; i++)
+        for (int i = 0; i < stringArray.length; i++) {
             trimmedArray[i] = stringArray[i].trim();
+        }
         return trimmedArray;
     }
 
-    public static ArrayList parseArraylist(String string)
-    {
+    public static ArrayList parseArraylist(String string) {
         ArrayList<String> arrayList = new ArrayList<>();
-        string = string.substring(1, string.length() -1);
+        string = string.substring(1, string.length() - 1);
         String[] parts = CommandParser.trimStringArray(string.split(","));
         for (String part : parts) {
             arrayList.add(part.substring(1, part.length() - 1));
@@ -69,14 +67,13 @@ public class CommandParser {
         return arrayList;
     }
 
-    public static HashMap parseObjectMap(String string)
-    {
+    public static HashMap parseObjectMap(String string) {
         HashMap<String, String> ObjectMap = new HashMap<>();
-        string = string.substring(1, string.length() -1);
+        string = string.substring(1, string.length() - 1);
         String[] parts = CommandParser.trimStringArray(string.split(","));
         for (String part : parts) {
             String[] parts_second = CommandParser.trimStringArray(part.split(":"));
-            ObjectMap.put(parts_second[0], parts_second[1].substring(1, parts_second[1].length() -1));
+            ObjectMap.put(parts_second[0], parts_second[1].substring(1, parts_second[1].length() - 1));
         }
         return ObjectMap;
     }

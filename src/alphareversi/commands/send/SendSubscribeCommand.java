@@ -4,9 +4,9 @@ import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- *
+ * <p>
  * Inschrijven voor een speltype.
- *
+ * <p>
  * C: subscribe <speltype>
  * S: OK
  */
