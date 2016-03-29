@@ -1,7 +1,6 @@
 package alphareversi.tests;
 
 import alphareversi.commands.send.*;
-import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 import org.junit.Test;

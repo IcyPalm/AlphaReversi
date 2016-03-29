@@ -5,7 +5,7 @@ public class Main {
 
         Connection connection = Connection.getInstance();
 
-        connection.startConnection("127.0.0.1",1337);
+        connection.startConnection("127.0.0.1", 1337);
 
     }
 }

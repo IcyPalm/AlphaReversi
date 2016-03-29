@@ -2,7 +2,6 @@ package alphareversi.tests;
 
 import alphareversi.commands.CommandParser;
 import alphareversi.commands.RecvCommand;
-import alphareversi.commands.receive.*;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;

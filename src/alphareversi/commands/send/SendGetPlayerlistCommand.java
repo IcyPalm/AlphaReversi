@@ -16,8 +16,9 @@ public class SendGetPlayerlistCommand extends SendCommand {
         this.setMethod("get");
         this.setAction("playerlist");
     }
+
     @Override
-    public String toString() {
+    public final String toString() {
         return this.getMethod() + " " + this.getAction();
     }
 }
