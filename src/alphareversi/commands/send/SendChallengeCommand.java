@@ -4,34 +4,34 @@ import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- * <p>
- * Een speler uitdagen voor een spel.
- * <p>
- * C: challenge "<speler>" "<speltype>"
+ *
+ * <p>Een speler uitdagen voor een spel.
+ *
+ * <p>C: challenge "--speler--" "--speltype--"
  * S: OK
  */
 public class SendChallengeCommand extends SendCommand {
-    private String Player;
-    private String GameType;
+    private String player;
+    private String gameType;
 
     public SendChallengeCommand() {
         this.setMethod("challenge");
     }
 
     public String getPlayer() {
-        return Player;
+        return player;
     }
 
     public void setPlayer(String player) {
-        Player = player;
+        this.player = player;
     }
 
     public String getGameType() {
-        return GameType;
+        return gameType;
     }
 
     public void setGameType(String gameType) {
-        GameType = gameType;
+        this.gameType = gameType;
     }
 
     @Override

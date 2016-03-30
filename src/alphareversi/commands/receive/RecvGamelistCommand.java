@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- * S: SVR GAMELIST ["<speltype>", ...]
+ * S: SVR GAMELIST ["--speltype--", ...]
  * Lijst met spellen ontvangen.
  */
 public class RecvGamelistCommand extends RecvCommand {

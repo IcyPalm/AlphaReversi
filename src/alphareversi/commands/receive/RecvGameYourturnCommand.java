@@ -7,14 +7,18 @@ import java.util.HashMap;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- * <p>
- * De beurt toegewezen krijgen tijdens match.
- * <p>
- * S: SVR GAME YOURTURN {TURNMESSAGE: "<bericht voor deze beurt>"}
+ *
+ * <p>De beurt toegewezen krijgen tijdens match.
+ *
+ * <p>S: SVR GAME YOURTURN {TURNMESSAGE: "--bericht voor deze beurt--"}
  */
 public class RecvGameYourturnCommand extends RecvCommand {
-    private String TurnMessage;
+    private String turnMessage;
 
+    /**
+     * Parse string to create a filled RecvGamelistCommand.
+     * @param command string containing server message
+     */
     public RecvGameYourturnCommand(String command) {
         String[] parts = command.split(" ", 4);
         this.setType(parts[0]);
@@ -26,10 +30,10 @@ public class RecvGameYourturnCommand extends RecvCommand {
     }
 
     public String getTurnMessage() {
-        return TurnMessage;
+        return turnMessage;
     }
 
     public void setTurnMessage(String turnMessage) {
-        TurnMessage = turnMessage;
+        this.turnMessage = turnMessage;
     }
 }

@@ -4,16 +4,17 @@ import alphareversi.commands.RecvCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- * <p>
- * Help informatie is ontvangen, kan meerdere achtereenvolgende responses bevatten.
- * <p>
- * S: SVR HELP <help informatie>
+ *
+ * <p>Help informatie is ontvangen, kan meerdere achtereenvolgende responses bevatten.
+ *
+ * <p>S: SVR HELP --help informatie--
  */
 public class RecvHelpCommand extends RecvCommand {
     private String information;
 
     /**
-     * @param command
+     * Parse string to create a filled RecvGamelistCommand.
+     * @param command string containing server message
      */
     public RecvHelpCommand(String command) {
         String[] parts = command.split(" ", 3);
