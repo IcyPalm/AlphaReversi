@@ -4,34 +4,34 @@ package alphareversi.commands;
  * Created by Joost van Berkel on 3/24/2016.
  */
 public abstract class SendCommand {
-    private String Method;
-    private String Action;
+    private String method;
+    private String action;
 
     //OK Message response
-    private String Status;
+    private String status;
 
     public String getMethod() {
-        return Method;
+        return method;
     }
 
     public void setMethod(String method) {
-        Method = method;
+        this.method = method;
     }
 
     public String getAction() {
-        return Action;
+        return action;
     }
 
     public void setAction(String action) {
-        Action = action;
+        this.action = action;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
 
     public abstract String toString();
