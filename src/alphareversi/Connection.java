@@ -69,7 +69,6 @@ public class Connection {
 
             while (true) {
                 try {
-                    //TODO checken of de input een response is van een request.
                     RecvCommand command = CommandParser.parseString(input.readLine());
                     this.commandDispatcher.sendCommand(command);
                 } catch (IOException exception) {
@@ -89,7 +88,6 @@ public class Connection {
      * Sends a command object to the server.
      * @param command SendCommand send command to server
      */
-    //TODO zorgen dat commands verstuurd worden en onthouden voor een mogelijke return.
     public void sendMessage(SendCommand command) {
         output.println(command.toString());
     }
