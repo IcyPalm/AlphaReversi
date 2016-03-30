@@ -1,6 +1,11 @@
 package alphareversi;
 
 public class Main {
+
+    /**
+     * Base function of the application.
+     * @param args arguments provided on startup
+     */
     public static void main(String[] args) {
 
         Connection connection = Connection.getInstance();

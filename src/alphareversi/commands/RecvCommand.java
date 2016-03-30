@@ -4,31 +4,31 @@ package alphareversi.commands;
  * Created by timmein on 24/03/16.
  */
 public class RecvCommand {
-    private String Type;
-    private String Method;
-    private String Action;
+    private String type;
+    private String method;
+    private String action;
 
     public String getType() {
-        return  Type;
+        return type;
     }
 
     public void setType(String type) {
-        this. Type = type;
+        this.type = type;
     }
 
     public String getMethod() {
-        return Method;
+        return method;
     }
 
     public void setMethod(String method) {
-        this.Method = method;
+        this.method = method;
     }
 
     public String getAction() {
-        return Action;
+        return action;
     }
 
     public void setAction(String action) {
-        this.Action = action;
+        this.action = action;
     }
 }

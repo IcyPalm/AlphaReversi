@@ -16,6 +16,10 @@ public class RecvGameMatchCommand extends RecvCommand {
     private String playerToMove;
     private String opponent;
 
+    /**
+     * Parse string to create a filled RecvGameMatchCommand.
+     * @param command string containing server message
+     */
     public RecvGameMatchCommand(String command) {
         String[] parts = command.split(" ", 4);
         this.setType(parts[0]);

@@ -13,7 +13,6 @@ import java.net.Socket;
 
 /**
  * Created by timmein on 24/03/16.
- *
  * Singleton implementation of the connection class. Holds connection with server and messaging.
  */
 public class Connection {
@@ -31,7 +30,6 @@ public class Connection {
 
     /**
      * Singleton Implementation.
-     *
      * @return Connection instance
      */
     public static Connection getInstance() {
@@ -42,6 +40,7 @@ public class Connection {
     }
 
     /**
+     * Function to open a connection with a server and start listening.
      * @param host String server address
      * @param port int port number
      * @return boolean did the server start successfully
@@ -56,7 +55,7 @@ public class Connection {
             this.output = new PrintWriter(comms.getOutputStream(), true);
             this.connected = true;
             startServerResponseThread();
-        } catch (IOException e) {
+        } catch (IOException exception) {
             this.connected = false;
         }
         return this.connected;
@@ -73,7 +72,7 @@ public class Connection {
                     //TODO checken of de input een response is van een request.
                     RecvCommand command = CommandParser.parseString(input.readLine());
                     this.commandDispatcher.sendCommand(command);
-                } catch (IOException e) {
+                } catch (IOException exception) {
                     e.printStackTrace();
                 }
             }
@@ -87,6 +86,7 @@ public class Connection {
     }
 
     /**
+     * Sends a command object to the server.
      * @param command SendCommand send command to server
      */
     //TODO zorgen dat commands verstuurd worden en onthouden voor een mogelijke return.
