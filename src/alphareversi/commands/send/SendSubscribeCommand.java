@@ -4,25 +4,25 @@ import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- * <p>
- * Inschrijven voor een speltype.
- * <p>
- * C: subscribe <speltype>
+ *
+ * <p>Inschrijven voor een speltype.
+ *
+ * <p>C: subscribe --speltype--
  * S: OK
  */
 public class SendSubscribeCommand extends SendCommand {
-    private String GameType;
+    private String gameType;
 
     public SendSubscribeCommand() {
         this.setMethod("subscribe");
     }
 
     public String getGameType() {
-        return GameType;
+        return gameType;
     }
 
     public void setGameType(String gameType) {
-        GameType = gameType;
+        this.gameType = gameType;
     }
 
     @Override

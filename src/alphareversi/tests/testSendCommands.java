@@ -18,11 +18,18 @@ import org.junit.Test;
 /**
  * Created by Joost van Berkel on 3/26/2016.
  *
- * C: login <speler> C: logout C: get gamelist C: get playerlist C: subscribe <speltype> C: move
- * <zet> C: forfeit C: challenge "<speler>" "<speltype>" C: challenge accept <uitdaging nummer> C:
- * help
+ * <p>C: login --speler--
+ * C: logout
+ * C: get gamelist
+ * C: get playerlist
+ * C: subscribe --speltype--
+ * C: move --zet--
+ * C: forfeit
+ * C: challenge "--speler--" "--speltype--"
+ * C: challenge accept --uitdaging nummer--
+ * C: help
  */
-public class testSendCommands {
+public class TestSendCommands {
 
     @Test
     public void testSendLoginCommand() {
@@ -82,7 +89,8 @@ public class testSendCommands {
         challengeCommand.setPlayer("Zolero");
         challengeCommand.setGameType("Reversi");
 
-        assertEquals(true, challengeCommand.toString().contains("challenge \"Zolero\" \"Reversi\""));
+        assertEquals(true, challengeCommand.toString().contains(
+                "challenge \"Zolero\" \"Reversi\""));
     }
 
     @Test

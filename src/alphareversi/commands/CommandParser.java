@@ -38,6 +38,11 @@ public class CommandParser {
         }
     };
 
+    /**
+     * Parse a string to create a serverCommand object.
+     * @param serverCommand string to be converted
+     * @return RecvCommand
+     */
     public static RecvCommand parseString(String serverCommand) {
         for (Map.Entry<String, Class> entry : CommandIdentifiers.entrySet()) {
             String regex = entry.getKey();
@@ -61,6 +66,11 @@ public class CommandParser {
         return null;
     }
 
+    /**
+     * Removes all whitespacing from strings in array.
+     * @param stringArray array to be converted
+     * @return array of strings without whitespacing
+     */
     public static String[] trimStringArray(String[] stringArray) {
         String[] trimmedArray = new String[stringArray.length];
         for (int i = 0; i < stringArray.length; i++) {
@@ -69,6 +79,11 @@ public class CommandParser {
         return trimmedArray;
     }
 
+    /**
+     * explode a string to create a ArrayList.
+     * @param string to be converted
+     * @return listh with strings
+     */
     public static ArrayList parseArraylist(String string) {
         ArrayList<String> arrayList = new ArrayList<>();
         string = string.substring(1, string.length() - 1);
@@ -79,14 +94,22 @@ public class CommandParser {
         return arrayList;
     }
 
+    /**
+     * explode a string to create a HashMap.
+     * @param string to be converted
+     * @return hashmap with data from string
+     */
     public static HashMap parseObjectMap(String string) {
-        HashMap<String, String> ObjectMap = new HashMap<>();
+        HashMap<String, String> hashMap = new HashMap<>();
         string = string.substring(1, string.length() - 1);
         String[] parts = CommandParser.trimStringArray(string.split(","));
         for (String part : parts) {
-            String[] parts_second = CommandParser.trimStringArray(part.split(":"));
-            ObjectMap.put(parts_second[0], parts_second[1].substring(1, parts_second[1].length() - 1));
+            String[] trimStringArray = CommandParser.trimStringArray(part.split(":"));
+            hashMap.put(
+                        trimStringArray[0],
+                        trimStringArray[1].substring(1, trimStringArray[1].length() - 1)
+            );
         }
-        return ObjectMap;
+        return hashMap;
     }
 }

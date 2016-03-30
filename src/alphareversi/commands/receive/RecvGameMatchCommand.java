@@ -7,9 +7,10 @@ import java.util.HashMap;
 
 
 /**
- * Created by Joost van Berkel on 3/26/2016. <p> Match aangeboden krijgen, bericht naar beide
- * spelers. <p> S: SVR GAME MATCH {GAMTYPE: "<speltype>", PLAYERTOMOVE: "<naam speler1>", OPPONENT:
- * "<naam tegenstander>"} Nu bezig met een match, de inschrijving voor een speltype is vervallen.
+ * Created by Joost van Berkel on 3/26/2016. Match aangeboden krijgen, bericht naar beide
+ * spelers.
+ * S: SVR GAME MATCH {GAMTYPE: "--speltype--", PLAYERTOMOVE: "--naam speler1--", OPPONENT:
+ * "--naam tegenstander--"} Nu bezig met een match, de inschrijving voor een speltype is vervallen.
  */
 public class RecvGameMatchCommand extends RecvCommand {
     private String gametype;

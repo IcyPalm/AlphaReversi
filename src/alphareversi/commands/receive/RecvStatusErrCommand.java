@@ -4,12 +4,17 @@ import alphareversi.commands.RecvCommand;
 
 /**
  * Created by Joost van Berkel on 3/26/2016.
- * <p>
- * S: ERR <reden>
+ *
+ * <p>S: ERR --reden--
  */
 public class RecvStatusErrCommand extends RecvCommand {
-    private String Reason;
+    private String reason;
 
+    /**
+     * Parse string to create a filled RecvGamelistCommand.
+     *
+     * @param command string containing server message
+     */
     public RecvStatusErrCommand(String command) {
         String[] parts = command.split(" ", 2);
         this.setType(parts[0]); //ERR
@@ -17,10 +22,10 @@ public class RecvStatusErrCommand extends RecvCommand {
     }
 
     public String getReason() {
-        return Reason;
+        return reason;
     }
 
     public void setReason(String reason) {
-        Reason = reason;
+        this.reason = reason;
     }
 }

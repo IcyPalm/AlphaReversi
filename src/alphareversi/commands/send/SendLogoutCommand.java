@@ -4,10 +4,10 @@ import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- * <p>
- * Uitloggen/Verbinding verbreken.
- * <p>
- * C: logout | exit | quit | disconnect | bye
+ *
+ * <p>Uitloggen/Verbinding verbreken.
+ *
+ * <p>C: logout | exit | quit | disconnect | bye
  * S: -
  */
 public class SendLogoutCommand extends SendCommand {

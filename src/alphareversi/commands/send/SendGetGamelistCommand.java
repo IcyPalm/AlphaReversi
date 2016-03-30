@@ -4,10 +4,10 @@ import alphareversi.commands.SendCommand;
 
 /**
  * Created by Joost van Berkel on 3/24/2016.
- * <p>
- * Lijst opvragen met ondersteunde spellen
- * <p>
- * C: get gamelist
+ *
+ * <p>Lijst opvragen met ondersteunde spellen
+ *
+ * <p>C: get gamelist
  * S: OK
  */
 public class SendGetGamelistCommand extends SendCommand {
