@@ -73,7 +73,7 @@ public class Connection {
                     RecvCommand command = CommandParser.parseString(input.readLine());
                     this.commandDispatcher.sendCommand(command);
                 } catch (IOException exception) {
-                    e.printStackTrace();
+                    exception.printStackTrace();
                 }
             }
 
