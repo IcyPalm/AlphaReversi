@@ -47,14 +47,21 @@ public class GameBaseModel {
         return row*8+column;
     }
 
-    protected boolean inBounds(int row, int coloumn){
-        if(row >= 0 && row < getBoardSize() && coloumn >= 0 && coloumn < getBoardSize()){
+    /**
+     * A simple check to see if row and column are inbounds of the board. I made this into a seperate methode because
+     * the sheer amount of times this has to be checked.
+     */
+    protected boolean inBounds(int row, int column){
+        if(row >= 0 && row < getBoardSize() && column >= 0 && column < getBoardSize()){
             return true;
         }else{
             return false;
         }
     }
 
+    /**
+     * A simple methode to print the board in the console
+     */
     public void printBoard(){
         for(int i = 0; i < getBoardSize();i++){
             for(int j =0; j<getBoardSize(); j++){

@@ -48,6 +48,9 @@ public class placingAPieceTest {
         reversiModel.printBoard();
     }
 
+    /**
+     * Test case for placing pieces
+     */
     private void createRightDownCornerTestCase(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = reversiModel.getBoard();
