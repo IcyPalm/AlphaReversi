@@ -47,6 +47,8 @@ public class ReversiModel extends GameBaseModel {
         if(potentialMoves.contains(move)){
             board[move/8][ move%8] = side;
             flipper(move);
+            playerOnTurn = getOpponnent(side);
+            adjustScore(side, EMPTHY);
              return true;
         }
         System.out.println("Not a valid move");
@@ -54,7 +56,7 @@ public class ReversiModel extends GameBaseModel {
     }
 
     /**
-     * This methode flips all the pieces after a piece has been placed. The HashMap in question is filled at the sametime
+     * This methode flips all the pieces after a piece has been placed. The HashMap in question is filled at the same time
      * when establishing all the valid moves.
      * @param move
      */
@@ -66,21 +68,33 @@ public class ReversiModel extends GameBaseModel {
         }
     }
 
-    private boolean legalMove(int move){
-        int currentOccupant = board[move/8][ move%8];
-        if(currentOccupant == EMPTHY ){
-            return true;
-        }
-        return false;
-    }
-
-
     /**
      * A simple methode that flips the pieces on a specifike coordinate.
      * @param move
      */
     private void flipPiece(int move){
-       board[move/8][move%8] = getOpponnent(board[move/8][move%8]);
+       int oldOccupant = board[move/8][move%8];
+       board[move/8][move%8] = oldOccupant;
+        int newOccupant =board[move/8][move%8];
+        adjustScore(newOccupant, oldOccupant);
+    }
+
+    /**
+     * This methode adjusts the score board of the game. If the sideToDecrement == 0, then there is only a increment
+     * @param sideToIncriment
+     * @param sideToDecrement
+     */
+    private void adjustScore(int sideToIncriment, int sideToDecrement){
+        if(sideToIncriment == playerOne){
+            playerOneScore++;
+        }else {
+            playerTwoScore++;
+        }
+        if(sideToDecrement == playerOne){
+            playerOneScore--;
+        }else if(sideToDecrement == playerTwo){
+            playerTwoScore--;
+        }
     }
 
     //Region PossibleMoves:
