@@ -43,6 +43,7 @@ public class ReversiModel extends GameBaseModel {
             flipper(move);
              return true;
         }
+        System.out.println("Not a valid move");
         return false;
     }
 

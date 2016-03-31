@@ -5,6 +5,6 @@ package src.UnitTests;
  */
 public class Main {
     public static void main(String[] args) {
-       new possibleMovesTest();
+       new placingAPieceTest();
     }
 }

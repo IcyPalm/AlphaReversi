@@ -5,13 +5,18 @@ import src.GameModules.ReversiModule.ReversiModel;
  * Created by Robert on 28-3-2016.
  */
 public class possibleMovesTest {
+    /**
+     * Contructor that does all the tests
+     */
     public possibleMovesTest(){
       //  testPossibleHorizontalMoves();
       //  testPossibleVerticalMoves();
         testDiagonalMoves();
     }
 
-
+    /**
+     * This methode does all the horizontal tests
+     */
     private void testPossibleHorizontalMoves(){
         System.out.println("START HORIZONTAL TEST");
         rightTest();
@@ -19,6 +24,9 @@ public class possibleMovesTest {
         System.out.println("END HORIZONTAL TEST");
     }
 
+    /**
+     * Horizontal test
+     */
     private void rightTest(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
@@ -34,6 +42,9 @@ public class possibleMovesTest {
         reversiModel.printPotentialMoves();
     }
 
+    /**
+     * Horizontal test
+     */
     private void leftTest(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
@@ -48,7 +59,9 @@ public class possibleMovesTest {
         reversiModel.printBoard();
         reversiModel.printPotentialMoves();
     }
-
+    /**
+     * This methode does all the vertical tests
+     */
     private void testPossibleVerticalMoves(){
         System.out.println("START VERTICAL TEST");
         downTest();
@@ -56,6 +69,9 @@ public class possibleMovesTest {
         System.out.println("END VERTICAL TEST");
     }
 
+    /**
+     * Vertical test
+     */
     private void downTest(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
@@ -71,6 +87,9 @@ public class possibleMovesTest {
         reversiModel.printPotentialMoves();
     }
 
+    /**
+     * Vertical test
+     */
     private void topTest(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
@@ -94,7 +113,9 @@ public class possibleMovesTest {
         leftDownTest();
         System.out.println("END DIAGONAL TEST");
     }
-
+    /**
+     *  Diagonal test
+     */
     private void leftUpTest(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
@@ -111,6 +132,9 @@ public class possibleMovesTest {
         reversiModel.printPotentialMoves();
     }
 
+    /**
+     *  Diagonal test
+     */
     private void rightUpTest(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
@@ -127,6 +151,9 @@ public class possibleMovesTest {
         reversiModel.printPotentialMoves();
     }
 
+    /**
+     *  Diagonal test
+     */
     private  void rightDownTest(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
@@ -143,6 +170,9 @@ public class possibleMovesTest {
         reversiModel.printPotentialMoves();
     }
 
+    /**
+     *  Diagonal test
+     */
     private void leftDownTest(){
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
@@ -159,6 +189,10 @@ public class possibleMovesTest {
         reversiModel.printPotentialMoves();
     }
 
+    /**
+     * This clears the board so we can work with a empty board we can fill to our needs
+     * @param board
+     */
     private  void clearBoard(int[][] board ){
         board[3][3] = 0;
         board[3][4] = 0;
