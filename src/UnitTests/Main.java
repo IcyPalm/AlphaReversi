@@ -1,4 +1,4 @@
-package src.UnitTests;
+package UnitTests;
 
 /**
  * Created by Robert on 28-3-2016.

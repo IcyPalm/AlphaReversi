@@ -1,4 +1,4 @@
-package src.GameModules;
+package GameModules;
 
 /**
  * Created by Robert on 27-3-2016.

@@ -1,6 +1,6 @@
-package src.UnitTests;
+package UnitTests;
 
-import src.GameModules.ReversiModule.ReversiModel;
+import GameModules.ReversiModule.ReversiModel;
 
 /**
  * Created by Robert on 31-3-2016.

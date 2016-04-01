@@ -1,5 +1,6 @@
-package src.GameModules.ReversiModule;
-import src.GameModules.GameBaseModel;
+package GameModules.ReversiModule;
+
+import GameModules.GameBaseModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
