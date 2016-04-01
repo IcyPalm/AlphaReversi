@@ -22,7 +22,7 @@ public class ReversiModel extends GameBaseModel {
 
     private HashMap<Integer, ArrayList<ArrayList<Integer>>> toFlip = new HashMap<>();
 
-    public  ReversiModel(int mySide){
+    public ReversiModel(int mySide) {
         super(mySide);
         board = new int[8][8];
         board[3][3] = 2;
@@ -31,39 +31,35 @@ public class ReversiModel extends GameBaseModel {
         board[4][4] = 2;
         potentialMoves = new HashSet();
         locations = new ArrayList<>();
-        playerOneScore =2;
-        playerTwoScore =2;
+        playerOneScore = 2;
+        playerTwoScore = 2;
         playerOnTurn = playerTwo;
         getValidMoves(playerOnTurn);
     }
 
     /**
-     * This methode places the actual pieces onto the board. The coordinates it can place pieces are determinded in an
-     * earlier stage of the program.
-     * @param move
-     * @param side
-     * @return
+     * This methode places the actual pieces onto the board. The coordinates it can place pieces are
+     * determinded in an earlier stage of the program.
      */
-    public boolean placePiece(int move, int side){
-        if(potentialMoves.contains(move)){
-            board[move/8][ move%8] = side;
+    public boolean placePiece(int move, int side) {
+        if (potentialMoves.contains(move)) {
+            board[move / 8][move % 8] = side;
             flipper(move);
             playerOnTurn = getOpponnent(side);
             adjustScore(side, EMPTHY);
-             return true;
+            return true;
         }
         System.out.println("Not a valid move");
         return false;
     }
 
     /**
-     * This methode flips all the pieces after a piece has been placed. The HashMap in question is filled at the same time
-     * when establishing all the valid moves.
-     * @param move
+     * This methode flips all the pieces after a piece has been placed. The HashMap in question is
+     * filled at the same time when establishing all the valid moves.
      */
-    private void flipper(int move){
-        for(ArrayList<Integer> i: toFlip.get(move)){
-            for(int j = 0; j < i.size(); j++){
+    private void flipper(int move) {
+        for (ArrayList<Integer> i : toFlip.get(move)) {
+            for (int j = 0; j < i.size(); j++) {
                 flipPiece(i.get(j));
             }
         }
@@ -71,29 +67,27 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * A simple methode that flips the pieces on a specifike coordinate.
-     * @param move
      */
-    private void flipPiece(int move){
-       int oldOccupant = board[move/8][move%8];
-       board[move/8][move%8] = oldOccupant;
-        int newOccupant =board[move/8][move%8];
+    private void flipPiece(int move) {
+        int oldOccupant = board[move / 8][move % 8];
+        board[move / 8][move % 8] = oldOccupant;
+        int newOccupant = board[move / 8][move % 8];
         adjustScore(newOccupant, oldOccupant);
     }
 
     /**
-     * This methode adjusts the score board of the game. If the sideToDecrement == 0, then there is only a increment
-     * @param sideToIncriment
-     * @param sideToDecrement
+     * This methode adjusts the score board of the game. If the sideToDecrement == 0, then there is
+     * only a increment
      */
-    private void adjustScore(int sideToIncriment, int sideToDecrement){
-        if(sideToIncriment == playerOne){
+    private void adjustScore(int sideToIncriment, int sideToDecrement) {
+        if (sideToIncriment == playerOne) {
             playerOneScore++;
-        }else {
+        } else {
             playerTwoScore++;
         }
-        if(sideToDecrement == playerOne){
+        if (sideToDecrement == playerOne) {
             playerOneScore--;
-        }else if(sideToDecrement == playerTwo){
+        } else if (sideToDecrement == playerTwo) {
             playerTwoScore--;
         }
     }
@@ -102,13 +96,12 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * This methode gets all the valid moves for one side.
-     * @param side
      */
-    public void getValidMoves(int side){
+    public void getValidMoves(int side) {
         locations.clear();
         potentialMoves.clear();
         getLocations(side);
-        for(int i = 0; i < locations.size(); i++){
+        for (int i = 0; i < locations.size(); i++) {
             doIHaveMoves(locations.get(i), side);
         }
 
@@ -116,93 +109,84 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * Return the HasHset with all the potential moves
-     * @return
      */
-    public HashSet<Integer> getPotentialMoves(){
+    public HashSet<Integer> getPotentialMoves() {
         return potentialMoves;
     }
 
     /**
      * retun the player on turn
-     * @return
      */
-    public int getPlayerOnTurn(){
+    public int getPlayerOnTurn() {
         return playerOnTurn;
     }
 
     /**
      * return my score
-     * @return
      */
-    public int getMyscore(){
-        if(mySide ==playerOne){
+    public int getMyscore() {
+        if (mySide == playerOne) {
             return playerOneScore;
-        }else
+        } else
             return playerTwoScore;
     }
 
     /**
      * Return my opponents score
-     * @return
      */
-    public int getOpponentsScore(){
-       if(mySide == playerOne){
-           return playerTwoScore;
-       }else{
-           return playerOneScore;
-       }
+    public int getOpponentsScore() {
+        if (mySide == playerOne) {
+            return playerTwoScore;
+        } else {
+            return playerOneScore;
+        }
     }
 
     /**
      * Boolean determines if it's our turn or not
-     * @return
      */
-    public boolean amIOnTurn(){
-        if(mySide == playerOnTurn){
+    public boolean amIOnTurn() {
+        if (mySide == playerOnTurn) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     /**
-     * This methode fills the location of all the pieces that are on the board for a particular side
-     * @param side
+     * This methode fills the location of all the pieces that are on the board for a particular
+     * side
      */
-    private void getLocations(int side){
-        for(int i = 0; i < getBoardSize(); i++){
-            for(int p = 0; p < getBoardSize(); p++){
-                if(board[i][p] == side){
-                    locations.add((getPosition(i,p)));
+    private void getLocations(int side) {
+        for (int i = 0; i < getBoardSize(); i++) {
+            for (int p = 0; p < getBoardSize(); p++) {
+                if (board[i][p] == side) {
+                    locations.add((getPosition(i, p)));
                 }
             }
         }
     }
 
     /**
-     * This determines all the moves possible with a specifice piece. This methode is used for every piece for a particulair
-     * side
-     * @param index
-     * @param side
+     * This determines all the moves possible with a specifice piece. This methode is used for every
+     * piece for a particulair side
      */
-    private void doIHaveMoves(int index, int side){ //want to make this a boolean at somepoint
-        int row = index/8;
-        int column = index%8;
+    private void doIHaveMoves(int index, int side) { //want to make this a boolean at somepoint
+        int row = index / 8;
+        int column = index % 8;
         horizontalMoves(side, row, column);
         verticalMoves(side, row, column);
         diagonalMoves(side, row, column);
     }
 
     /**
-     * This methodes keeps updating all the consequences of a specific move. This can be used later to flip everything
-     * after a move
-     * @param toflip
-     * @param move
+     * This methodes keeps updating all the consequences of a specific move. This can be used later
+     * to flip everything after a move
      */
-    private void addPotentialToFlip(ArrayList<Integer> toflip, int move){
-        if(toFlip.containsKey(move)){
+    private void addPotentialToFlip(ArrayList<Integer> toflip, int move) {
+        if (toFlip.containsKey(move)) {
             toFlip.get(move).add(toflip);
-        }else{
+        } else {
             ArrayList<ArrayList<Integer>> listOfFlipes = new ArrayList<>();
             listOfFlipes.add(toflip);
             toFlip.put(move, listOfFlipes);
@@ -211,30 +195,26 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * This methode checks all the potential horizontal moves
-     * @param side
-     * @param row
-     * @param column
      */
-    private void horizontalMoves(int side, int row, int column){
+    private void horizontalMoves(int side, int row, int column) {
         int potentialMove;
-        if(inBounds(row, column+1))
-        {
+        if (inBounds(row, column + 1)) {
             ArrayList<Integer> piecesToFlip = new ArrayList<>();
-            if(board[row][column+1] == getOpponnent(side) ){
-                piecesToFlip.add(getPosition(row, column+1));
+            if (board[row][column + 1] == getOpponnent(side)) {
+                piecesToFlip.add(getPosition(row, column + 1));
                 potentialMove = movesOnTheRight(side, row, column, piecesToFlip);
-                if(potentialMove >= 0){
+                if (potentialMove >= 0) {
                     potentialMoves.add(potentialMove);
                     addPotentialToFlip(piecesToFlip, potentialMove);
                 }
             }
         }
-        if(inBounds(row, column-1)){
+        if (inBounds(row, column - 1)) {
             ArrayList<Integer> piecesToFlip = new ArrayList<>();
-            if(board[row][column-1] == getOpponnent(side)){
-                piecesToFlip.add(getPosition(row, column-1));
+            if (board[row][column - 1] == getOpponnent(side)) {
+                piecesToFlip.add(getPosition(row, column - 1));
                 potentialMove = movesOnTheLeft(side, row, column, piecesToFlip);
-                if(potentialMove >= 0){
+                if (potentialMove >= 0) {
                     potentialMoves.add(potentialMove);
                     addPotentialToFlip(piecesToFlip, potentialMove);
                 }
@@ -245,23 +225,19 @@ public class ReversiModel extends GameBaseModel {
     //Horizontal Moves
 
     /**
-     * Loops through all the values right of the orginal coordinates and returns a valid move on the right of this
-     * piece. If there isn't a valid move, return -1;
-     * @param side
-     * @param row
-     * @param orignalColumn
-     * @return
+     * Loops through all the values right of the orginal coordinates and returns a valid move on the
+     * right of this piece. If there isn't a valid move, return -1;
      */
-    private int movesOnTheRight(int side, int row, int orignalColumn, ArrayList<Integer> flipList){
-        int column = orignalColumn+2;
-        while(true){
-            if(!inBounds(row, column)){
+    private int movesOnTheRight(int side, int row, int orignalColumn, ArrayList<Integer> flipList) {
+        int column = orignalColumn + 2;
+        while (true) {
+            if (!inBounds(row, column)) {
                 break;
-            }else if(board[row][column] == side) {
+            } else if (board[row][column] == side) {
                 break;
-            } else if(board[row][column]== EMPTHY ){
+            } else if (board[row][column] == EMPTHY) {
                 return getPosition(row, column);
-            }else{
+            } else {
                 flipList.add(getPosition(row, column));
             }
             column++;
@@ -270,24 +246,19 @@ public class ReversiModel extends GameBaseModel {
     }
 
     /**
-     * Loops through all the values left of the orginal coordinates and returns a valid move on the left of this
-     * piece. If there isn't a valid move, return -1;
-     * @param side
-     * @param orignalColumn
-     * @param row
-     * @return
+     * Loops through all the values left of the orginal coordinates and returns a valid move on the
+     * left of this piece. If there isn't a valid move, return -1;
      */
-    private int movesOnTheLeft(int side, int row, int orignalColumn, ArrayList<Integer> flipList){
-        int column = orignalColumn-2;
-        while(true){
-            if(!inBounds(row, column)){
+    private int movesOnTheLeft(int side, int row, int orignalColumn, ArrayList<Integer> flipList) {
+        int column = orignalColumn - 2;
+        while (true) {
+            if (!inBounds(row, column)) {
                 break;
-            }else if(board[row][column] == side){ //Shouldn't be possible, but just incase
+            } else if (board[row][column] == side) { //Shouldn't be possible, but just incase
                 break;
-            }
-            else if(board[row][column]== EMPTHY ){
+            } else if (board[row][column] == EMPTHY) {
                 return getPosition(row, column);
-            }else {
+            } else {
                 flipList.add(getPosition(row, column));
             }
             column--;
@@ -297,29 +268,26 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * This methode checks all the potential vertical moves
-     * @param side
-     * @param row
-     * @param column
      */
-    private void verticalMoves(int side, int row, int column){
+    private void verticalMoves(int side, int row, int column) {
         int potentialMove;
-        if(inBounds(row-1, column)){
+        if (inBounds(row - 1, column)) {
             ArrayList<Integer> piecesToFlip = new ArrayList<>();
-            if(board[row-1][column] == getOpponnent(side)){
-                piecesToFlip.add(getPosition(row-1,column));
+            if (board[row - 1][column] == getOpponnent(side)) {
+                piecesToFlip.add(getPosition(row - 1, column));
                 potentialMove = movesAbove(side, row, column, piecesToFlip);
-                if(potentialMove >= 0){
+                if (potentialMove >= 0) {
                     potentialMoves.add(potentialMove);
                     addPotentialToFlip(piecesToFlip, potentialMove);
                 }
             }
         }
-        if( inBounds(row+1, column)){
+        if (inBounds(row + 1, column)) {
             ArrayList<Integer> piecesToFlip = new ArrayList<>();
-            if(board[row+1][column] == getOpponnent(side)){
-                piecesToFlip.add(getPosition(row+1, column));
-                potentialMove = movesDownUnder(side, row, column,piecesToFlip);
-                if(potentialMove >= 0){
+            if (board[row + 1][column] == getOpponnent(side)) {
+                piecesToFlip.add(getPosition(row + 1, column));
+                potentialMove = movesDownUnder(side, row, column, piecesToFlip);
+                if (potentialMove >= 0) {
                     potentialMoves.add(potentialMove);
                     addPotentialToFlip(piecesToFlip, potentialMove);
                 }
@@ -332,22 +300,17 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * Checks for all the moves above a piece
-     * @param side
-     * @param orginalRow
-     * @param column
-     * @param toBeFlipped
-     * @return
      */
-    private int movesAbove(int side, int orginalRow, int column, ArrayList<Integer> toBeFlipped){
-        int row = orginalRow-2;
-        while(true){
-            if(!inBounds(row, column)){
+    private int movesAbove(int side, int orginalRow, int column, ArrayList<Integer> toBeFlipped) {
+        int row = orginalRow - 2;
+        while (true) {
+            if (!inBounds(row, column)) {
                 break;
-            }else if(board[row][column] == side) { //Shouldn't be possible, but just incase
+            } else if (board[row][column] == side) { //Shouldn't be possible, but just incase
                 break;
-            }else if(board[row][column] == EMPTHY){
+            } else if (board[row][column] == EMPTHY) {
                 return getPosition(row, column);
-            }else{
+            } else {
                 toBeFlipped.add(getPosition(row, column));
             }
             row--;
@@ -357,22 +320,17 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * Checks for all the moves under a piece
-     * @param side
-     * @param orginalRow
-     * @param column
-     * @param toBeFlipped
-     * @return
      */
-    private int movesDownUnder(int side, int orginalRow, int column, ArrayList<Integer> toBeFlipped){
-        int row = orginalRow+2;
-        while(true){
-            if(!inBounds(row, column)){
+    private int movesDownUnder(int side, int orginalRow, int column, ArrayList<Integer> toBeFlipped) {
+        int row = orginalRow + 2;
+        while (true) {
+            if (!inBounds(row, column)) {
                 break;
-            }else if(board[row][column] == side) { //Shouldn't be possible, but just incase
+            } else if (board[row][column] == side) { //Shouldn't be possible, but just incase
                 break;
-            }else if(board[row][column] == EMPTHY){
+            } else if (board[row][column] == EMPTHY) {
                 return getPosition(row, column);
-            }else{
+            } else {
                 toBeFlipped.add(getPosition(row, column));
             }
             row++;
@@ -382,51 +340,48 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * This finds all the diagonal moves
-     * @param side
-     * @param row
-     * @param column
      */
-    private void diagonalMoves(int side, int row, int column){
+    private void diagonalMoves(int side, int row, int column) {
         int potentialMove;
-        if(inBounds(row-1, column-1)){
+        if (inBounds(row - 1, column - 1)) {
             ArrayList<Integer> piecesToFlip = new ArrayList<>();
-            if(board[row-1][column-1] == getOpponnent(side)){
-                piecesToFlip.add(getPosition(row-1, column-1));
+            if (board[row - 1][column - 1] == getOpponnent(side)) {
+                piecesToFlip.add(getPosition(row - 1, column - 1));
                 potentialMove = diagonalLeftUp(side, row, column, piecesToFlip);
-                if(potentialMove >= 0){
+                if (potentialMove >= 0) {
                     potentialMoves.add(potentialMove);
                     addPotentialToFlip(piecesToFlip, potentialMove);
                 }
             }
         }
-        if(inBounds(row-1, column+1)){
+        if (inBounds(row - 1, column + 1)) {
             ArrayList<Integer> piecesToFlip = new ArrayList<>();
-            if(board[row-1][column+1] == getOpponnent(side)){
-                piecesToFlip.add(getPosition(row-1, column+1));
+            if (board[row - 1][column + 1] == getOpponnent(side)) {
+                piecesToFlip.add(getPosition(row - 1, column + 1));
                 potentialMove = diagonalRightUp(side, row, column, piecesToFlip);
-                if(potentialMove >= 0){
+                if (potentialMove >= 0) {
                     potentialMoves.add(potentialMove);
                     addPotentialToFlip(piecesToFlip, potentialMove);
                 }
             }
         }
-        if(inBounds(row+1, column+1)){
+        if (inBounds(row + 1, column + 1)) {
             ArrayList<Integer> piecesToFlip = new ArrayList<>();
-            if(board[row+1][column+1] == getOpponnent(side)){
-                piecesToFlip.add(getPosition(row+1, column+1));
+            if (board[row + 1][column + 1] == getOpponnent(side)) {
+                piecesToFlip.add(getPosition(row + 1, column + 1));
                 potentialMove = diagonalRightDown(side, row, column, piecesToFlip);
-                if(potentialMove >= 0){
+                if (potentialMove >= 0) {
                     potentialMoves.add(potentialMove);
                     addPotentialToFlip(piecesToFlip, potentialMove);
                 }
             }
         }
-        if(inBounds(row+1, column-1)){
+        if (inBounds(row + 1, column - 1)) {
             ArrayList<Integer> piecesToFlip = new ArrayList<>();
-            if(board[row+1][column-1] == getOpponnent(side)){
-                piecesToFlip.add(getPosition(row+1, column-1));
+            if (board[row + 1][column - 1] == getOpponnent(side)) {
+                piecesToFlip.add(getPosition(row + 1, column - 1));
                 potentialMove = diagonalLeftDown(side, row, column, piecesToFlip);
-                if(potentialMove >= 0){
+                if (potentialMove >= 0) {
                     potentialMoves.add(potentialMove);
                     addPotentialToFlip(piecesToFlip, potentialMove);
                 }
@@ -438,24 +393,19 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * Find a move that is located diagonal left up
-     * @param side
-     * @param orginalRow
-     * @param orginalcolumn
-     * @param toBeFlipped
-     * @return
      */
-    private int diagonalLeftUp(int side, int orginalRow, int orginalcolumn, ArrayList<Integer> toBeFlipped){
-        int row = orginalRow-2;
-        int column = orginalcolumn -2;
-        while(true){
-            if(!inBounds(row, column)){
+    private int diagonalLeftUp(int side, int orginalRow, int orginalcolumn, ArrayList<Integer> toBeFlipped) {
+        int row = orginalRow - 2;
+        int column = orginalcolumn - 2;
+        while (true) {
+            if (!inBounds(row, column)) {
                 break;
-            }else if(board[row][column] == side){
+            } else if (board[row][column] == side) {
                 break;
-            }else if(board[row][column] == EMPTHY){
+            } else if (board[row][column] == EMPTHY) {
                 return getPosition(row, column);
-            }else{
-                toBeFlipped.add(getPosition(row,column));
+            } else {
+                toBeFlipped.add(getPosition(row, column));
             }
             row--;
             column--;
@@ -466,24 +416,19 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * Find a move that is located diagonal right up
-     * @param side
-     * @param orginalRow
-     * @param orginalcolumn
-     * @param toBeFlipped
-     * @return
      */
-    private int diagonalRightUp(int side, int orginalRow, int orginalcolumn, ArrayList<Integer> toBeFlipped){
-        int row = orginalRow-2;
-        int column = orginalcolumn +2;
-        while(true){
-            if(!inBounds(row, column)){
+    private int diagonalRightUp(int side, int orginalRow, int orginalcolumn, ArrayList<Integer> toBeFlipped) {
+        int row = orginalRow - 2;
+        int column = orginalcolumn + 2;
+        while (true) {
+            if (!inBounds(row, column)) {
                 break;
-            }else if(board[row][column] == side){
+            } else if (board[row][column] == side) {
                 break;
-            }else if(board[row][column] == EMPTHY){
+            } else if (board[row][column] == EMPTHY) {
                 return getPosition(row, column);
-            }else{
-                toBeFlipped.add(getPosition(row,column));
+            } else {
+                toBeFlipped.add(getPosition(row, column));
             }
             row--;
             column++;
@@ -493,24 +438,19 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * Find a move that is located diagonal left down
-     * @param side
-     * @param orginalRow
-     * @param orginalcolumn
-     * @param toBeFlipped
-     * @return
      */
-    private int diagonalLeftDown(int side, int orginalRow, int orginalcolumn, ArrayList<Integer> toBeFlipped){
-        int row = orginalRow+2;
-        int column = orginalcolumn -2;
-        while(true){
-            if(!inBounds(row, column)){
+    private int diagonalLeftDown(int side, int orginalRow, int orginalcolumn, ArrayList<Integer> toBeFlipped) {
+        int row = orginalRow + 2;
+        int column = orginalcolumn - 2;
+        while (true) {
+            if (!inBounds(row, column)) {
                 break;
-            }else if(board[row][column] == side){
+            } else if (board[row][column] == side) {
                 break;
-            }else if(board[row][column] == EMPTHY){
+            } else if (board[row][column] == EMPTHY) {
                 return getPosition(row, column);
-            }else{
-                toBeFlipped.add(getPosition(row,column));
+            } else {
+                toBeFlipped.add(getPosition(row, column));
             }
             row++;
             column--;
@@ -520,24 +460,19 @@ public class ReversiModel extends GameBaseModel {
 
     /**
      * Find a move that is located diagonal right down
-     * @param side
-     * @param orginalRow
-     * @param orginalcolumn
-     * @param toBeFlipped
-     * @return
      */
-    private int diagonalRightDown(int side, int orginalRow, int orginalcolumn, ArrayList<Integer> toBeFlipped){
-        int row = orginalRow+2;
-        int column = orginalcolumn +2;
-        while(true){
-            if(!inBounds(row, column)){
+    private int diagonalRightDown(int side, int orginalRow, int orginalcolumn, ArrayList<Integer> toBeFlipped) {
+        int row = orginalRow + 2;
+        int column = orginalcolumn + 2;
+        while (true) {
+            if (!inBounds(row, column)) {
                 break;
-            }else if(board[row][column] == side){
+            } else if (board[row][column] == side) {
                 break;
-            }else if(board[row][column] == EMPTHY){
+            } else if (board[row][column] == EMPTHY) {
                 return getPosition(row, column);
-            }else{
-                toBeFlipped.add(getPosition(row,column));
+            } else {
+                toBeFlipped.add(getPosition(row, column));
             }
             row++;
             column++;
@@ -548,7 +483,7 @@ public class ReversiModel extends GameBaseModel {
     /**
      * Print out how many moves there are.
      */
-    public void printPotentialMoves(){
+    public void printPotentialMoves() {
         System.out.println(potentialMoves.size() + " potential move(s)");
     }
 }
