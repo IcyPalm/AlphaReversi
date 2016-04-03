@@ -11,7 +11,7 @@ public class TicTacToeModule implements Runnable {
     private volatile boolean opponentPlayed = false;
 
     /**
-     * Constructor Module
+     * Constructor Module.
      */
     public TicTacToeModule(String player, boolean firstMove) {
         model = new TicTacToeModel();
@@ -76,8 +76,8 @@ public class TicTacToeModule implements Runnable {
     }
 
     /**
-     * Decides if the string in the class constructor matches
-     * with on off the classes with the interface Player
+     * Decides if the string in the class constructor matches.
+     * with on off the classes with the interface Player.
      */
     private boolean decidePlayer(String player) {
         if (player.equals("HUMAN")) {

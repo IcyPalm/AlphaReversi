@@ -23,7 +23,7 @@ public class TicTacToeView {
     }
 
     /**
-     * Prints the current board of TicTacToe
+     * Prints the current board of TicTacToe.
      */
     public void print() {
         this.selfChar = model.getSelfChar();

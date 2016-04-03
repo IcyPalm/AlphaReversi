@@ -19,7 +19,7 @@ public class Ai implements Player {
     }
 
     /**
-     * Chooses a move
+     * Chooses a move.
      */
     public Best chooseMove(int side) {
         int opp; // The other side

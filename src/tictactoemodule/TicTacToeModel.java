@@ -25,8 +25,8 @@ public class TicTacToeModel {
     private TicTacToeView view;
 
     /**
-     * Constructor for TicTacToeModel
-     * creates a view
+     * Constructor for TicTacToeModel.
+     * creates a view.
      */
     public TicTacToeModel() {
         view = new TicTacToeView(self, opponent, this);
@@ -36,8 +36,8 @@ public class TicTacToeModel {
 
     /**
      * Plays a move on the board.
-     * Switches the turn to the opposite player
-     * Calls the TicTacToeView
+     * Switches the turn to the opposite player.
+     * Calls the TicTacToeView.
      */
     public void playMove(int move) {
         board[move / 3][move % 3] = this.side;
@@ -50,7 +50,7 @@ public class TicTacToeModel {
     }
 
     /**
-     * Clears the board
+     * Clears the board.
      */
     private void clearBoard() {
         // over elk vakje heen gaan en leegmaken.
@@ -62,7 +62,7 @@ public class TicTacToeModel {
     }
 
     /**
-     * Checks if a board is full
+     * Checks if a board is full.
      */
     private boolean boardIsFull() {
         for (int x = 0; x < 3; x++) {
@@ -76,15 +76,15 @@ public class TicTacToeModel {
     }
 
     /**
-     * Checks if a move is good to set
+     * Checks if a move is good to set.
      */
     public boolean moveOk(int move) {
         return ( move >= 0 && move <= 8 && board[move / 3][move % 3] == EMPTY );
     }
 
     /**
-     * Checks if a side has won
-     * @param side The side to check
+     * Checks if a side has won.
+     * @param side The side to check.
      */
     public boolean isAWin( int side ) {
         // verticaal
@@ -110,7 +110,7 @@ public class TicTacToeModel {
     }
 
     /**
-     * Compute static value of current position (win, draw, etc.)
+     * Compute static value of current position. (win, draw, etc.).
      */
     public int positionValue() {
         if (isAWin(opponent)) {
@@ -126,7 +126,7 @@ public class TicTacToeModel {
     }
 
     /**
-     * Returns the opponent
+     * Returns the opponent.
      */
     public int getOpponent(int side) {
         if (side == opponent) {
