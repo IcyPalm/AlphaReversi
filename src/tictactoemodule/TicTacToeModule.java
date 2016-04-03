@@ -67,8 +67,8 @@ public class TicTacToeModule implements Runnable {
 
     /**
      * Receives a move and set opponentPlay to true.
-     * @param move The move that the opponent wants to play.
      * It is not checked if the move is valid.
+     * @param move The move that the opponent wants to play.
      */
     public synchronized void receiveMove(int move) {
         opponentMove = move;
@@ -85,7 +85,7 @@ public class TicTacToeModule implements Runnable {
             return true;
         }
         if (player.equals("AI")) {
-            this.player = new Ai(model);
+            this.player = new ArtificialIntelligence(model);
             return true;
         }
         return false;

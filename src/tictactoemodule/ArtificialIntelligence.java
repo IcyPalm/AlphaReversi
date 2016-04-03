@@ -3,11 +3,11 @@ package tictactoemodule;
 /**
  * Created by daant on 25-Mar-16.
  */
-public class Ai implements Player {
+public class ArtificialIntelligence implements Player {
     private TicTacToeModel model;
     private int[][] board;
 
-    public Ai(TicTacToeModel model) {
+    public ArtificialIntelligence(TicTacToeModel model) {
         this.model = model;
         board = model.getBoard();
     }
