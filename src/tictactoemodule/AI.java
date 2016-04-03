@@ -1,13 +1,13 @@
-package TicTacToe;
+package tictactoemodule;
 
 /**
  * Created by daant on 25-Mar-16.
  */
-public class AI implements Player {
+public class Ai implements Player {
     private TicTacToeModel model;
     private int[][] board;
 
-    public AI(TicTacToeModel model) {
+    public Ai(TicTacToeModel model) {
         this.model = model;
         board = model.getBoard();
     }
@@ -18,10 +18,9 @@ public class AI implements Player {
         return best.row * 3 + best.column;
     }
 
-    /*
-     * Method for choosing the best move
-     * @param side
-     */
+   /*
+    * Chooses a move
+    */
     public Best chooseMove(int side) {
         int opp; // The other side
         Best reply; // Opponent's best reply
@@ -69,16 +68,18 @@ public class AI implements Player {
     }
 
     private class Best {
-        int row, column, val;
+        int row;
+        int column;
+        int val;
 
-        public Best(int v) {
-            this(v, 0, 0);
+        public Best(int value) {
+            this(value, 0, 0);
         }
 
-        public Best(int v, int r, int c) {
-            val = v;
-            row = r;
-            column = c;
+        public Best(int value, int row, int column) {
+            val = value;
+            row = row;
+            column = column;
         }
     }
 }

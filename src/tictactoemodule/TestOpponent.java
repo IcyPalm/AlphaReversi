@@ -1,4 +1,4 @@
-package TicTacToe;
+package tictactoemodule;
 
 import java.util.Scanner;
 
@@ -10,6 +10,10 @@ public class TestOpponent {
     private boolean running = true;
     private TicTacToeModule module;
     private Scanner reader = new Scanner(System.in);
+
+   /*
+    * Simulates opponent
+    */
     public TestOpponent(TicTacToeModule module) {
         this.module = module;
         game();
@@ -40,8 +44,8 @@ public class TestOpponent {
     private synchronized void waiting() {
         try {
             Thread.sleep(5000);
-        } catch(InterruptedException e) {
-            System.err.println(e.getMessage());
+        } catch (InterruptedException E) {
+            System.err.println(E.getMessage());
         }
     }
 }

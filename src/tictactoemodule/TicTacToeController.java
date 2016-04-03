@@ -1,4 +1,4 @@
-package TicTacToe;
+package tictactoemodule;
 
 /**
  * Created by daant on 25-Mar-16.

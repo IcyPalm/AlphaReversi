@@ -1,4 +1,4 @@
-package TicTacToe;
+package tictactoemodule;
 
 /**
  * Created by Daniël on 25-Mar-16.
@@ -24,35 +24,34 @@ public class TicTacToeModel {
 
     private TicTacToeView view;
 
-    /*
-     * Constructor for TicTacToeModel
-     * creates a view
-     */
+   /*
+    * Constructor for TicTacToeModel
+    * creates a view
+    */
     public TicTacToeModel() {
         view = new TicTacToeView(self, opponent, this);
         clearBoard( );
         initSide();
     }
 
-    /*
-     * Plays a move on the board.
-     * Switches the turn to the opposite player
-     * Calls the TicTacToeView
-     */
+   /*
+    * Plays a move on the board.
+    * Switches the turn to the opposite player
+    * Calls the TicTacToeView
+    */
     public void playMove(int move) {
         board[move / 3][move % 3] = this.side;
         if (side == self) {
             this.side = opponent;
-        }
-        else {
-            this.side=self;
+        } else {
+            this.side = self;
         }
         view.print();
     }
 
-    /*
-     * Clears the board
-     */
+   /*
+    * Clears the board
+    */
     private void clearBoard() {
         // over elk vakje heen gaan en leegmaken.
         for (int x = 0; x < 3; x++) {
@@ -62,9 +61,9 @@ public class TicTacToeModel {
         }
     }
 
-    /*
-     * Checks if a board is full
-     */
+   /*
+    * Checks if a board is full
+    */
     private boolean boardIsFull() {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
@@ -76,17 +75,17 @@ public class TicTacToeModel {
         return true;
     }
 
-    /*
-     * Checks if a move is good to set
-     */
+   /*
+    * Checks if a move is good to set
+    */
     public boolean moveOk(int move) {
         return ( move >= 0 && move <= 8 && board[move / 3][move % 3] == EMPTY );
     }
 
-    /*
-     * Checks if a side has won
-     * @param side The side to check
-     */
+   /*
+    * Checks if a side has won
+    * @param side The side to check
+    */
     public boolean isAWin( int side ) {
         // verticaal
         for (int y = 0; y < 3; y++) {
@@ -110,9 +109,9 @@ public class TicTacToeModel {
         return false;
     }
 
-    /*
-     * Compute static value of current position (win, draw, etc.)
-     */
+   /*
+    * Compute static value of current position (win, draw, etc.)
+    */
     public int positionValue() {
         if (isAWin(opponent)) {
             return OPPONENT_WIN;
@@ -126,9 +125,9 @@ public class TicTacToeModel {
         return UNCLEAR;
     }
 
-    /*
-     * Returns the opponent
-     */
+   /*
+    * Returns the opponent
+    */
     public int getOpponent(int side) {
         if (side == opponent) {
             return self;
@@ -144,11 +143,11 @@ public class TicTacToeModel {
 
     private void initSide() {
         if (this.side == self) {
-            selfChar='X'; opponentChar='O';
-        }
-        else {
-            selfChar='O';
-            opponentChar='X';
+            selfChar = 'X';
+            opponentChar = 'O';
+        } else {
+            selfChar = 'O';
+            opponentChar = 'X';
         }
     }
 
@@ -161,7 +160,7 @@ public class TicTacToeModel {
     }
 
     public void setOpponentPlays() {
-        this.side=opponent;
+        this.side = opponent;
         initSide();
     }
 
@@ -174,12 +173,12 @@ public class TicTacToeModel {
     }
 
     public void setSelfPlays() {
-        this.side=self;
+        this.side = self;
         initSide();
     }
 
     public boolean opponentPlays() {
-        return side==opponent;
+        return side == opponent;
     }
 
 

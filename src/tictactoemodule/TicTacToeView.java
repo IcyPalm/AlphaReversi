@@ -1,4 +1,4 @@
-package TicTacToe;
+package tictactoemodule;
 
 /**
  * Created by daant on 25-Mar-16.
@@ -11,10 +11,10 @@ public class TicTacToeView {
     private char selfChar;
     private char opponentChar;
 
-    /*
-     * Constructor for the view
-     * should not be important for final 1.0 version
-     */
+   /*
+    * Constructor for the view
+    * should not be important for final 1.0 version
+    */
     public TicTacToeView(int self, int opponent, TicTacToeModel model) {
         this.board = model.getBoard();
         this.self = self;
@@ -22,9 +22,9 @@ public class TicTacToeView {
         this.model = model;
     }
 
-    /*
-     * Prints the current board of TicTacToe
-     */
+   /*
+    * Prints the current board of TicTacToe
+    */
     public void print() {
         this.selfChar = model.getSelfChar();
         this.opponentChar = model.getOpponentChar();
@@ -36,11 +36,9 @@ public class TicTacToeView {
             for (int y = 0; y < 3; y++) {
                 if (board[x][y] == self) {
                     string += selfChar;
-                }
-                else if (board[x][y] == opponent) {
+                } else if (board[x][y] == opponent) {
                     string += opponentChar;
-                }
-                else {
+                } else {
                     string += '*';
                 }
             }
