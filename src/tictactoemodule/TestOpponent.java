@@ -2,7 +2,7 @@ package tictactoemodule;
 
 import java.util.Scanner;
 
-/**
+ /**
  * Created by daant on 25-Mar-16.
  * This class Simulates an opponent.
  */
@@ -11,15 +11,15 @@ public class TestOpponent {
     private TicTacToeModule module;
     private Scanner reader = new Scanner(System.in);
 
-   /*
-    * Simulates opponent
-    */
+    /**
+     * Simulates opponent
+     */
     public TestOpponent(TicTacToeModule module) {
         this.module = module;
         game();
     }
 
-    /*
+    /**
      * Plays a game
      */
     public void game() {
@@ -38,14 +38,14 @@ public class TestOpponent {
         */
     }
 
-    /*
+    /**
      * method used by the code against the human player
      */
     private synchronized void waiting() {
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException E) {
-            System.err.println(E.getMessage());
+        } catch (InterruptedException error) {
+            System.err.println(error.getMessage());
         }
     }
 }

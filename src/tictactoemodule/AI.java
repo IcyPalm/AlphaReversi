@@ -18,9 +18,9 @@ public class Ai implements Player {
         return best.row * 3 + best.column;
     }
 
-   /*
-    * Chooses a move
-    */
+    /**
+     * Chooses a move
+     */
     public Best chooseMove(int side) {
         int opp; // The other side
         Best reply; // Opponent's best reply
