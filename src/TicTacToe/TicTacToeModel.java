@@ -1,4 +1,4 @@
-package gameModuleTicTacToe;
+package TicTacToe;
 
 /**
  * Created by Daniël on 25-Mar-16.
@@ -24,6 +24,10 @@ public class TicTacToeModel {
 
     private TicTacToeView view;
 
+    /*
+     * Constructor for TicTacToeModel
+     * creates a view
+     */
     public TicTacToeModel() {
         view = new TicTacToeView(self, opponent, this);
         clearBoard( );
@@ -36,19 +40,23 @@ public class TicTacToeModel {
      * Calls the TicTacToeView
      */
     public void playMove(int move) {
-        board[move/3][ move%3] = this.side;
-        if (side==self) this.side=opponent;  else this.side=self;
+        board[move / 3][move % 3] = this.side;
+        if (side == self) {
+            this.side = opponent;
+        }
+        else {
+            this.side=self;
+        }
         view.print();
     }
 
     /*
      * Clears the board
      */
-    private void clearBoard( )
-    {
+    private void clearBoard() {
         // over elk vakje heen gaan en leegmaken.
         for (int x = 0; x < 3; x++) {
-            for(int y = 0; y < 3; y++) {
+            for (int y = 0; y < 3; y++) {
                 board[x][y] = EMPTY;
             }
         }
@@ -57,10 +65,9 @@ public class TicTacToeModel {
     /*
      * Checks if a board is full
      */
-    private boolean boardIsFull( )
-    {
+    private boolean boardIsFull() {
         for (int x = 0; x < 3; x++) {
-            for(int y = 0; y < 3; y++) {
+            for (int y = 0; y < 3; y++) {
                 if (board[x][y] == EMPTY) {
                     return false;
                 }
@@ -73,23 +80,22 @@ public class TicTacToeModel {
      * Checks if a move is good to set
      */
     public boolean moveOk(int move) {
-        return ( move>=0 && move <=8 && board[move/3 ][ move%3 ] == EMPTY );
+        return ( move >= 0 && move <= 8 && board[move / 3][move % 3] == EMPTY );
     }
 
     /*
      * Checks if a side has won
      * @param side The side to check
      */
-    public boolean isAWin( int side )
-    {
+    public boolean isAWin( int side ) {
         // verticaal
-        for(int y = 0; y < 3; y++) {
+        for (int y = 0; y < 3; y++) {
             if (board[0][y] == board[1][y] && board[1][y] == board[2][y] && board[0][y] == side) {
                 return true;
             }
         }
         // horizontaal
-        for(int x = 0; x < 3; x++) {
+        for (int x = 0; x < 3; x++) {
             if (board[x][0] == board[x][1] && board[x][1] == board[x][2] && board[x][0] == side) {
                 return true;
             }
@@ -108,12 +114,16 @@ public class TicTacToeModel {
      * Compute static value of current position (win, draw, etc.)
      */
     public int positionValue() {
-        {
-            if (isAWin(opponent)) {return OPPONENT_WIN;}
-            if (isAWin(self)) {return SELF_WIN;}
-            if (boardIsFull()) {return DRAW;}
-            return UNCLEAR;
+        if (isAWin(opponent)) {
+            return OPPONENT_WIN;
         }
+        if (isAWin(self)) {
+            return SELF_WIN;
+        }
+        if (boardIsFull()) {
+            return DRAW;
+        }
+        return UNCLEAR;
     }
 
     /*
@@ -126,28 +136,35 @@ public class TicTacToeModel {
             return opponent;
         }
     }
+
     public boolean gameOver() {
-        this.position=positionValue();
-        return this.position!=UNCLEAR;
+        this.position = positionValue();
+        return this.position != UNCLEAR;
     }
 
     private void initSide() {
-        if (this.side==self) { selfChar='X'; opponentChar='O'; }
-        else                     { selfChar='O'; opponentChar='X'; }
+        if (this.side == self) {
+            selfChar='X'; opponentChar='O';
+        }
+        else {
+            selfChar='O';
+            opponentChar='X';
+        }
     }
 
     public int[][] getBoard() {
         return board;
     }
 
-    public boolean squareIsEmpty( int row, int column ) {
-        return board[ row ][ column ] == EMPTY;
+    public boolean squareIsEmpty(int row, int column) {
+        return board[row][column] == EMPTY;
     }
 
     public void setOpponentPlays() {
         this.side=opponent;
         initSide();
     }
+
     public char getOpponentChar() {
         return opponentChar;
     }

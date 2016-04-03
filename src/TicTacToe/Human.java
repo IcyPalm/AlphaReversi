@@ -1,4 +1,4 @@
-package gameModuleTicTacToe;
+package TicTacToe;
 
 import java.util.Scanner;
 
@@ -7,6 +7,7 @@ import java.util.Scanner;
  */
 public class Human implements Player {
     private Scanner reader = new Scanner(System.in);
+
     @Override
     public int chooseMove() {
         return reader.nextInt();

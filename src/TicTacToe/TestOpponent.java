@@ -1,23 +1,26 @@
-package gameModuleTicTacToe;
+package TicTacToe;
 
 import java.util.Scanner;
 
 /**
  * Created by daant on 25-Mar-16.
- *
  * This class Simulates an opponent.
  */
-public class testOpponent {
+public class TestOpponent {
     private boolean running = true;
     private TicTacToeModule module;
     private Scanner reader = new Scanner(System.in);
-    public testOpponent(TicTacToeModule module) {
+    public TestOpponent(TicTacToeModule module) {
         this.module = module;
         game();
     }
+
+    /*
+     * Plays a game
+     */
     public void game() {
         // code for playing against AI
-        while(running) {
+        while (running) {
             int humanMove = reader.nextInt();
             module.receiveMove(humanMove);
         }
@@ -30,12 +33,15 @@ public class testOpponent {
         module.receiveMove(6);
         */
     }
+
     /*
      * method used by the code against the human player
      */
     private synchronized void waiting() {
         try {
             Thread.sleep(5000);
-        } catch(InterruptedException e) {}
+        } catch(InterruptedException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

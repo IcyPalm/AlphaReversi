@@ -1,4 +1,4 @@
-package gameModuleTicTacToe;
+package TicTacToe;
 
 /**
  * Created by daant on 25-Mar-16.
@@ -7,18 +7,21 @@ public class AI implements Player {
     private TicTacToeModel model;
     private int[][] board;
 
-    public AI (TicTacToeModel model) {
+    public AI(TicTacToeModel model) {
         this.model = model;
         board = model.getBoard();
     }
+
     @Override
-    public int chooseMove()
-    {
-        Best best=chooseMove(model.opponent);
-        return best.row*3+best.column;
+    public int chooseMove() {
+        Best best = chooseMove(model.opponent);
+        return best.row * 3 + best.column;
     }
 
-    // Find optimal move
+    /*
+     * Method for choosing the best move
+     * @param side
+     */
     public Best chooseMove(int side) {
         int opp; // The other side
         Best reply; // Opponent's best reply
@@ -59,19 +62,23 @@ public class AI implements Player {
             return new Best(value, bestRow, bestColumn);
         }
     }
+
     // Play a move, possibly clearing a square
-    private void place( int row, int column, int piece )
-    {
-        board[ row ][ column ] = piece;
+    private void place( int row, int column, int piece ) {
+        board[row][column] = piece;
     }
-    private class Best
-    {
+
+    private class Best {
         int row, column, val;
-        public Best( int v ) {
-            this( v, 0, 0 );
+
+        public Best(int v) {
+            this(v, 0, 0);
         }
 
-        public Best( int v, int r, int c )
-        { val = v; row = r; column = c; }
+        public Best(int v, int r, int c) {
+            val = v;
+            row = r;
+            column = c;
+        }
     }
 }

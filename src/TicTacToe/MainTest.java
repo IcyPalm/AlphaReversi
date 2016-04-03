@@ -1,6 +1,4 @@
-package gameModuleTicTacToe;
-
-import java.util.Random;
+package TicTacToe;
 
 /**
  * Created by daant on 25-Mar-16.
@@ -14,6 +12,6 @@ public class MainTest {
         Thread moduleThread = new Thread(module);
         moduleThread.start();
         // creating a test opponent
-        new testOpponent(module);
+        new TestOpponent(module);
     }
 }

@@ -1,4 +1,4 @@
-package gameModuleTicTacToe;
+package TicTacToe;
 
 /**
  * Created by daant on 25-Mar-16.

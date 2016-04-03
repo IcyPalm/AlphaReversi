@@ -1,8 +1,4 @@
-package gameModuleTicTacToe;
-
-import java.util.Objects;
-import java.util.concurrent.locks.Lock;
-import java.util.function.ObjDoubleConsumer;
+package TicTacToe;
 
 /**
  * Created by daant on 25-Mar-16.
@@ -14,6 +10,9 @@ public class TicTacToeModule implements Runnable {
 
     private volatile boolean opponentPlayed = false;
 
+    /*
+     * Constructor Module
+     */
     public TicTacToeModule(String player, boolean firstMove) {
         model = new TicTacToeModel();
         if (firstMove) {
@@ -22,10 +21,11 @@ public class TicTacToeModule implements Runnable {
         else {
             model.setOpponentPlays();
         }
-        if(!decidePlayer(player)) {
+        if (!decidePlayer(player)) {
             System.out.println("Wrong Command");
         }
     }
+
     @Override
     public void run() {
         game();
@@ -53,16 +53,20 @@ public class TicTacToeModule implements Runnable {
             }
         }
     }
+
     /*
      * Wait till the method receiveMove gets called.
      */
     private void waitForMove() {
-        while(!opponentPlayed) {
+        while (!opponentPlayed) {
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
+
     /*
      * Receives a move and set opponentPlay to true.
      * @param move The move that the opponent wants to play.
@@ -72,6 +76,7 @@ public class TicTacToeModule implements Runnable {
         opponentMove = move;
         opponentPlayed = true;
     }
+
     /*
      * Decides if the string in the class constructor matches
      * with on off the classes with the interface Player
