@@ -28,15 +28,12 @@ public class LobbyModel {
         data.add(new Player(username));
     }
 
-    public void setUsername(String username, Label label) {
+    public void setUsername(String username) {
         self = new Player(username);
-        self.bind(label);
-
     }
 
-    public void setServerAddress(String username, Label label) {
+    public void setServerAddress(String username) {
         this.serverAddress.set(username);
-        label.textProperty().bind(this.serverAddress);
     }
 
 }

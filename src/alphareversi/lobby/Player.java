@@ -14,10 +14,6 @@ public class Player {
         this.username = new SimpleStringProperty(username);
     }
 
-    public void bind (Label label) {
-        label.textProperty().bind(username);
-    }
-
     public String getUsername() {
         return username.get();
     }

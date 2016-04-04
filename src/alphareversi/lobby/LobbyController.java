@@ -52,24 +52,14 @@ public class LobbyController {
         dialog.setServerText("Please enter server address:");
         //dialog.setErrorMessage("Fuck you");
         dialog.initModality(Modality.WINDOW_MODAL);
-
-        String exceptionMessage = null;
-
-        while (!connection.getConnected()) {
-            // Traditional way to get the response value.
-//            if (exceptionMessage){
-//
-//            }
-
-            Optional<String[]> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                model.setUsername(result.get()[0], usernameLabel);
-                model.setServerAddress(result.get()[1], serverAddressLabel);
-                try {
-                    Connection.getInstance().startConnection(model.serverAddress.toString(),8080);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        // Traditional way to get the response value.
+        Optional<String[]> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            model.setUsername(result.get()[0]);
+            model.setServerAddress(result.get()[1]);
+            if (!usernameLabel.textProperty().isBound()) {
+                usernameLabel.textProperty().bind(model.self.username);
+                serverAddressLabel.textProperty().bind(model.serverAddress);
             }
         }
 
