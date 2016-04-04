@@ -13,9 +13,14 @@ import alphareversi.commands.SendCommand;
 public class SendChallengeAcceptCommand extends SendCommand {
     private int challengeNumber;
 
-    public SendChallengeAcceptCommand() {
+    /**
+     * Contructor SendChallengeAcceptCommand
+     * @param challengeNumber set challenge number
+     */
+    public SendChallengeAcceptCommand(int challengeNumber) {
         this.setMethod("challenge");
         this.setAction("accept");
+        this.setChallengeNumber(challengeNumber);
     }
 
     public int getChallengeNumber() {

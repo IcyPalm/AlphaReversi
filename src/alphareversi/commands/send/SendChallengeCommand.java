@@ -14,8 +14,15 @@ public class SendChallengeCommand extends SendCommand {
     private String player;
     private String gameType;
 
-    public SendChallengeCommand() {
+    /**
+     * Constructor SendChallengeCommand
+     * @param player set player name
+     * @param gameType set game type
+     */
+    public SendChallengeCommand(String player, String gameType) {
         this.setMethod("challenge");
+        this.setPlayer(player);
+        this.setGameType(gameType);
     }
 
     public String getPlayer() {
