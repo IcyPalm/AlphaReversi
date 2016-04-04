@@ -36,10 +36,12 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     private final Label serverLabel;
     private final TextField serverTextField;
     private final Label usernameLabel;
+    private final Label errorLabel;
     private final TextField usernameTextField;
     private final String defaultServerValue;
     private final String defaultUsernameValue;
     private SimpleStringProperty serverText;
+    private SimpleStringProperty errorMessage;
 
 
     /**************************************************************************
@@ -62,6 +64,7 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
      */
     public LobbyTextInputDialog(@NamedArg("defaultUsernameValue") String defaultUsernameValue, String defaultServerValue) {
         this.serverText = new SimpleStringProperty("");
+        this.errorMessage = new SimpleStringProperty();
         final DialogPane dialogPane = getDialogPane();
 
         // -- textfield
@@ -83,6 +86,10 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
         serverLabel = new Label();
         serverLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
         serverLabel.textProperty().bind(serverText);
+
+        errorLabel = new Label();
+        errorLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        errorLabel.textProperty().bind(errorMessage);
 
         this.defaultUsernameValue = defaultUsernameValue;
         this.defaultServerValue = defaultServerValue;
@@ -166,6 +173,10 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
         grid.add(usernameTextField, 1, 0);
         grid.add(serverLabel, 0, 1);
         grid.add(serverTextField, 1, 1);
+        if (errorMessage.get().length() > 1) {
+            grid.add(errorLabel, 0, 2);
+        }
+
         getDialogPane().setContent(grid);
 
         Platform.runLater(() -> usernameTextField.requestFocus());
@@ -173,5 +184,9 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
 
     public void setServerText(String serverText) {
         this.serverText.set(serverText);
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage.set(errorMessage);
     }
 }
