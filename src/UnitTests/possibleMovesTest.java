@@ -39,9 +39,8 @@ public class possibleMovesTest {
             board[row][column] = 2;
         }
         board[row][7] = 1;
-        reversiModel.getValidMoves(1);
-        reversiModel.printBoard();
-        reversiModel.printPotentialMoves();
+        reversiModel.getValidMoves(1, board);
+        reversiModel.printBoard(board);
     }
 
     /**
@@ -57,9 +56,8 @@ public class possibleMovesTest {
             board[row][column] = 2;
         }
         board[row][0] = 1;
-        reversiModel.getValidMoves(1);
-        reversiModel.printBoard();
-        reversiModel.printPotentialMoves();
+        reversiModel.getValidMoves(1, board);
+        reversiModel.printBoard(board);
     }
 
     /**
@@ -85,9 +83,8 @@ public class possibleMovesTest {
             board[row][column] = 2;
         }
         board[7][7] = 1;
-        reversiModel.getValidMoves(1);
-        reversiModel.printBoard();
-        reversiModel.printPotentialMoves();
+        reversiModel.getValidMoves(1, board);
+        reversiModel.printBoard(board);
     }
 
     /**
@@ -103,9 +100,8 @@ public class possibleMovesTest {
             board[row][column] = 2;
         }
         board[0][column] = 1;
-        reversiModel.getValidMoves(1);
-        reversiModel.printBoard();
-        reversiModel.printPotentialMoves();
+        reversiModel.getValidMoves(1, board);
+        reversiModel.printBoard(board);
     }
 
     private void testDiagonalMoves() {
@@ -131,9 +127,8 @@ public class possibleMovesTest {
             column++;
         }
         board[7][7] = 1;
-        reversiModel.getValidMoves(1);
-        reversiModel.printBoard();
-        reversiModel.printPotentialMoves();
+        reversiModel.getValidMoves(1, board);
+        reversiModel.printBoard(board);
     }
 
     /**
@@ -150,9 +145,8 @@ public class possibleMovesTest {
             column--;
         }
         board[7][0] = 1;
-        reversiModel.getValidMoves(1);
-        reversiModel.printBoard();
-        reversiModel.printPotentialMoves();
+        reversiModel.getValidMoves(1,board);
+        reversiModel.printBoard(board);
     }
 
     /**
@@ -169,9 +163,8 @@ public class possibleMovesTest {
             column++;
         }
         board[0][0] = 1;
-        reversiModel.getValidMoves(1);
-        reversiModel.printBoard();
-        reversiModel.printPotentialMoves();
+        reversiModel.getValidMoves(1, board);
+        reversiModel.printBoard(board);
     }
 
     /**
@@ -188,13 +181,12 @@ public class possibleMovesTest {
             column--;
         }
         board[0][7] = 1;
-        reversiModel.getValidMoves(1);
-        reversiModel.printBoard();
-        reversiModel.printPotentialMoves();
+        reversiModel.getValidMoves(1, board);
+        reversiModel.printBoard(board);
     }
 
     /**
-     * This clears the board so we can work with a empty board we can fill to our needs.
+     * This clears the gameBoard so we can work with a empty gameBoard we can fill to our needs.
      */
     private void clearBoard(int[][] board) {
         board[3][3] = 0;

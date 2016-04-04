@@ -2,13 +2,12 @@ package GameModules;
 
 /**
  * created by Robert on 27-3-2016.
- * This class houses all basis logic for square based board game.
+ * This class houses all basis logic for square based gameBoard game.
  */
 public class GameBasicSquareBasedModel {
     protected final int empty = 0;
     protected final int playerOne = 1;
     protected final int playerTwo = 2;
-    protected int[][] board;
     protected final int mySide;
 
     /**
@@ -22,11 +21,12 @@ public class GameBasicSquareBasedModel {
     /**
      * Not sure yet if this method is useful.
      *
-     * @return board.length
-     */
+     * @return gameBoard.length
+
     protected int getBoardSize() {
-        return board.length;
+        return gameBoard.length;
     }
+    */
 
     /**
      * return the value of the Opponent.
@@ -49,29 +49,29 @@ public class GameBasicSquareBasedModel {
     }
 
     /**
-     * A simple check to see if row and column are inbounds of the board. I made this into a
+     * A simple check to see if row and column are inbounds of the gameBoard. I made this into a
      * separate method because the sheer amount of times this has to be checked.
      */
-    protected boolean inBounds(int row, int column) {
-        if (row >= 0 && row < getBoardSize() && column >= 0 && column < getBoardSize()) {
+    protected boolean inBounds(int row, int column, int[][] board) {
+        if (row >= 0 && row < board.length && column >= 0 && column < board[row].length) {
             return true;
         }
         return false;
     }
 
     /**
-     * A simple method to print the board in the console.
+     * A simple method to print the gameBoard in the console.
      */
-    public void printBoard() {
-        for (int i = 0; i < getBoardSize(); i++) {
-            for (int j = 0; j < getBoardSize(); j++) {
+    public void printBoard(int[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
                 System.out.print(board[i][j]);
             }
             System.out.println();
         }
     }
 
-    public int[][] getBoard() {
-        return board;
-    }
+
+
+
 }

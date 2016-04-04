@@ -43,11 +43,11 @@ public class placingAPieceTest {
             column++;
         }
         board[7][7] = 1;
-        reversiModel.printBoard();
-        reversiModel.getValidMoves(1);
+        reversiModel.printBoard(board);
+        reversiModel.getValidMoves(1, board);
         reversiModel.placePiece(0, 1);
         System.out.println("Piece placed");
-        reversiModel.printBoard();
+        reversiModel.printBoard(board);
     }
 
     /**
@@ -79,15 +79,15 @@ public class placingAPieceTest {
             column--;
         }
         board[0][0] = 1;
-        reversiModel.printBoard();
-        reversiModel.getValidMoves(1);
+        reversiModel.printBoard(board);
+        reversiModel.getValidMoves(1, board);
         reversiModel.placePiece(63, 1);
         System.out.println("Piece placed");
-        reversiModel.printBoard();
+        reversiModel.printBoard(board);
     }
 
     /**
-     * This clears the board so we can work with a empty board we can fill to our needs.
+     * This clears the gameBoard so we can work with a empty gameBoard we can fill to our needs.
      */
     private void clearBoard(int[][] board) {
         board[3][3] = 0;
