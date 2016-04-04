@@ -45,7 +45,7 @@ public class Connection {
      * @param port int port number
      * @return boolean did the server start successfully
      */
-    public boolean startConnection(String host, int port) {
+    public boolean startConnection(String host, int port) throws IOException {
         try {
             this.comms = new Socket(host, port);
             this.comms.setTcpNoDelay(true);
@@ -57,6 +57,7 @@ public class Connection {
             startServerResponseThread();
         } catch (IOException exception) {
             this.connected = false;
+            throw exception;
         }
         return this.connected;
     }
@@ -90,6 +91,14 @@ public class Connection {
      */
     public void sendMessage(SendCommand command) {
         output.println(command.toString());
+    }
+
+    /**
+     * return the state of the serverconnection
+     * @return state of the connection
+     */
+    public boolean getConnected() {
+        return this.connected;
     }
 
 }
