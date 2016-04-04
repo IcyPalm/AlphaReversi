@@ -1,4 +1,4 @@
-package tictactoemodule;
+package alphareversi.game.tictactoemodule;
 
 import java.util.Scanner;
 

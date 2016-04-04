@@ -1,4 +1,4 @@
-package tictactoemodule;
+package alphareversi.game.tictactoemodule;
 
 /**
  * Created by Daniël on 25-Mar-16.
