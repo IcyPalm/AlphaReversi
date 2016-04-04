@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
  *
  */
 
@@ -21,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-
+import javafx.scene.paint.Color;
 
 
 public class LobbyTextInputDialog extends Dialog<String[]> {
@@ -64,7 +63,7 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
      */
     public LobbyTextInputDialog(@NamedArg("defaultUsernameValue") String defaultUsernameValue, String defaultServerValue) {
         this.serverText = new SimpleStringProperty("");
-        this.errorMessage = new SimpleStringProperty();
+        this.errorMessage = new SimpleStringProperty("");
         final DialogPane dialogPane = getDialogPane();
 
         // -- textfield
@@ -90,6 +89,7 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
         errorLabel = new Label();
         errorLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
         errorLabel.textProperty().bind(errorMessage);
+        errorLabel.setTextFill(Color.RED);
 
         this.defaultUsernameValue = defaultUsernameValue;
         this.defaultServerValue = defaultServerValue;
@@ -168,14 +168,14 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
 
     private void updateGrid() {
         grid.getChildren().clear();
+        grid.add(errorLabel, 0, 0);
+        grid.add(usernameLabel, 0, 1);
+        grid.add(usernameTextField, 1, 1);
+        grid.add(serverLabel, 0, 2);
+        grid.add(serverTextField, 1, 2);
 
-        grid.add(usernameLabel, 0, 0);
-        grid.add(usernameTextField, 1, 0);
-        grid.add(serverLabel, 0, 1);
-        grid.add(serverTextField, 1, 1);
-        if (errorMessage.get().length() > 1) {
-            grid.add(errorLabel, 0, 2);
-        }
+
+
 
         getDialogPane().setContent(grid);
 

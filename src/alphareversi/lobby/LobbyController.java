@@ -50,6 +50,7 @@ public class LobbyController {
         dialog.setHeaderText("Enter your details");
         dialog.setContentText("Please enter your name:");
         dialog.setServerText("Please enter server address:");
+        //dialog.setErrorMessage("Fuck you");
         dialog.initModality(Modality.WINDOW_MODAL);
 
         String exceptionMessage = null;
