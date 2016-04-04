@@ -4,10 +4,11 @@ import GameModules.ReversiModule.ReversiModel;
 
 /**
  * Created by Robert on 28-3-2016.
+ * Tests for finding possible moves
  */
 public class possibleMovesTest {
     /**
-     * Contructor that does all the tests
+     * Constructor that does all the tests.
      */
     public possibleMovesTest() {
         //  testPossibleHorizontalMoves();
@@ -16,7 +17,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * This methode does all the horizontal tests
+     * This method does all the horizontal tests.
      */
     private void testPossibleHorizontalMoves() {
         System.out.println("START HORIZONTAL TEST");
@@ -26,7 +27,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * Horizontal test
+     * Horizontal test.
      */
     private void rightTest() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -44,7 +45,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * Horizontal test
+     * Horizontal test.
      */
     private void leftTest() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -62,7 +63,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * This methode does all the vertical tests
+     * This method does all the vertical tests.
      */
     private void testPossibleVerticalMoves() {
         System.out.println("START VERTICAL TEST");
@@ -72,7 +73,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * Vertical test
+     * Vertical test.
      */
     private void downTest() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -90,7 +91,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * Vertical test
+     * Vertical test.
      */
     private void topTest() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -117,7 +118,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * Diagonal test
+     * Diagonal test.
      */
     private void leftUpTest() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -136,7 +137,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * Diagonal test
+     * Diagonal test.
      */
     private void rightUpTest() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -155,7 +156,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * Diagonal test
+     * Diagonal test.
      */
     private void rightDownTest() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -174,7 +175,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * Diagonal test
+     * Diagonal test.
      */
     private void leftDownTest() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -193,7 +194,7 @@ public class possibleMovesTest {
     }
 
     /**
-     * This clears the board so we can work with a empty board we can fill to our needs
+     * This clears the board so we can work with a empty board we can fill to our needs.
      */
     private void clearBoard(int[][] board) {
         board[3][3] = 0;

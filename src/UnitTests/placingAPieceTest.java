@@ -4,6 +4,7 @@ import GameModules.ReversiModule.ReversiModel;
 
 /**
  * Created by Robert on 31-3-2016.
+ * Tests for placing pieces
  */
 public class placingAPieceTest {
 
@@ -50,7 +51,7 @@ public class placingAPieceTest {
     }
 
     /**
-     * Test case for placing pieces
+     * Test case for placing pieces.
      */
     private void createRightDownCornerTestCase() {
         ReversiModel reversiModel = new ReversiModel(1);
@@ -86,7 +87,7 @@ public class placingAPieceTest {
     }
 
     /**
-     * This clears the board so we can work with a empty board we can fill to our needs
+     * This clears the board so we can work with a empty board we can fill to our needs.
      */
     private void clearBoard(int[][] board) {
         board[3][3] = 0;
