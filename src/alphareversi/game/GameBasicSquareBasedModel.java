@@ -19,15 +19,6 @@ public class GameBasicSquareBasedModel {
     }
 
     /**
-     * Not sure yet if this method is useful.
-     *
-     * @return gameBoard.length
-    protected int getBoardSize() {
-        return gameBoard.length;
-    }
-    */
-
-    /**
      * return the value of the Opponent.
      *
      * @return Opponent
