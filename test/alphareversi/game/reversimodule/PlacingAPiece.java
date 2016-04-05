@@ -5,13 +5,13 @@ import alphareversi.game.reversimodule.ReversiModel;
 /**
  * Created by Robert on 31-3-2016. Tests for placing pieces
  */
-public class PlacingAPieceTest {
+public class PlacingAPiece {
 
     public static void main(String[] args) {
-        PlacingAPieceTest placingAPieceTest = new PlacingAPieceTest();
+        PlacingAPiece placingAPieceTest = new PlacingAPiece();
     }
 
-    public PlacingAPieceTest() {
+    public PlacingAPiece() {
         createLeftTopCornerTestCase();
         createRightDownCornerTestCase();
     }
