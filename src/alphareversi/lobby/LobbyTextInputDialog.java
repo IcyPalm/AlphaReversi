@@ -33,12 +33,15 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
 
     private final GridPane grid;
     private final Label serverLabel;
-    private final TextField serverTextField;
     private final Label usernameLabel;
+    private final Label portLabel;
     private final Label errorLabel;
+    private final TextField serverTextField;
     private final TextField usernameTextField;
+    private final TextField portTextField;
     private final String defaultServerValue;
     private final String defaultUsernameValue;
+    private final String defaultPortValue;
     private SimpleStringProperty serverText;
     private SimpleStringProperty errorMessage;
 
@@ -71,11 +74,15 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
         this.usernameTextField.setMaxWidth(Double.MAX_VALUE);
         this.serverTextField = new TextField(defaultServerValue);
         this.serverTextField.setMaxWidth(Double.MAX_VALUE);
+        this.portTextField = new TextField(defaultServerValue);
+        this.portTextField.setMaxWidth(Double.MAX_VALUE);
 
         GridPane.setHgrow(usernameTextField, Priority.ALWAYS);
         GridPane.setFillWidth(usernameTextField, true);
         GridPane.setHgrow(serverTextField, Priority.ALWAYS);
         GridPane.setFillWidth(serverTextField, true);
+        GridPane.setHgrow(portTextField, Priority.ALWAYS);
+        GridPane.setFillWidth(portTextField, true);
 
         // -- label
         usernameLabel = new Label();
@@ -86,6 +93,10 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
         serverLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
         serverLabel.textProperty().bind(serverText);
 
+        portLabel = new Label();
+        portLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        portLabel.textProperty().bind(serverText);
+
         errorLabel = new Label();
         errorLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
         errorLabel.textProperty().bind(errorMessage);
@@ -93,6 +104,7 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
 
         this.defaultUsernameValue = defaultUsernameValue;
         this.defaultServerValue = defaultServerValue;
+        this.defaultPortValue = defaultServerValue;
 
         this.grid = new GridPane();
         this.grid.setHgap(10);
@@ -173,10 +185,9 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
         grid.add(usernameTextField, 1, 1);
         grid.add(serverLabel, 0, 2);
         grid.add(serverTextField, 1, 2);
-
-
-
-
+        grid.add(portLabel, 0, 3);
+        grid.add(portTextField, 1, 3);
+        
         getDialogPane().setContent(grid);
 
         Platform.runLater(() -> usernameTextField.requestFocus());
