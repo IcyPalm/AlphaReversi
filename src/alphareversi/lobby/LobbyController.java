@@ -2,6 +2,8 @@ package alphareversi.lobby;
 
 import alphareversi.Connection;
 import alphareversi.Main;
+import alphareversi.commands.CommandListener;
+import alphareversi.commands.RecvCommand;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -21,7 +23,7 @@ import java.util.Optional;
 /**
  * Created by wouter on 24-3-2016.
  */
-public class LobbyController {
+public class LobbyController implements CommandListener{
 
 
     Stage primaryStage;
@@ -87,4 +89,8 @@ public class LobbyController {
 }*/
     }
 
+    @Override
+    public void commandReceived(RecvCommand command) {
+        System.out.println(command.getAction());
+    }
 }
