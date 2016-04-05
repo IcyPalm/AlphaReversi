@@ -10,14 +10,15 @@ import javafx.scene.control.TableView;
  */
 public class LobbyModel {
 
-    Player self;
-    Label usernameLabel;
+
     TableView playerList;
     SimpleStringProperty serverAddress;
+    SimpleStringProperty username;
 
 
     LobbyModel(TableView playerList) {
         serverAddress = new SimpleStringProperty();
+        username = new SimpleStringProperty();
         this.playerList = playerList;
         addPlayer("henk");
         addPlayer("tieten");
@@ -29,7 +30,7 @@ public class LobbyModel {
     }
 
     public void setUsername(String username) {
-        self = new Player(username);
+        this.username.set(username);
     }
 
     public void setServerAddress(String username) {
