@@ -4,3 +4,6 @@ jdk:
 
 script:
   - make ci
+
+notifications:
+  email: false
