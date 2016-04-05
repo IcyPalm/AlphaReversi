@@ -153,7 +153,7 @@ public class ReversiMinimaxPlayer {
     }
     
     public boolean isGameFinished(int[][] board) {
-        if ((model.getValidMoves(0, currentBoard).size() == 0) && (model.getValidMoves(1, currentBoard).size() == 0)) {
+        if ((model.getValidMoves(1, currentBoard).size() == 0) && (model.getValidMoves(2, currentBoard).size() == 0)) {
             return true;
         } else {
             return false;
@@ -162,7 +162,7 @@ public class ReversiMinimaxPlayer {
     
     public int flipSide(int side) {
         if (side == 1) {
-            return 0;
+            return 2;
         } else {
             return 1;
         }
