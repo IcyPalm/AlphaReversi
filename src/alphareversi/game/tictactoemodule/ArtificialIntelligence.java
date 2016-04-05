@@ -9,7 +9,6 @@ public class ArtificialIntelligence implements Player {
 
     public ArtificialIntelligence(TicTacToeModel model) {
         this.model = model;
-        board = model.getBoard();
     }
 
     @Override
@@ -22,6 +21,7 @@ public class ArtificialIntelligence implements Player {
      * Chooses a move.
      */
     public Best chooseMove(int side) {
+        board = model.getBoard();
         int opp; // The other side
         Best reply; // Opponent's best reply
         int simpleEval; // Result of an immediate evaluation
@@ -29,10 +29,10 @@ public class ArtificialIntelligence implements Player {
         int bestColumn = 0;
         int value = 0;
 
-        if ((simpleEval = model.positionValue()) != model.UNCLEAR) {
+        simpleEval = model.positionValue();
+        if (simpleEval != model.UNCLEAR) {
             return new Best(simpleEval);
         } else {
-
             if (side == model.opponent) {
                 value = model.SELF_WIN;
                 opp = model.getOpponent(model.opponent);
