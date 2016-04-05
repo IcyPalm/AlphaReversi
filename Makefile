@@ -1,9 +1,5 @@
-build: src
-	mkdir -p bin
-	javac \
-		-d bin \
-		-sourcepath src \
-		src/alphareversi/Main.java
+build: src build.xml
+	ant compile
 
 run: build
 	java \
@@ -13,4 +9,7 @@ run: build
 checkstyle: checkstyle.xml build.xml src
 	ant checkstyle
 
-ci: build checkstyle
+test: build
+	ant test
+
+ci: test checkstyle
