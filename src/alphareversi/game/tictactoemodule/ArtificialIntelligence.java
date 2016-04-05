@@ -13,6 +13,7 @@ public class ArtificialIntelligence implements Player {
 
     @Override
     public int chooseMove() {
+        board = model.getBoard();
         Best best = chooseMove(model.opponent);
         return best.row * 3 + best.column;
     }
@@ -21,7 +22,6 @@ public class ArtificialIntelligence implements Player {
      * Chooses a move.
      */
     public Best chooseMove(int side) {
-        board = model.getBoard();
         int opp; // The other side
         Best reply; // Opponent's best reply
         int simpleEval; // Result of an immediate evaluation
@@ -76,10 +76,10 @@ public class ArtificialIntelligence implements Player {
             this(value, 0, 0);
         }
 
-        public Best(int valueBest, int rowBest, int columnBest) {
-            val = valueBest;
-            row = rowBest;
-            column = columnBest;
+        public Best(int value, int row, int column) {
+            val = value;
+            row = row;
+            column = column;
         }
     }
 }
