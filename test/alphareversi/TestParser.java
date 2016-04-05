@@ -45,6 +45,13 @@ public class TestParser {
     }
 
     @Test
+    public void testSvrPlayerListEmpty() {
+        RecvCommand recvCommand = CommandParser.parseString(
+                "SVR PLAYERLIST []");
+        assertEquals(recvCommand.getClass().getSimpleName(), "RecvPlayerlistCommand");
+    }
+
+    @Test
     public void testSvrGameMatch() {
         RecvCommand recvCommand = CommandParser.parseString(
                 "SVR GAME MATCH {GAMTYPE: \"<speltype>\", PLAYERTOMOVE: \"<naam speler1>\", "
