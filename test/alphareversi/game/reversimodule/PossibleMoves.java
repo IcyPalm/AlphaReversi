@@ -1,4 +1,4 @@
-package tests;
+package alphareversi.game.reversimodule;
 
 import alphareversi.game.reversimodule.ReversiModel;
 
@@ -6,11 +6,11 @@ import alphareversi.game.reversimodule.ReversiModel;
  * Created by Robert on 28-3-2016.
  * Tests for finding possible moves
  */
-public class PossibleMovesTest {
+public class PossibleMoves {
     /**
      * Constructor that does all the tests.
      */
-    public PossibleMovesTest() {
+    public PossibleMoves() {
         //  testPossibleHorizontalMoves();
         //  testPossibleVerticalMoves();
         testDiagonalMoves();

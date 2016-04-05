@@ -1,4 +1,4 @@
-package alphareversi.tests;
+package alphareversi;
 
 import static junit.framework.TestCase.assertEquals;
 
