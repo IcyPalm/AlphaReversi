@@ -18,7 +18,7 @@ import org.junit.Test;
 /**
  * Created by Joost van Berkel on 3/26/2016.
  *
- * <p>C: login --speler--
+ * C: login --speler--
  * C: logout
  * C: get gamelist
  * C: get playerlist
