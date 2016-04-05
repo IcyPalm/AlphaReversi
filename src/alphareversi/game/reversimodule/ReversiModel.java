@@ -48,6 +48,14 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         playerOnTurn = playerOne;
     }
 
+    /*
+     * Added by Maarten
+     */
+    public void setBoard(int[][] board) {
+        this.gameBoard = board;
+    }
+    
+
     /**
      * This method places the actual pieces onto the gameBoard. The coordinates it can place pieces
      * are determined in an earlier stage of the program.

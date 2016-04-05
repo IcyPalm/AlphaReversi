@@ -22,7 +22,7 @@ public class ReversiMinimaxPlayer {
     protected long starttime=0;
     
     // How many moves do we think ahead?
-    public static final int MAX_DEPTH = 3;
+    public static final int MAX_DEPTH = 2;
     
     // Time to think, in milliseconds
     // Default 2000 = 2 seconds
@@ -30,6 +30,9 @@ public class ReversiMinimaxPlayer {
     
     // The current actual board that the AI will work with
     int[][] currentBoard = new int[8][8];
+    
+    // This is the board that the minimax is currently working with
+    int[][] secondBoard = new int[8][8];
     
     // source: http://www.riscos.com/support/developers/agrm/images/fig19.gif
     private int[] heatMap   = { 7, 2, 5, 4, 4, 5, 2, 7,
@@ -72,22 +75,29 @@ public class ReversiMinimaxPlayer {
         // This will be the calculated move.
         int calculatedMove = 0;
         
-        starttime = System.currentTimeMillis();
-        int oldHeatValue = 0;
+        int oldHeatValue = -100;
         int heatValue = 0;
         
         // Get all directly possible moves and iterate through them
         // TODO model.getPotentialMoves()
+        
+        // Set starting time
+        starttime = System.currentTimeMillis();
+        
         potentialMoves = model.getValidMoves(currentSide, currentBoard);
         Iterator it = potentialMoves.iterator();
         while (it.hasNext()) {
             
             int move = (int) it.next();
+            System.out.println("First base move");
             
             // Calculate heatValue for every move. Save hottest move.
-            // TODO boardAfterMove()
+            // TODO afterMove() returns an incorrect board!
             heatValue = heatMap[move];
-            heatValue += minimax(currentSide, move, 1);
+
+            model.setBoard(currentBoard);
+            model.printBoard(model.getBoard());
+            heatValue += minimax(currentSide, move, 0, heatValue, currentBoard);
             
             if (heatValue > oldHeatValue) {
                 calculatedMove = move;
@@ -105,22 +115,16 @@ public class ReversiMinimaxPlayer {
      * Game finished 
      * @return heat The heat of a move
      */
-    private int minimax(int side, int move, int depth) {
+    private int minimax(int side, int move, int depth, int heat, int[][] thisBoard) {
         
-
-        // Current depth
-        int currentDepth = depth;
-        
-        // The board after this move has been made
-        int[][] boardAfterMove = model.afterMove(move, currentSide, currentBoard);
-        
-        
+        int result;
         // Base cases ----------------------------
         
         // If depth threshold has been reached, 
         // stop and return move
-        if (currentDepth >= MAX_DEPTH){
-            System.out.println("Maximum depth reached!");
+        if (depth > MAX_DEPTH) {
+            System.out.println("Maximum depth reached! " + depth + MAX_DEPTH + " Heat = " + heat);
+            model.setBoard(currentBoard);
             return heat;
         }
         // Time up
@@ -128,31 +132,42 @@ public class ReversiMinimaxPlayer {
             System.out.println("Time's up!");
             return heat;
         }
+        
+        result = Integer.MIN_VALUE;
+        secondBoard = thisBoard;
+        
+        // The board after this move has been made
+        model.setBoard(thisBoard);
+        int[][] boardAfterMove = model.afterMove(move, side, thisBoard);
+        model.printBoard(boardAfterMove);
+        System.out.println();
+        
         // Game finished - has anyone won?
-        if (isGameFinished(boardAfterMove)) {
+        //if (isGameFinished(boardAfterMove)) {
             // TODO - some action to perform like:
             // model.getPieces(mySide)
-        }
+        //}
         
         // End Base cases -----------------------
 
         
         // Recursive MiniMax
-        potentialDepthMoves = model.getValidMoves(currentSide, boardAfterMove);
-        Iterator it = potentialMoves.iterator();
         int newSide = flipSide(side);
+        potentialDepthMoves = model.getValidMoves(newSide, boardAfterMove);
+        Iterator it = potentialDepthMoves.iterator();
+        
+        System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + heat);
         while (it.hasNext()) {
+            int move2 = (int) it.next();
             
             // Subtract the heat if the heat is meant for your opponent.
-            if (newSide != currentSide) {
-                heat -= minimax(newSide, (int) it.next(), currentDepth+1);
+            if (newSide == currentSide) {
+                result = minimax(newSide, move2, depth+1, heat, secondBoard) + heatMap[move2];  
             } else {
-                heat += minimax(newSide, (int) it.next(), currentDepth+1);
+                result = minimax(newSide, move2, depth+1, heat, secondBoard) - heatMap[move2];
             }
-            
         }
-        
-        return heat;
+        return result;
     }
     
     public boolean isGameFinished(int[][] board) {
