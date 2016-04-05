@@ -1,18 +1,17 @@
-package UnitTests;
+package unittests;
 
 import alphareversi.game.reversimodule.ReversiModel;
 
 /**
- * Created by Robert on 31-3-2016.
- * Tests for placing pieces
+ * Created by Robert on 31-3-2016. Tests for placing pieces
  */
-public class placingAPieceTest {
+public class PlacingAPieceTest {
 
     public static void main(String[] args) {
-        placingAPieceTest placingAPieceTest = new placingAPieceTest();
+        PlacingAPieceTest placingAPieceTest = new PlacingAPieceTest();
     }
 
-    public placingAPieceTest() {
+    public PlacingAPieceTest() {
         createLeftTopCornerTestCase();
         createRightDownCornerTestCase();
     }
