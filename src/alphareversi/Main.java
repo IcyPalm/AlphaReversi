@@ -1,9 +1,5 @@
 package alphareversi;
 
-import java.util.HashSet;
-
-import GameModules.ReversiModule.ReversiModel;
-
 public class Main {
 
     /**

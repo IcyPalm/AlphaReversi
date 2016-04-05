@@ -1,6 +1,6 @@
 package UnitTests;
 
-import GameModules.ReversiModule.ReversiModel;
+import alphareversi.game.reversimodule.ReversiModel;
 
 /**
  * Created by Robert on 28-3-2016.

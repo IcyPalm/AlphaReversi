@@ -1,4 +1,4 @@
-package GameModules;
+package alphareversi.game;
 
 /**
  * created by Robert on 27-3-2016.
@@ -12,7 +12,7 @@ public class GameBasicSquareBasedModel {
 
     /**
      * Standard constructor for a gameModule. The super of the game modules contains all shared
-     * properties of the GameModules.
+     * properties of the gamemodules.
      */
     protected GameBasicSquareBasedModel(int mySide) {
         this.mySide = mySide;
@@ -22,7 +22,6 @@ public class GameBasicSquareBasedModel {
      * Not sure yet if this method is useful.
      *
      * @return gameBoard.length
-
     protected int getBoardSize() {
         return gameBoard.length;
     }

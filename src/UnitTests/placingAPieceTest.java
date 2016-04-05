@@ -1,6 +1,6 @@
 package UnitTests;
 
-import GameModules.ReversiModule.ReversiModel;
+import alphareversi.game.reversimodule.ReversiModel;
 
 /**
  * Created by Robert on 31-3-2016.
@@ -8,8 +8,12 @@ import GameModules.ReversiModule.ReversiModel;
  */
 public class placingAPieceTest {
 
+    public static void main(String[] args) {
+        placingAPieceTest placingAPieceTest = new placingAPieceTest();
+    }
+
     public placingAPieceTest() {
-        //createLeftTopCornerTestCase();
+        createLeftTopCornerTestCase();
         createRightDownCornerTestCase();
     }
 
@@ -44,7 +48,6 @@ public class placingAPieceTest {
         }
         board[7][7] = 1;
         reversiModel.printBoard(board);
-        reversiModel.getValidMoves(1, board);
         reversiModel.placePiece(0, 1);
         System.out.println("Piece placed");
         reversiModel.printBoard(board);
@@ -80,7 +83,6 @@ public class placingAPieceTest {
         }
         board[0][0] = 1;
         reversiModel.printBoard(board);
-        reversiModel.getValidMoves(1, board);
         reversiModel.placePiece(63, 1);
         System.out.println("Piece placed");
         reversiModel.printBoard(board);
