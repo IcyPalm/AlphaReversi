@@ -1,4 +1,4 @@
-package unittests;
+package tests;
 
 import alphareversi.game.reversimodule.ReversiModel;
 
