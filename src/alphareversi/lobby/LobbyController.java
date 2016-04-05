@@ -66,10 +66,11 @@ public class LobbyController implements CommandListener{
 
             Optional<String[]> result = dialog.showAndWait();
             if (result.isPresent()) {
-                model.setUsername(result.get()[0], usernameLabel);
-                model.setServerAddress(result.get()[1], serverAddressLabel);
+                model.setUsername(result.get()[0]);
+                model.setServerAddress(result.get()[1]);
                 try {
-                    Connection.getInstance().startConnection(model.serverAddress.toString(),8080);
+                    Connection.getInstance().startConnection(model.serverAddress.getValue(),7789);
+                    model.requestServerLists();
                 } catch (IOException exception) {
                     exception.printStackTrace();
                     exceptionMessage = exception.getMessage();

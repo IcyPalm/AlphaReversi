@@ -4,6 +4,7 @@ import alphareversi.Connection;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.send.SendGetGamelistCommand;
 import alphareversi.commands.send.SendGetPlayerlistCommand;
+import alphareversi.commands.send.SendLoginCommand;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -26,10 +27,12 @@ public class LobbyModel {
         this.playerList = playerList;
         addPlayer("henk");
         addPlayer("tieten");
-        requestServerLists();
+
     }
 
-    private void requestServerLists() {
+    public void requestServerLists() {
+        SendLoginCommand loginCommand = new SendLoginCommand(username.getValue());
+        System.out.println(loginCommand.toString());
         SendGetGamelistCommand getGameList = new SendGetGamelistCommand();
         Connection.getInstance().sendMessage(getGameList);
         SendGetPlayerlistCommand getPlayerList = new SendGetPlayerlistCommand();
