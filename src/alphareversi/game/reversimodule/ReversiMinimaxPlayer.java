@@ -116,7 +116,7 @@ public class ReversiMinimaxPlayer {
         
         // If depth threshold has been reached, 
         // stop and return move
-        if (currentDepth > MAX_DEPTH){
+        if (currentDepth >= MAX_DEPTH){
             System.out.println("Maximum depth reached!");
             return heat;
         }
