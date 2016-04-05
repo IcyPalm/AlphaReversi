@@ -8,17 +8,11 @@ import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-<<<<<<< 07ed038afbedf086ad740bb91124b75dab3a2430
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-=======
-import javafx.stage.*;
->>>>>>> Changed model controller variable binding
-
 import java.io.IOException;
 import java.util.Optional;
-
 
 /**
  * Created by wouter on 24-3-2016.
