@@ -1,5 +1,5 @@
 /.idea
-/AlphaReversi.iml
+*.iml
 *.class
 
 # Mobile Tools for Java (J2ME)
