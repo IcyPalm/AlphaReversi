@@ -22,7 +22,7 @@ public class ReversiMinimaxPlayer {
     protected long starttime=0;
     
     // How many moves do we think ahead?
-    public static final int MAX_DEPTH = 2;
+    public static final int MAX_DEPTH = 3;
     
     // Time to think, in milliseconds
     // Default 2000 = 2 seconds
@@ -82,13 +82,17 @@ public class ReversiMinimaxPlayer {
         Iterator it = potentialMoves.iterator();
         while (it.hasNext()) {
             
+            int move = (int) it.next();
+            
             // Calculate heatValue for every move. Save hottest move.
             // TODO boardAfterMove()
-            heatValue = Math.max(heatValue, minimax(currentSide, (int) it.next(), MAX_DEPTH));
+            heatValue = heatMap[move];
+            heatValue += minimax(currentSide, move, 1);
             
             if (heatValue > oldHeatValue) {
-                calculatedMove = (int) it.next();
+                calculatedMove = move;
             }
+            oldHeatValue = heatValue;
         }
         
         return calculatedMove;
@@ -103,8 +107,7 @@ public class ReversiMinimaxPlayer {
      */
     private int minimax(int side, int move, int depth) {
         
-        heat = heatMap[move];
-        
+
         // Current depth
         int currentDepth = depth;
         

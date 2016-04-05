@@ -31,7 +31,7 @@ public class TestReversiMinimaxPlayer {
         
         ReversiMinimaxPlayer ai = new ReversiMinimaxPlayer();
         
-        createTestBoard1();
+        createTestBoard2();
         
         model.printBoard(testBoard);
         
@@ -42,7 +42,11 @@ public class TestReversiMinimaxPlayer {
         
         System.out.println("");
         
-        int[][] newBoard = model.afterMove(move, 1, testBoard);
+        model.placePiece(move,  1);
+        
+        //int[][] newBoard = model.afterMove(move, 1, testBoard);
+        
+        int[][] newBoard = model.getBoard();
         
         model.printBoard(newBoard);
 
@@ -59,4 +63,25 @@ public class TestReversiMinimaxPlayer {
         testBoard[4][3] = 1;
         testBoard[4][4] = 2;
     }
+    
+    public void createTestBoard2() {
+        //Fill with pieces
+        testBoard[2][2] = 2;
+        testBoard[2][3] = 2;
+        testBoard[2][4] = 2;
+        
+        testBoard[3][2] = 1;
+        testBoard[3][3] = 1;
+        testBoard[3][4] = 1;
+        testBoard[3][5] = 1;
+        
+        testBoard[4][2] = 2;
+        testBoard[4][3] = 1;
+        testBoard[4][4] = 2;
+        testBoard[4][5] = 2;
+        
+        testBoard[5][3] = 1;
+    }
+    
+    
 }
