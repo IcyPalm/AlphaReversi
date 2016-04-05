@@ -76,10 +76,10 @@ public class ArtificialIntelligence implements Player {
             this(value, 0, 0);
         }
 
-        public Best(int value, int row, int column) {
-            val = value;
-            row = row;
-            column = column;
+        public Best(int valueBest, int rowBest, int columnBest) {
+            val = valueBest;
+            row = rowBest;
+            column = columnBest;
         }
     }
 }

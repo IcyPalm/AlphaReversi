@@ -8,7 +8,7 @@ public class MainTest {
      * This is a test main method. Only made to develop.
      */
     public static void main(String [] args) {
-        TicTacToeModule module = new TicTacToeModule("AI", false);
+        TicTacToeModule module = new TicTacToeModule("AI", true);
         Thread moduleThread = new Thread(module);
         moduleThread.start();
         // creating a test opponent
