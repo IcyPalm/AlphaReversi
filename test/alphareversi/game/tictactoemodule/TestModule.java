@@ -28,7 +28,7 @@ public class TestModule {
 
     synchronized private void waiting() {
         try {
-            wait(500);
+            wait(5000);
         } catch (InterruptedException error) {
             System.err.println(error.getMessage());
         }
