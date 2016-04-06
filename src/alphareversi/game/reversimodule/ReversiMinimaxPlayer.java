@@ -95,8 +95,6 @@ public class ReversiMinimaxPlayer {
             // TODO afterMove() returns an incorrect board!
             heatValue = heatMap[move];
 
-            model.setBoard(currentBoard);
-            model.printBoard(model.getBoard());
             heatValue += minimax(currentSide, move, 0, heatValue, currentBoard);
             
             if (heatValue > oldHeatValue) {
@@ -104,7 +102,7 @@ public class ReversiMinimaxPlayer {
             }
             oldHeatValue = heatValue;
         }
-        
+        System.out.println("Calculated a move! " + calculatedMove);
         return calculatedMove;
     }
     
@@ -117,14 +115,12 @@ public class ReversiMinimaxPlayer {
      */
     private int minimax(int side, int move, int depth, int heat, int[][] thisBoard) {
         
-        int result;
         // Base cases ----------------------------
         
         // If depth threshold has been reached, 
         // stop and return move
         if (depth > MAX_DEPTH) {
             System.out.println("Maximum depth reached! " + depth + MAX_DEPTH + " Heat = " + heat);
-            model.setBoard(currentBoard);
             return heat;
         }
         // Time up
@@ -133,7 +129,7 @@ public class ReversiMinimaxPlayer {
             return heat;
         }
         
-        result = Integer.MIN_VALUE;
+        
         secondBoard = thisBoard;
         
         // The board after this move has been made
@@ -150,7 +146,7 @@ public class ReversiMinimaxPlayer {
         
         // End Base cases -----------------------
 
-        
+
         // Recursive MiniMax
         int newSide = flipSide(side);
         potentialDepthMoves = model.getValidMoves(newSide, boardAfterMove);
@@ -158,16 +154,18 @@ public class ReversiMinimaxPlayer {
         
         System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + heat);
         while (it.hasNext()) {
-            int move2 = (int) it.next();
             
+            int move2 = (int) it.next();
+        
             // Subtract the heat if the heat is meant for your opponent.
             if (newSide == currentSide) {
-                result = minimax(newSide, move2, depth+1, heat, secondBoard) + heatMap[move2];  
+               return minimax(newSide, move2, depth+1, (heat + heatMap[move2]), secondBoard);
             } else {
-                result = minimax(newSide, move2, depth+1, heat, secondBoard) - heatMap[move2];
+               return minimax(newSide, move2, depth+1, (heat - heatMap[move2]), secondBoard);
             }
+
         }
-        return result;
+        return heat;
     }
     
     public boolean isGameFinished(int[][] board) {
