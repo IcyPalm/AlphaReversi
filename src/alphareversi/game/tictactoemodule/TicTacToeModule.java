@@ -8,20 +8,12 @@ import alphareversi.game.AbstractGameModule;
 public class TicTacToeModule extends AbstractGameModule{
     private Player player;
     private TicTacToeModel model;
-    private int opponentMove;
-
-    private volatile boolean opponentPlayed = false;
 
     /**
      * Constructor Module.
      */
     public TicTacToeModule(String player, boolean firstMove) {
         model = new TicTacToeModel();
-        if (firstMove) {
-            model.setSelfPlays();
-        } else {
-            model.setOpponentPlays();
-        }
         if (!decidePlayer(player)) {
             System.out.println("Wrong Command");
         }
@@ -44,11 +36,10 @@ public class TicTacToeModule extends AbstractGameModule{
                 // A boolean switches if recieveMove() method gets called
                 // Simulates Receiving a move from the server
                 waitForMove();
-
                 // Play the move in the model
                 model.playMove(opponentMove);
                 // switch the boolean
-                opponentPlayed = false;
+                super.opponentPlayed = false;
             }
         }
     }
@@ -57,23 +48,13 @@ public class TicTacToeModule extends AbstractGameModule{
      * Wait till the method receiveMove gets called.
      */
     private void waitForMove() {
-        while (!opponentPlayed) {
+        while (!super.opponentPlayed) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException error) {
                 System.err.println(error.getMessage());
             }
         }
-    }
-
-    /**
-     * Receives a move and set opponentPlay to true.
-     * It is not checked if the move is valid.
-     * @param move The move that the opponent wants to play.
-     */
-    public synchronized void receiveMove(int move) {
-        opponentMove = move;
-        opponentPlayed = true;
     }
 
     /**
@@ -90,5 +71,13 @@ public class TicTacToeModule extends AbstractGameModule{
             return true;
         }
         return false;
+    }
+
+    /**
+     * checks if the game is over.
+     * @return the boolean to check if a game is over
+     */
+    public boolean gameOver() {
+        return model.gameOver();
     }
 }
