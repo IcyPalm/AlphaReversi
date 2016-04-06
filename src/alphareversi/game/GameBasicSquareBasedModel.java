@@ -8,7 +8,7 @@ public class GameBasicSquareBasedModel {
     protected final int empty = 0;
     protected final int playerOne = 1;
     protected final int playerTwo = 2;
-    protected final int mySide;
+    protected int mySide;
 
     /**
      * Standard constructor for a gameModule. The super of the game modules contains all shared
