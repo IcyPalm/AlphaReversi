@@ -1,4 +1,4 @@
-package alphareversi.tictactoemodule;
+package alphareversi;
 
 import static junit.framework.TestCase.assertEquals;
 
