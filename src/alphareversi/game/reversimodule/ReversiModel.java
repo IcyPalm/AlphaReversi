@@ -775,9 +775,9 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             for (int j = 0; j < board.length; j++) {
                 if (board[i][j] == 1) {
                     System.out.print(white);
-                }else if (board[i][j] == playerTwo) {
+                } else if (board[i][j] == playerTwo) {
                     System.out.print(black);
-                }else {
+                } else {
                     System.out.println("0");
                 }
 
@@ -788,7 +788,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * A simple method that indicates if the game is over or not.
-     * @return
+     * @return return if the game is over or not.
      */
     public boolean gameOver(int[][] board) {
         if (getValidMoves(playerOne, board).size() == 0
@@ -800,8 +800,8 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * Retrieves the player with the highest score, return 3 if it's a draw.
-     * @param board
-     * @return
+     * @param board The board on which we have to determine if we have a winner.
+     * @return return the winner or return that we have a draw.
      */
     public int getWinner(int[][] board) {
         int playerOneScore = getScore(playerOne, board);
