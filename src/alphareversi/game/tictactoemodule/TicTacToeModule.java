@@ -1,9 +1,11 @@
 package alphareversi.game.tictactoemodule;
 
+import alphareversi.game.AbstractGameModule;
+
 /**
  * Created by daant on 25-Mar-16.
  */
-public class TicTacToeModule implements Runnable {
+public class TicTacToeModule extends AbstractGameModule{
     private Player player;
     private TicTacToeModel model;
     private int opponentMove;
@@ -25,8 +27,7 @@ public class TicTacToeModule implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
+    public void start() {
         game();
     }
 
