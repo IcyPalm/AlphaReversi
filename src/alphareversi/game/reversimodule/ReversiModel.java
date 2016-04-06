@@ -35,10 +35,10 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     public ReversiModel(int mySide) {
         super(mySide);
         gameBoard = new int[8][8];
-        gameBoard[3][3] = 2;
-        gameBoard[3][4] = 1;
-        gameBoard[4][3] = 1;
-        gameBoard[4][4] = 2;
+        gameBoard[3][3] = 1;
+        gameBoard[3][4] = 2;
+        gameBoard[4][3] = 2;
+        gameBoard[4][4] = 1;
         potentialMoves = new HashSet();
         locations = new ArrayList<>();
         playerOneScore = 2;
@@ -397,8 +397,6 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             flipPieces(toFlip, board);
         }
     }
-
-
 
 
     /**
@@ -767,5 +765,53 @@ public class ReversiModel extends GameBasicSquareBasedModel {
      */
     public int[][] getBoard() {
         return gameBoard;
+    }
+
+    /**
+     * A simple method that prints out the corresponding color of each piece on the board.
+     */
+    public void printBoard(int[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (board[i][j] == 1) {
+                    System.out.print(white);
+                } else if (board[i][j] == playerTwo) {
+                    System.out.print(black);
+                } else {
+                    System.out.println("0");
+                }
+
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * A simple method that indicates if the game is over or not.
+     * @return return if the game is over or not.
+     */
+    public boolean gameOver(int[][] board) {
+        if (getValidMoves(playerOne, board).size() == 0
+                && getValidMoves(playerTwo, board).size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Retrieves the player with the highest score, return 3 if it's a draw.
+     * @param board The board on which we have to determine if we have a winner.
+     * @return return the winner or return that we have a draw.
+     */
+    public int getWinner(int[][] board) {
+        int playerOneScore = getScore(playerOne, board);
+        int playerTwoScore = getScore(playerTwo, board);
+        if (playerOneScore > playerTwoScore) {
+            return playerOne;
+        } else if ( playerTwoScore > playerOneScore) {
+            return playerTwoScore;
+        } else {
+            return 3; //draw
+        }
     }
 }
