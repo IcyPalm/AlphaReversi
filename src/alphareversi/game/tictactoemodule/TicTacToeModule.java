@@ -5,7 +5,7 @@ import alphareversi.game.AbstractGameModule;
 /**
  * Created by daant on 25-Mar-16.
  */
-public class TicTacToeModule extends AbstractGameModule{
+public class TicTacToeModule extends AbstractGameModule {
     private Player player;
     private TicTacToeModel model;
 

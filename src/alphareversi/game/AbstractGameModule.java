@@ -13,12 +13,12 @@ public abstract class AbstractGameModule {
     /**
      * Abstract method for starting the module. All child classes must have this method
      */
-    abstract public void start();
+    public abstract void start();
 
     /**
      * Abstract method for starting the module. All child classes must have this method
      */
-    abstract public boolean gameOver();
+    public abstract boolean gameOver();
 
     /**
      * Receives a move and set opponentPlay to true.
