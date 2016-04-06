@@ -1,4 +1,4 @@
-package alphareversi;
+package alphareversi.tictactoemodule;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -10,14 +10,14 @@ import org.junit.Test;
 public class TestModule {
 
     @Test
-    public void testAI() {
+    public void testAi() {
         AbstractGameModule ticTacToe = new TicTacToeModule("AI", true);
-        Thread t = new Thread() {
+        Thread thread = new Thread() {
             public void run() {
                 ticTacToe.start();
             }
         };
-        t.start();
+        thread.start();
         waiting();
         ticTacToe.receiveMove(4);
         waiting();
@@ -26,9 +26,9 @@ public class TestModule {
         assertEquals(true, ticTacToe.gameOver());
     }
 
-    synchronized private void waiting() {
+    private synchronized void waiting() {
         try {
-            wait(5000);
+            wait(1000);
         } catch (InterruptedException error) {
             System.err.println(error.getMessage());
         }
