@@ -84,7 +84,7 @@ public class CommandParser {
      * @param string to be converted
      * @return listh with strings
      */
-    public static ArrayList parseArraylist(String string) {
+    public static ArrayList<String> parseArraylist(String string) {
         ArrayList<String> arrayList = new ArrayList<>();
         if(!string.contains("[]"))
         {

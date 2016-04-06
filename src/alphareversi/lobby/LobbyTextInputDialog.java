@@ -43,6 +43,7 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     private final String defaultUsernameValue;
     private final String defaultPortValue;
     private SimpleStringProperty serverText;
+    private SimpleStringProperty portText;
     private SimpleStringProperty errorMessage;
 
 
@@ -57,15 +58,16 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
      * dialog {@link TextField}.
      */
     public LobbyTextInputDialog() {
-        this("", "");
+        this("", "", 7789);
     }
 
     /**
      * Creates a new TextInputDialog with the default value entered into the
      * dialog {@link TextField}.
      */
-    public LobbyTextInputDialog(@NamedArg("defaultUsernameValue") String defaultUsernameValue, String defaultServerValue) {
+    public LobbyTextInputDialog(@NamedArg("defaultUsernameValue") String defaultUsernameValue, String defaultServerValue, int defaultPortValue) {
         this.serverText = new SimpleStringProperty("");
+        this.portText = new SimpleStringProperty("");
         this.errorMessage = new SimpleStringProperty("");
         final DialogPane dialogPane = getDialogPane();
 
@@ -74,7 +76,7 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
         this.usernameTextField.setMaxWidth(Double.MAX_VALUE);
         this.serverTextField = new TextField(defaultServerValue);
         this.serverTextField.setMaxWidth(Double.MAX_VALUE);
-        this.portTextField = new TextField(defaultServerValue);
+        this.portTextField = new TextField(String.valueOf(defaultPortValue));
         this.portTextField.setMaxWidth(Double.MAX_VALUE);
 
         GridPane.setHgrow(usernameTextField, Priority.ALWAYS);
@@ -95,7 +97,7 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
 
         portLabel = new Label();
         portLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        portLabel.textProperty().bind(serverText);
+        portLabel.textProperty().bind(portText);
 
         errorLabel = new Label();
         errorLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
@@ -104,7 +106,7 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
 
         this.defaultUsernameValue = defaultUsernameValue;
         this.defaultServerValue = defaultServerValue;
-        this.defaultPortValue = defaultServerValue;
+        this.defaultPortValue = String.valueOf(defaultPortValue);
 
         this.grid = new GridPane();
         this.grid.setHgap(10);
@@ -128,9 +130,10 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     }
 
     private String[] getTextFieldsText () {
-        String[] result = new String[2];
+        String[] result = new String[3];
         result[0] = usernameTextField.getText();
         result[1] = serverTextField.getText();
+        result[2] = portTextField.getText();
         return result;
     }
 
@@ -200,4 +203,5 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage.set(errorMessage);
     }
+    public void setPortText (String portText) { this.portText.set(portText); }
 }
