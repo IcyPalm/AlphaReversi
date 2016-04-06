@@ -42,7 +42,8 @@ public class LobbyModel {
     public void requestServerLists() {
             SendLoginCommand loginCommand = new SendLoginCommand(username.getValue());
             connection.sendMessage(loginCommand);
-            System.out.println(loginCommand.toString());
+            SendGetPlayerlistCommand getPlayerList = new SendGetPlayerlistCommand();
+            connection.sendMessage(getPlayerList);
             SendGetGamelistCommand getGameList = new SendGetGamelistCommand();
             connection.sendMessage(getGameList);
     }
