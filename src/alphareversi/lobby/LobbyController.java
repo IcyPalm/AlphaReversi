@@ -1,8 +1,10 @@
 package alphareversi.lobby;
 
+import java.io.IOException;
+import java.util.Optional;
+
 import alphareversi.Connection;
 import alphareversi.Main;
-import alphareversi.commands.CommandDispatcher;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
@@ -10,17 +12,18 @@ import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert;
-import java.io.IOException;
-import java.util.Optional;
 
 /**
- * Created by wouter on 24-3-2016.
+ * Created by wouter on 24-3-2016. Controller for handling the Lobby input from the user
  */
-public class LobbyController implements CommandListener{
+public class LobbyController implements CommandListener {
 
 
     Stage primaryStage;
@@ -39,9 +42,12 @@ public class LobbyController implements CommandListener{
         this.main = main;
     }
 
+    /**
+     * Bind the labels to the textValues Create the lobbyModel Subscribe to the commandDispatcher
+     */
     public void initialize() {
-        model = new LobbyModel(playerList,gameList);
-        createUsernameDialog();
+        model = new LobbyModel(playerList, gameList);
+        createConfigurationDialog();
         usernameLabel.textProperty().bind(model.username);
         serverAddressLabel.textProperty().bind(model.serverAddress);
         Connection.getInstance().commandDispatcher.addListener(this);
@@ -51,16 +57,22 @@ public class LobbyController implements CommandListener{
         return primaryStage;
     }
 
+    /**
+     * send to subscribe model only if a gameType is selected
+     */
     @FXML
-    private void subscribe () {
+    private void subscribe() {
         Object selected = getSelectedGameObject();
         if (selected != null) {
             model.subscribe(selected);
         }
     }
 
+    /**
+     * Challenge player based on the selected player and gametype.
+     */
     @FXML
-    private void challengePlayer () {
+    private void challengePlayer() {
         Object selectedGame = getSelectedGameObject();
         Player selectedPlayer = getSelectedPlayer();
         if (selectedGame != null && selectedPlayer != null && !selectedPlayer.username.getValue().equals(model.username.getValue())) {
@@ -68,15 +80,18 @@ public class LobbyController implements CommandListener{
         }
     }
 
-    private Object  getSelectedGameObject () {
-            return gameList.getSelectionModel().getSelectedItem();
+    private Object getSelectedGameObject() {
+        return gameList.getSelectionModel().getSelectedItem();
     }
 
-    private Player getSelectedPlayer () {
+    private Player getSelectedPlayer() {
         Object selected = playerList.getSelectionModel().getSelectedItem();
         return (Player) selected;
     }
 
+    /**
+     * Create dialog for incoming challenge
+     */
     private void createIncomingChallengeDialog(RecvGameChallengeCommand challenge) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -91,14 +106,17 @@ public class LobbyController implements CommandListener{
         alert.getButtonTypes().setAll(accept, decline);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == accept){
+        if (result.get() == accept) {
             model.acceptMatch(challenge);
         } else if (result.get() == decline) {
-            //model.declineMatch(challenge);
+            //Do nothing
         }
     }
 
-    private void createUsernameDialog() {
+    /**
+     * Create dialog for configuration and login information
+     */
+    private void createConfigurationDialog() {
         Connection connection = Connection.getInstance();
 
         LobbyTextInputDialog dialog = new LobbyTextInputDialog("AlphaReversi", "localhost", 7789);
@@ -125,20 +143,19 @@ public class LobbyController implements CommandListener{
                 model.setServerPort(result.get()[2]);
                 try {
                     Connection.getInstance().startConnection(model.serverAddress.getValue(), model.getServerPort());
-                    model.requestServerLists();
+                    model.sendStartupCommands();
                 } catch (IOException exception) {
                     exception.printStackTrace();
                     exceptionMessage = exception.getMessage();
                 }
             }
         }
-
-/*// The Java 8 way to get the response value (with lambda expression).
-        result.ifPresent(name -> model.setUsername(name[], username));
-    }
-}*/
     }
 
+
+    /**
+     * Process all incomming commands from the server
+     */
     @Override
     public void commandReceived(RecvCommand command) {
         if (command instanceof RecvGamelistCommand) {
@@ -146,6 +163,7 @@ public class LobbyController implements CommandListener{
         } else if (command instanceof RecvPlayerlistCommand) {
             model.setPlayerList(((RecvPlayerlistCommand) command).getPlayerList());
         } else if (command instanceof RecvGameChallengeCommand) {
+            //Create the dialog in the javaFX thread
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {

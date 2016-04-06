@@ -6,10 +6,10 @@
 package alphareversi.lobby;
 
 import com.sun.javafx.scene.control.skin.resources.ControlResources;
+
 import javafx.application.Platform;
 import javafx.beans.NamedArg;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableStringValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -26,9 +26,7 @@ import javafx.scene.paint.Color;
 public class LobbyTextInputDialog extends Dialog<String[]> {
 
     /**************************************************************************
-     *
      * Fields
-     *
      **************************************************************************/
 
     private final GridPane grid;
@@ -54,16 +52,16 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
      **************************************************************************/
 
     /**
-     * Creates a new TextInputDialog without a default value entered into the
-     * dialog {@link TextField}.
+     * Creates a new TextInputDialog without a default value entered into the dialog {@link
+     * TextField}.
      */
     public LobbyTextInputDialog() {
         this("", "", 7789);
     }
 
     /**
-     * Creates a new TextInputDialog with the default value entered into the
-     * dialog {@link TextField}.
+     * Creates a new TextInputDialog with the default value entered into the dialog {@link
+     * TextField}.
      */
     public LobbyTextInputDialog(@NamedArg("defaultUsernameValue") String defaultUsernameValue, String defaultServerValue, int defaultPortValue) {
         this.serverText = new SimpleStringProperty("");
@@ -129,14 +127,13 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
         });
     }
 
-    private String[] getTextFieldsText () {
+    private String[] getTextFieldsText() {
         String[] result = new String[3];
         result[0] = usernameTextField.getText();
         result[1] = serverTextField.getText();
         result[2] = portTextField.getText();
         return result;
     }
-
 
 
     /**************************************************************************
@@ -174,11 +171,8 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     }
 
 
-
     /**************************************************************************
-     *
      * Private Implementation
-     *
      **************************************************************************/
 
     private void updateGrid() {
@@ -203,5 +197,8 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage.set(errorMessage);
     }
-    public void setPortText (String portText) { this.portText.set(portText); }
+
+    public void setPortText(String portText) {
+        this.portText.set(portText);
+    }
 }

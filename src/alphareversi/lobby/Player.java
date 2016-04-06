@@ -1,7 +1,6 @@
 package alphareversi.lobby;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Label;
 
 /**
  * Created by wouter on 29-3-2016.
