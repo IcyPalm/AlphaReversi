@@ -1,5 +1,3 @@
-package alphareversi;
-
 import static junit.framework.TestCase.assertEquals;
 
 import alphareversi.game.AbstractGameModule;
