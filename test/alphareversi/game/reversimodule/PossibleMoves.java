@@ -1,6 +1,10 @@
 package alphareversi.game.reversimodule;
 
+import org.junit.Test;
+
 import alphareversi.game.reversimodule.ReversiModel;
+
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by Robert on 28-3-2016.
@@ -10,16 +14,14 @@ public class PossibleMoves {
     /**
      * Constructor that does all the tests.
      */
-    public PossibleMoves() {
-        //  testPossibleHorizontalMoves();
-        //  testPossibleVerticalMoves();
-        testDiagonalMoves();
-    }
+
+
 
     /**
      * This method does all the horizontal tests.
      */
-    private void testPossibleHorizontalMoves() {
+    @Test
+    public void testPossibleHorizontalMoves() {
         System.out.println("START HORIZONTAL TEST");
         rightTest();
         leftTest();
@@ -29,7 +31,8 @@ public class PossibleMoves {
     /**
      * Horizontal test.
      */
-    private void rightTest() {
+    @Test
+    public void rightTest() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
@@ -41,12 +44,14 @@ public class PossibleMoves {
         board[row][7] = 1;
         reversiModel.getValidMoves(1, board);
         reversiModel.printBoard(board);
+        assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
     /**
      * Horizontal test.
      */
-    private void leftTest() {
+    @Test
+    public void leftTest() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
@@ -58,6 +63,7 @@ public class PossibleMoves {
         board[row][0] = 1;
         reversiModel.getValidMoves(1, board);
         reversiModel.printBoard(board);
+        assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
     /**
@@ -73,7 +79,8 @@ public class PossibleMoves {
     /**
      * Vertical test.
      */
-    private void downTest() {
+    @Test
+    public void downTest() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
@@ -82,15 +89,17 @@ public class PossibleMoves {
         for (int row = 1; row < 7; row++) {
             board[row][column] = 2;
         }
-        board[7][7] = 1;
+        board[7][column] = 1;
         reversiModel.getValidMoves(1, board);
         reversiModel.printBoard(board);
+        assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
     /**
      * Vertical test.
      */
-    private void topTest() {
+    @Test
+    public void topTest() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
@@ -102,9 +111,10 @@ public class PossibleMoves {
         board[0][column] = 1;
         reversiModel.getValidMoves(1, board);
         reversiModel.printBoard(board);
+        assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
-    private void testDiagonalMoves() {
+    public void testDiagonalMoves() {
         System.out.println("START DIAGONAL TEST");
         leftUpTest();
         rightDownTest();
@@ -116,7 +126,8 @@ public class PossibleMoves {
     /**
      * Diagonal test.
      */
-    private void leftUpTest() {
+    @Test
+    public void leftUpTest() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
@@ -129,12 +140,14 @@ public class PossibleMoves {
         board[7][7] = 1;
         reversiModel.getValidMoves(1, board);
         reversiModel.printBoard(board);
+        assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
     /**
      * Diagonal test.
      */
-    private void rightUpTest() {
+    @Test
+    public void rightUpTest() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
@@ -147,12 +160,14 @@ public class PossibleMoves {
         board[7][0] = 1;
         reversiModel.getValidMoves(1,board);
         reversiModel.printBoard(board);
+        assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
     /**
      * Diagonal test.
      */
-    private void rightDownTest() {
+    @Test
+    public void rightDownTest() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
@@ -165,12 +180,14 @@ public class PossibleMoves {
         board[0][0] = 1;
         reversiModel.getValidMoves(1, board);
         reversiModel.printBoard(board);
+        assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
     /**
      * Diagonal test.
      */
-    private void leftDownTest() {
+    @Test
+    public void leftDownTest() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
@@ -183,6 +200,7 @@ public class PossibleMoves {
         board[0][7] = 1;
         reversiModel.getValidMoves(1, board);
         reversiModel.printBoard(board);
+        assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
     /**

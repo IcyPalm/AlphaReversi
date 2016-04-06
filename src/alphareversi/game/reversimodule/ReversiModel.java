@@ -399,6 +399,8 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     }
 
 
+
+
     /**
      * This method adjusts the score gameBoard of the game. If the sideToDecrement == 0, then there
      * is only a increment
@@ -756,6 +758,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         }
         return -1;
     }
+
     //endregion region
 
 

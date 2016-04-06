@@ -1,26 +1,27 @@
 package alphareversi.game.reversimodule;
 
+import org.junit.Test;
+
 import alphareversi.game.reversimodule.ReversiModel;
+
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by Robert on 31-3-2016. Tests for placing pieces
  */
-public class PlacingAPiece {
+public class PlacingAPiece  {
 
-    public static void main(String[] args) {
-        PlacingAPiece placingAPieceTest = new PlacingAPiece();
-    }
 
-    public PlacingAPiece() {
-        createLeftTopCornerTestCase();
-        createRightDownCornerTestCase();
-    }
+
+
 
     /**
      * Test for placing a piece at the top left corner. The expected result is that all the pieces
      * will be turned.
+     *
      */
-    private void createLeftTopCornerTestCase() {
+    @Test
+    public void createLeftTopCornerTestCase() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = reversiModel.getBoard();
         clearBoard(board);
@@ -50,12 +51,15 @@ public class PlacingAPiece {
         reversiModel.placePiece(0, 1);
         System.out.println("Piece placed");
         reversiModel.printBoard(board);
+        assertEquals(22, reversiModel.getScore(1, board));
+
     }
 
     /**
      * Test case for placing pieces.
      */
-    private void createRightDownCornerTestCase() {
+    @Test
+    public void createRightDownCornerTestCase() {
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = reversiModel.getBoard();
         clearBoard(board);
@@ -85,12 +89,13 @@ public class PlacingAPiece {
         reversiModel.placePiece(63, 1);
         System.out.println("Piece placed");
         reversiModel.printBoard(board);
+        assertEquals(22, reversiModel.getScore(1, board));
     }
 
     /**
      * This clears the gameBoard so we can work with a empty gameBoard we can fill to our needs.
      */
-    private void clearBoard(int[][] board) {
+    public void clearBoard(int[][] board) {
         board[3][3] = 0;
         board[3][4] = 0;
         board[4][3] = 0;
