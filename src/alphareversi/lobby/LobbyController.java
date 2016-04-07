@@ -143,7 +143,7 @@ public class LobbyController implements CommandListener {
                 model.setServerAddress(data[1]);
                 model.setServerPort(data[2]);
                 try {
-                    Connection.getInstance().startConnection(model.getUsername(),
+                    Connection.getInstance().startConnection(model.getServerAddress(),
                             model.getServerPort());
                     model.sendStartupCommands();
                 } catch (IOException exception) {
