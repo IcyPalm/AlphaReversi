@@ -1,11 +1,14 @@
 package alphareversi.game.tictactoemodule;
 
-import alphareversi.game.AbstractGameModule;
+import alphareversi.commands.RecvCommand;
+import alphareversi.commands.receive.RecvGameMoveCommand;
+import alphareversi.commands.receive.RecvGameYourturnCommand;
+import alphareversi.game.InterfaceGameModule;
 
 /**
  * Created by daant on 25-Mar-16.
  */
-public class TicTacToeModule extends AbstractGameModule {
+public class TicTacToeModule implements InterfaceGameModule {
     private Player player;
     private TicTacToeModel model;
 
@@ -19,42 +22,20 @@ public class TicTacToeModule extends AbstractGameModule {
         }
     }
 
-    public void start() {
-        game();
-    }
-
     /**
-     * Runs the game by deciding if we play or the opponent plays.
+     * Method for receiving a command.
+     * @param command the command to receive
      */
-    private void game() {
-        while (!model.gameOver()) {
-            if (!model.opponentPlays()) {
-                // move versturen naar de server (not implemented)
-                // move verwerken in het model
-                model.playMove(player.chooseMove());
-            } else {
-                // A boolean switches if recieveMove() method gets called
-                // Simulates Receiving a move from the server
-                waitForMove();
-                // Play the move in the model
-                model.playMove(opponentMove);
-                // switch the boolean
-                super.opponentPlayed = false;
-            }
+    public void receive(RecvCommand command) {
+        if (command instanceof RecvGameMoveCommand) {
+            model.playMove(processMove((RecvGameMoveCommand) command));
+        } else if (command instanceof RecvGameYourturnCommand) {
+            model.playMove(this.player.chooseMove());
         }
     }
 
-    /**
-     * Wait till the method receiveMove gets called.
-     */
-    private void waitForMove() {
-        while (!super.opponentPlayed) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException error) {
-                System.err.println(error.getMessage());
-            }
-        }
+    private int processMove(RecvGameMoveCommand command) {
+        return Integer.parseInt(command.getMove());
     }
 
     /**
