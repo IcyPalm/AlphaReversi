@@ -1,7 +1,8 @@
 package alphareversi.chat;
 
+import alphareversi.Connection;
+import alphareversi.commands.send.SendMessageCommand;
 import alphareversi.lobby.Player;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,9 +28,11 @@ public class ChatWindowController {
     Button closeButton;
     @FXML
     TextField inputMessage;
+    Connection connection;
     private ObservableList<Message> chatHistoryData;
     
     public void start() {
+        connection = Connection.getInstance();
         chatWith.setText(player.getUsername());
         chatHistoryData = player.getChatHistory();
         chatHistory.setItems(chatHistoryData);
@@ -53,8 +56,11 @@ public class ChatWindowController {
     }
 
     public void sendMessage() {
-        player.addChatMessage("You", inputMessage.getText());
+        String messageText = inputMessage.getText();
+        player.addChatMessage("You", messageText);
         inputMessage.setText("");
+        SendMessageCommand messageCommand = new SendMessageCommand(player.getUsername(), messageText);
+        connection.sendMessage(messageCommand);
     }
 
     public void close(ActionEvent actionEvent) {
