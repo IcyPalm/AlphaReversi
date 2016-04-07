@@ -8,6 +8,7 @@ import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
 import alphareversi.lobby.Player;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

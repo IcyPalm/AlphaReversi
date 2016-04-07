@@ -1,0 +1,44 @@
+package alphareversi.chat;
+
+import javafx.beans.property.SimpleStringProperty;
+
+/**
+ * Created by wouter on 7-4-2016.
+ */
+public class Message {
+
+    SimpleStringProperty from;
+    SimpleStringProperty messageText;
+
+    public Message(String from, String message) {
+        this.from = new SimpleStringProperty(from);
+        this.messageText = new SimpleStringProperty(message);
+
+    }
+
+    public String getFrom() {
+        return from.get();
+    }
+
+    public SimpleStringProperty fromProperty() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from.set(from);
+    }
+
+    public String getMessageText() {
+        return messageText.get();
+    }
+
+    public SimpleStringProperty messageTextProperty() {
+        return messageText;
+    }
+
+    public void setMessageText(String messageText) {
+        this.messageText.set(messageText);
+    }
+
+
+}

@@ -16,8 +16,13 @@
    <center>
       <TableView prefHeight="200.0" fx:id="chatHistory" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
+           <TableColumn prefWidth="50.0" text="From">
+              <cellValueFactory><PropertyValueFactory property="from" />
+
+              </cellValueFactory>
+           </TableColumn>
           <TableColumn prefWidth="600.0" text="Message">
-           <cellValueFactory><PropertyValueFactory property="messages" />
+           <cellValueFactory><PropertyValueFactory property="messageText" />
 
            </cellValueFactory>
           </TableColumn>

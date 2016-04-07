@@ -1,7 +1,11 @@
 package alphareversi.lobby;
 
+import java.util.ArrayList;
+
+import alphareversi.chat.Message;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -10,19 +14,23 @@ import javafx.collections.ObservableList;
 public class Player {
 
     private SimpleStringProperty username;
-    private ObservableList<SimpleStringProperty> chatHistory;
+    private ObservableList<Message> chatHistory = FXCollections.observableArrayList();
     private SimpleIntegerProperty messagesCount;
 
-    public ObservableList<SimpleStringProperty> getChatHistory() {
+    public ObservableList<Message> getChatHistory() {
         return chatHistory;
     }
 
-    public void setChatHistory(ObservableList<SimpleStringProperty> chatHistory) {
+    public void setChatHistory(ObservableList<Message> chatHistory) {
         this.chatHistory = chatHistory;
     }
 
-    public void addChatMessage (String message) {
-        chatHistory.add(new SimpleStringProperty(message));
+    public void addChatMessage (String messageText, String from) {
+        Message message = new Message(messageText, from);
+        chatHistory.add(message);
+        int count = messagesCount.getValue();
+        count++;
+        messagesCount.setValue(count);
     }
 
     Player(String username) {
