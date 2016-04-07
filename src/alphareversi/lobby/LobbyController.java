@@ -43,7 +43,7 @@ public class LobbyController implements CommandListener {
     }
 
     /**
-     * Bind the labels to the textValues Create the lobbyModel Subscribe to the commandDispatcher
+     * Bind the labels to the textValues. Create the lobbyModel. Subscribe to the commandDispatcher
      */
     public void initialize() {
         model = new LobbyModel(playerList, gameList);
@@ -95,7 +95,6 @@ public class LobbyController implements CommandListener {
     private void createIncomingChallengeDialog(RecvGameChallengeCommand challenge) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
-        //alert.initOwner(main.getPrimaryStage());
         alert.setTitle("Incomming Match");
         alert.setHeaderText("We have an incomming match from " + challenge.getChallenger());
         alert.setContentText("Match from " + challenge.getChallenger() + " for the gametype: " + challenge.getGameType());
@@ -112,6 +111,7 @@ public class LobbyController implements CommandListener {
             //Do nothing
         }
     }
+
 
     /**
      * Create dialog for configuration and login information
