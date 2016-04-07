@@ -89,6 +89,13 @@ public class TestParser {
     }
 
     @Test
+    public void testSvrMessageCommand() {
+        RecvCommand recvCommand = CommandParser.parseString(
+                "SVR MESSAGE {PLAYERNAME: \"Zolero\", MESSAGE: \"Houston we have a problem\"}");
+        assertEquals(recvCommand.getClass().getSimpleName(), "RecvMessageCommand");
+    }
+
+    @Test
     public void testSvrChallengeCanceledCommand() {
         RecvCommand recvCommand = CommandParser.parseString(
                 "SVR GAME CHALLENGE CANCELLED {CHALLENGENUMBER: \"1\"}");
