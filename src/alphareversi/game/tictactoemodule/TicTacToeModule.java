@@ -3,6 +3,7 @@ package alphareversi.game.tictactoemodule;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
+import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.InterfaceGameModule;
 
 /**
@@ -11,12 +12,15 @@ import alphareversi.game.InterfaceGameModule;
 public class TicTacToeModule implements InterfaceGameModule {
     private Player player;
     private TicTacToeModel model;
+    private String opponent;
+    private SendMoveCommand lastCommand;
 
     /**
      * Constructor Module.
      */
-    public TicTacToeModule(String player, boolean firstMove) {
+    public TicTacToeModule(String player, boolean firstMove, String opponent) {
         model = new TicTacToeModel();
+        this.opponent = opponent;
         if (!decidePlayer(player)) {
             System.out.println("Wrong Command");
         }
@@ -28,11 +32,32 @@ public class TicTacToeModule implements InterfaceGameModule {
      */
     public void receive(RecvCommand command) {
         if (command instanceof RecvGameMoveCommand) {
-            model.playMove(processMove((RecvGameMoveCommand) command));
+            System.out.println(((RecvGameMoveCommand) command).getPlayer());
+            if (this.opponent == ((RecvGameMoveCommand) command).getPlayer()) {
+                model.playMove(processMove((RecvGameMoveCommand) command));
+            }
         } else if (command instanceof RecvGameYourturnCommand) {
-            model.playMove(this.player.chooseMove());
+            int move = this.player.chooseMove();
+            model.playMove(move);
+            updateMoveCommand(move);
         }
     }
+
+    /**
+     * Updates the current SendMoveCommand with the latest move.
+     * @param move the move to set the command to
+     */
+    public void updateMoveCommand(int move) {
+        SendMoveCommand command = new SendMoveCommand();
+        command.setMove(move);
+        this.lastCommand = command;
+    }
+
+    @Override
+    public SendMoveCommand send(SendMoveCommand command) {
+        return lastCommand;
+    }
+
 
     private int processMove(RecvGameMoveCommand command) {
         return Integer.parseInt(command.getMove());
