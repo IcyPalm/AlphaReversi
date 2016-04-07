@@ -6,10 +6,11 @@ import alphareversi.commands.RecvCommand;
 import java.util.HashMap;
 
 /**
- * Created by Joost van Berkel on 3/24/2016. Resultaat van een uitdaging die is komen te vervallen.
- * S: SVR GAME CHALLENGE CANCELLED {CHALLENGENUMBER: "--uitdaging nummer--"} De uitdaging is
- * vervallen. Mogelijke oorzaken: speler heeft een andere uitdaging gestart, speler is een match
- * begonnen, speler heeft de verbinding verbroken.
+ * Created by Joost van Berkel on 3/24/2016.
+ * Resultaat van een uitdaging die is komen te vervallen.
+ * S: SVR GAME CHALLENGE CANCELLED {CHALLENGENUMBER: "--uitdaging nummer--"}
+ * De uitdaging is vervallen. Mogelijke oorzaken: speler heeft een andere uitdaging gestart,
+ * speler is een match begonnen, speler heeft de verbinding verbroken.
  */
 public class RecvGameChallengeCanceledCommand extends RecvCommand {
     private String challengeResult;
