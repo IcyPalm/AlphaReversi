@@ -48,7 +48,7 @@ public class TicTacToeModule implements InterfaceGameModule {
      * @param move the move to set the command to
      */
     public void updateMoveCommand(int move) {
-        SendMoveCommand command = new SendMoveCommand();
+        SendMoveCommand command = new SendMoveCommand(move);
         command.setMove(move);
         this.lastCommand = command;
     }
