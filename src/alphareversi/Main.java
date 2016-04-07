@@ -40,64 +40,64 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-//=======
-//import alphareversi.model.TicTacToeModel;
-//import alphareversi.views.ticTacToeView.TicTacToeViewController;
-//import javafx.application.Application;
-//import javafx.fxml.FXMLLoader;
-//import javafx.scene.Scene;
-//import javafx.scene.layout.BorderPane;
-//import javafx.stage.Stage;
-//
-//public class Main extends Application{
-//	
-//	private Stage primaryStage;
-//    private BorderPane rootLayout;
-//    private TicTacToeModel ticTacToeModel;
-//    
-//    public Main(){
-//    	ticTacToeModel = new TicTacToeModel("Opponent");
-//    }
-//    
-//    public static void main(String[] args) {
-//        // AlphaReversi
-//    	launch();
-//    }
-//    
-//    @Override
-//	public void start(Stage primaryStage){
-//        try{
-//        	this.primaryStage = primaryStage;
-//            this.primaryStage.setTitle("Tic Tac Toe");
-//			initRootLayout();
-//	        showTicTacToeView();
-//        }
-//        catch(Exception e){
-//        	e.printStackTrace();
-//        }
-//	}
-//	
-//	private void initRootLayout() throws Exception{
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView/rootLayout.fxml"));
-//        rootLayout = (BorderPane) loader.load();
-//
-//        Scene scene = new Scene(rootLayout);
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
-//    }
-//	
-//	private void showTicTacToeView() throws Exception{
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView.fxml"));
-//        BorderPane ticTacToeView = (BorderPane) loader.load();
-//        
-//        rootLayout.setCenter(ticTacToeView);
-//        
-//        TicTacToeViewController controller = loader.getController();
-//        ticTacToeModel.setViewController(controller);
-//        controller.setTicTacToeModel(ticTacToeModel);
-//        
-//>>>>>>> tictactoe view
     }
 }
+
+/*import alphareversi.game.tictactoemodule.TicTacToeModel;
+import alphareversi.game.tictactoemodule.TicTacToeViewController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+public class Main extends Application{
+	
+	private Stage primaryStage;
+    private BorderPane rootLayout;
+    private TicTacToeModel ticTacToeModel;
+    
+    public Main(){
+    	ticTacToeModel = new TicTacToeModel();
+    }
+    
+    public static void main(String[] args) {
+        // AlphaReversi
+    	launch();
+    }
+    
+    @Override
+	public void start(Stage primaryStage){
+        try{
+        	this.primaryStage = primaryStage;
+            this.primaryStage.setTitle("Tic Tac Toe");
+			initRootLayout();
+	        showTicTacToeView();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+	}
+	
+	private void initRootLayout() throws Exception{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("game/tictactoemodule/rootLayout.fxml"));
+        rootLayout = (BorderPane) loader.load();
+
+        Scene scene = new Scene(rootLayout);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+	
+	private void showTicTacToeView() throws Exception{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView.fxml"));
+        BorderPane ticTacToeView = (BorderPane) loader.load();
+        
+        rootLayout.setCenter(ticTacToeView);
+        
+        TicTacToeViewController controller = loader.getController();
+        ticTacToeModel.setViewController(controller);
+        controller.setTicTacToeModel(ticTacToeModel);
+    }
+}*/

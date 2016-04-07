@@ -32,13 +32,14 @@ public class TicTacToeViewController{
     	for(Node node: gridPane.getChildren()){
             if(node instanceof Canvas){
             	Canvas canvas = (Canvas) node;
+            	canvas.setId("blank");
             	canvas.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
                     @Override
                     public void handle(MouseEvent e){
                     	int row = GridPane.getRowIndex(canvas).intValue();
                     	int col = GridPane.getColumnIndex(canvas).intValue();
-                    	int move = convertMove(row,col);
-                    	if(ticTacToeModel.getSide() == ticTacToeModel.getSelf() && ticTacToeModel.moveOk(move)){
+                    	int move = convertMove(row, col);
+                    	if(!ticTacToeModel.gameOver() && ticTacToeModel.getSide() == ticTacToeModel.getSelf() && ticTacToeModel.moveOk(move)){
                     		ticTacToeModel.playMove(move);
                     	}
                     }
@@ -53,8 +54,7 @@ public class TicTacToeViewController{
     
     public void setTicTacToeModel(TicTacToeModel ticTacToeModel){
     	this.ticTacToeModel = ticTacToeModel;
-    	bindLabels();
-    	updateBoard(this.ticTacToeModel.getBoard());
+    	//bindLabels();
     }
    
     private void bindLabels(){
@@ -70,16 +70,22 @@ public class TicTacToeViewController{
 	public void updateBoard(int[][] board){
 		for(int col = 0; col < board.length; col++){
 			for(int row = 0; row < board.length; row++){
-				Canvas canvas = getCanvasFromGridPane(col,row);
-				if(canvas != null){
-					GraphicsContext gc = canvas.getGraphicsContext2D();
-					int piece = board[col][row];
-					if(piece == ticTacToeModel.getSelf()){
+				Canvas canvas = getCanvasFromGridPane(row,col);
+				GraphicsContext gc = canvas.getGraphicsContext2D();
+				int piece = board[col][row];
+				if(piece == ticTacToeModel.getEmpty()){
+					gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+					canvas.setId("blank");
+				}
+				else if(canvas.getId().equals("blank")){
+					if((piece == ticTacToeModel.getSelf() && ticTacToeModel.getSelfChar() == 'X') || (piece == ticTacToeModel.getOpponent() && ticTacToeModel.getOpponentChar() == 'X')){
 						gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
 						gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
+						canvas.setId("filled");
 					}
-					else if(piece == ticTacToeModel.getOpponent()){
+					else{
 						gc.strokeOval(10, 10, canvas.getWidth() - 20, canvas.getHeight() - 20);
+						canvas.setId("filled");
 					}
 				}
 			}
@@ -88,7 +94,7 @@ public class TicTacToeViewController{
 	
 	private Canvas getCanvasFromGridPane(int col, int row){
 	    for(Node node : gridPane.getChildren()){
-	        if(node instanceof Canvas && GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row){
+	        if(GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row){
 	            return (Canvas) node;
 	        }
 	    }
