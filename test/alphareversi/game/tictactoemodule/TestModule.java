@@ -1,3 +1,5 @@
+package alphareversi.game.tictactoemodule;
+
 import static junit.framework.TestCase.assertEquals;
 
 import alphareversi.game.AbstractGameModule;
