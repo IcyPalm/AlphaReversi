@@ -134,30 +134,23 @@ public class LobbyController implements CommandListener {
 
         dialog.initModality(Modality.WINDOW_MODAL);
 
-        String exceptionMessage = "";
-
         Connection connection = Connection.getInstance();
 
         while (!connection.getConnected()) {
-            // Traditional way to get the response value.
-            if (exceptionMessage.length() > 0) {
-                dialog.setErrorMessage(exceptionMessage);
-            }
-
             Optional<String[]> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                model.setUsername(result.get()[0]);
-                model.setServerAddress(result.get()[1]);
-                model.setServerPort(result.get()[2]);
+            result.ifPresent(data -> {
+                model.setUsername(data[0]);
+                model.setServerAddress(data[1]);
+                model.setServerPort(data[2]);
                 try {
                     Connection.getInstance().startConnection(model.serverAddress.getValue(),
                             model.getServerPort());
                     model.sendStartupCommands();
                 } catch (IOException exception) {
                     exception.printStackTrace();
-                    exceptionMessage = exception.getMessage();
+                    dialog.setErrorMessage(exception.getMessage());
                 }
-            }
+            });
         }
     }
 
@@ -173,12 +166,8 @@ public class LobbyController implements CommandListener {
             model.setPlayerList(((RecvPlayerlistCommand) command).getPlayerList());
         } else if (command instanceof RecvGameChallengeCommand) {
             //Create the dialog in the javaFX thread
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    createIncomingChallengeDialog((RecvGameChallengeCommand) command);
-                }
-
+            Platform.runLater(() -> {
+                createIncomingChallengeDialog((RecvGameChallengeCommand) command);
             });
         }
     }
