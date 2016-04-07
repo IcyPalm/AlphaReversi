@@ -4,9 +4,7 @@ import static junit.framework.TestCase.assertEquals;
 
 import alphareversi.commands.CommandParser;
 import alphareversi.commands.RecvCommand;
-
 import org.junit.Test;
-
 
 
 /**
