@@ -26,6 +26,11 @@
             <include name="**/*.java" />
         </javac>
 
+        <copy todir="bin">
+            <fileset dir="src"
+                     excludes="**/*.java" />
+        </copy>
+
         <javac srcdir="test" destdir="bin/test/" debug="on" source="1.8">
             <classpath refid="test.class.path" />
             <include name="**/*Test*.java" />
