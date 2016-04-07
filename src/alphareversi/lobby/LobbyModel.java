@@ -25,11 +25,28 @@ import java.util.ArrayList;
 public class LobbyModel {
 
 
-    TableView playerList;
-    SimpleStringProperty serverAddress;
-    SimpleStringProperty username;
-    ChoiceBox gameList;
-    Connection connection;
+    private TableView playerList;
+
+    public String getServerAddress() {
+        return serverAddress.get();
+    }
+
+    public SimpleStringProperty serverAddressProperty() {
+        return serverAddress;
+    }
+
+    public String getUsername() {
+        return username.get();
+    }
+
+    public SimpleStringProperty usernameProperty() {
+        return username;
+    }
+
+    private SimpleStringProperty serverAddress;
+    private SimpleStringProperty username;
+    private ChoiceBox gameList;
+    private Connection connection;
     private int serverPort;
     private ArrayList oldPlayerList;
 

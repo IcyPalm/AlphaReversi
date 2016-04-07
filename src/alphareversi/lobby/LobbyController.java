@@ -32,17 +32,17 @@ import java.util.Optional;
 public class LobbyController implements CommandListener {
 
 
-    Stage primaryStage;
-    Main main;
-    LobbyModel model;
+    private Stage primaryStage;
+    private Main main;
+    private LobbyModel model;
     @FXML
-    Label usernameLabel;
+    private Label usernameLabel;
     @FXML
-    Label serverAddressLabel;
+    private Label serverAddressLabel;
     @FXML
-    TableView playerList;
+    private TableView playerList;
     @FXML
-    ChoiceBox gameList;
+    private ChoiceBox gameList;
 
     public void setMainApp(Main main) {
         this.main = main;
@@ -54,8 +54,8 @@ public class LobbyController implements CommandListener {
     public void initialize() {
         model = new LobbyModel(playerList, gameList);
         createConfigurationDialog();
-        usernameLabel.textProperty().bind(model.username);
-        serverAddressLabel.textProperty().bind(model.serverAddress);
+        usernameLabel.textProperty().bind(model.usernameProperty());
+        serverAddressLabel.textProperty().bind(model.serverAddressProperty());
         Connection.getInstance().commandDispatcher.addListener(this);
     }
 
@@ -82,7 +82,7 @@ public class LobbyController implements CommandListener {
         Object selectedGame = getSelectedGameObject();
         Player selectedPlayer = getSelectedPlayer();
         if (selectedGame != null && selectedPlayer != null
-                && !selectedPlayer.username.getValue().equals(model.username.getValue())) {
+                && !selectedPlayer.username.getValue().equals(model.getUsername())) {
             model.challengePlayer(selectedPlayer.getUsername(), getSelectedGameObject().toString());
         }
     }
@@ -143,7 +143,7 @@ public class LobbyController implements CommandListener {
                 model.setServerAddress(data[1]);
                 model.setServerPort(data[2]);
                 try {
-                    Connection.getInstance().startConnection(model.serverAddress.getValue(),
+                    Connection.getInstance().startConnection(model.getUsername(),
                             model.getServerPort());
                     model.sendStartupCommands();
                 } catch (IOException exception) {
