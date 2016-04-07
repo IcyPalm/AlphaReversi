@@ -84,12 +84,14 @@ public class CommandParser {
      * @param string to be converted
      * @return listh with strings
      */
-    public static ArrayList parseArraylist(String string) {
+    public static ArrayList<String> parseArraylist(String string) {
         ArrayList<String> arrayList = new ArrayList<>();
-        string = string.substring(1, string.length() - 1);
-        String[] parts = CommandParser.trimStringArray(string.split(","));
-        for (String part : parts) {
-            arrayList.add(part.substring(1, part.length() - 1));
+        if (!string.contains("[]")) {
+            string = string.substring(1, string.length() - 1);
+            String[] parts = CommandParser.trimStringArray(string.split(","));
+            for (String part : parts) {
+                arrayList.add(part.substring(1, part.length() - 1));
+            }
         }
         return arrayList;
     }

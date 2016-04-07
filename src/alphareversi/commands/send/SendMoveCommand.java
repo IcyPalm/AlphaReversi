@@ -13,8 +13,13 @@ import alphareversi.commands.SendCommand;
 public class SendMoveCommand extends SendCommand {
     private int move;
 
-    public SendMoveCommand() {
+    /**
+     * Constructor SendMoveCommand.
+     * @param move set move position
+     */
+    public SendMoveCommand(int move) {
         this.setMethod("move");
+        this.setMove(move);
     }
 
     public int getMove() {

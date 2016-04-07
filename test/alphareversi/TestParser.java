@@ -4,9 +4,7 @@ import static junit.framework.TestCase.assertEquals;
 
 import alphareversi.commands.CommandParser;
 import alphareversi.commands.RecvCommand;
-
 import org.junit.Test;
-
 
 
 /**
@@ -41,6 +39,13 @@ public class TestParser {
     public void testSvrPlayerList() {
         RecvCommand recvCommand = CommandParser.parseString(
                 "SVR PLAYERLIST [\"Speler 1\", \"Speler 2\"]");
+        assertEquals(recvCommand.getClass().getSimpleName(), "RecvPlayerlistCommand");
+    }
+
+    @Test
+    public void testSvrPlayerListEmpty() {
+        RecvCommand recvCommand = CommandParser.parseString(
+                "SVR PLAYERLIST []");
         assertEquals(recvCommand.getClass().getSimpleName(), "RecvPlayerlistCommand");
     }
 

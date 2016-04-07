@@ -1,16 +1,44 @@
 package alphareversi;
 
-public class Main {
+import alphareversi.lobby.LobbyController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-    /**
-     * Base function of the application.
-     * @param args arguments provided on startup
-     */
+/**
+ * Created by wouter on 16-3-2016.
+ */
+
+public class Main extends Application {
+    static Scene baseScene;
+    static Stage primaryStage;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby/lobby.fxml"));
+        Parent root = loader.load();
+
+        this.primaryStage = primaryStage;
+        baseScene = new Scene(root);
+        primaryStage.setScene(baseScene);
+
+        LobbyController controller =
+                loader.<LobbyController>getController();
+        controller.setMainApp(this);
+        primaryStage.show();
+
+
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     public static void main(String[] args) {
-
-        Connection connection = Connection.getInstance();
-
-        connection.startConnection("127.0.0.1", 1337);
-
+        launch(args);
     }
 }

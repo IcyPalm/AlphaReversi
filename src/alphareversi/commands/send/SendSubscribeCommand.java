@@ -13,8 +13,13 @@ import alphareversi.commands.SendCommand;
 public class SendSubscribeCommand extends SendCommand {
     private String gameType;
 
-    public SendSubscribeCommand() {
+    /**
+     * Constructor SendSubscribeCommand.
+     * @param gameType set game type
+     */
+    public SendSubscribeCommand(String gameType) {
         this.setMethod("subscribe");
+        this.setGameType(gameType);
     }
 
     public String getGameType() {

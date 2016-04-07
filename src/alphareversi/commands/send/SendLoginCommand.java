@@ -13,8 +13,13 @@ import alphareversi.commands.SendCommand;
 public class SendLoginCommand extends SendCommand {
     private String player;
 
-    public SendLoginCommand() {
+    /**
+     * Constructor SendLoginCommand.
+     * @param player set player name
+     */
+    public SendLoginCommand(String player) {
         this.setMethod("login");
+        this.setPlayer(player);
     }
 
     public String getPlayer() {
