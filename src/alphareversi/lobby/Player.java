@@ -1,9 +1,7 @@
 package alphareversi.lobby;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableIntegerValue;
 import javafx.collections.ObservableList;
 
 /**
@@ -13,7 +11,7 @@ public class Player {
 
     private SimpleStringProperty username;
     private ObservableList<SimpleStringProperty> chatHistory;
-    private SimpleIntegerProperty messages;
+    private SimpleIntegerProperty messagesCount;
 
     public ObservableList<SimpleStringProperty> getChatHistory() {
         return chatHistory;
@@ -29,7 +27,7 @@ public class Player {
 
     Player(String username) {
         this.username = new SimpleStringProperty(username);
-         messages = new SimpleIntegerProperty(0);
+         messagesCount = new SimpleIntegerProperty(0);
     }
 
     public String getUsername() {
@@ -45,15 +43,15 @@ public class Player {
     }
 
 
-    public int getMessages() {
-        return messages.get();
+    public int getMessagesCount() {
+        return messagesCount.get();
     }
 
-    public SimpleIntegerProperty messagesProperty() {
-        return messages;
+    public SimpleIntegerProperty messagesCountProperty() {
+        return messagesCount;
     }
 
-    public void setMessages(int messages) {
-        this.messages.set(messages);
+    public void setMessagesCount(int messagesCount) {
+        this.messagesCount.set(messagesCount);
     }
 }

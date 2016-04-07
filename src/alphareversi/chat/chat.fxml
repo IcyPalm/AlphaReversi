@@ -19,7 +19,7 @@
 
               </TableColumn>
               <TableColumn text="Messages" prefWidth="100">
-                  <cellValueFactory><PropertyValueFactory property="messages" />
+                  <cellValueFactory><PropertyValueFactory property="messagesCount" />
 
                   </cellValueFactory>
 
