@@ -22,14 +22,14 @@ public class TicTacToeModel {
     private char selfChar;
     private char opponentChar;
 
-    private TicTacToeView view;
+    private TicTacToeViewController viewController;
 
     /**
      * Constructor for TicTacToeModel.
      * creates a view.
      */
     public TicTacToeModel() {
-        view = new TicTacToeView(self, opponent, this);
+        //view = new TicTacToeView(self, opponent, this);
         clearBoard( );
         initSide();
     }
@@ -46,7 +46,7 @@ public class TicTacToeModel {
         } else {
             this.side = self;
         }
-        view.print();
+        viewController.updateBoard(board);
     }
 
     /**
@@ -181,5 +181,24 @@ public class TicTacToeModel {
         return side == opponent;
     }
 
+    public void setViewController(TicTacToeViewController vieController){
+		this.viewController = vieController;
+	}
+    
+    public int getSelf(){
+		return self;
+	}
+	
+	public int getOpponent(){
+		return opponent;
+	}
+	
+	public int getEmpty(){
+		return EMPTY;
+	}
+	
+	public int getSide(){
+		return side;
+	}
 
 }

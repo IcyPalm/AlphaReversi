@@ -1,6 +1,5 @@
-package alphareversi.views.ticTacToeView;
+package alphareversi.game.tictactoemodule;
 
-import alphareversi.model.TicTacToeModel;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -59,27 +58,29 @@ public class TicTacToeViewController{
     }
    
     private void bindLabels(){
-    	opponent.textProperty().bind(ticTacToeModel.getOpponent());
-        opponentWins.textProperty().bind(ticTacToeModel.getLosses().asString());
-        opponentLosses.textProperty().bind(ticTacToeModel.getWins().asString());
-        playerWins.textProperty().bind(ticTacToeModel.getWins().asString());
-        playerLosses.textProperty().bind(ticTacToeModel.getLosses().asString());
-        serverMessage.textProperty().bind(ticTacToeModel.getServerMessage());
-        round.textProperty().bind(ticTacToeModel.getRound().asString());
+    	//opponent.textProperty().bind(ticTacToeModel.getOpponent());
+        //opponentWins.textProperty().bind(ticTacToeModel.getLosses().asString());
+        //opponentLosses.textProperty().bind(ticTacToeModel.getWins().asString());
+        //playerWins.textProperty().bind(ticTacToeModel.getWins().asString());
+        //playerLosses.textProperty().bind(ticTacToeModel.getLosses().asString());
+        //serverMessage.textProperty().bind(ticTacToeModel.getServerMessage());
+        //round.textProperty().bind(ticTacToeModel.getRound().asString());
     }
     
 	public void updateBoard(int[][] board){
 		for(int col = 0; col < board.length; col++){
 			for(int row = 0; row < board.length; row++){
 				Canvas canvas = getCanvasFromGridPane(col,row);
-				GraphicsContext gc = canvas.getGraphicsContext2D();
-				int piece = board[col][row];
-				if(piece == ticTacToeModel.getSelf()){
-					gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
-					gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
-				}
-				else if(piece == ticTacToeModel.getOpp()){
-					gc.strokeOval(10, 10, canvas.getWidth() - 20, canvas.getHeight() - 20);
+				if(canvas != null){
+					GraphicsContext gc = canvas.getGraphicsContext2D();
+					int piece = board[col][row];
+					if(piece == ticTacToeModel.getSelf()){
+						gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
+						gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
+					}
+					else if(piece == ticTacToeModel.getOpponent()){
+						gc.strokeOval(10, 10, canvas.getWidth() - 20, canvas.getHeight() - 20);
+					}
 				}
 			}
 		}

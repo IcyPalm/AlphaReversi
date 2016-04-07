@@ -79,7 +79,7 @@ public class Main extends Application {
 //	
 //	private void initRootLayout() throws Exception{
 //        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(Main.class.getResource("views/ticTacToeView/rootLayout.fxml"));
+//        loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView/rootLayout.fxml"));
 //        rootLayout = (BorderPane) loader.load();
 //
 //        Scene scene = new Scene(rootLayout);
@@ -89,7 +89,7 @@ public class Main extends Application {
 //	
 //	private void showTicTacToeView() throws Exception{
 //        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(Main.class.getResource("views/ticTacToeView/ticTacToeView.fxml"));
+//        loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView.fxml"));
 //        BorderPane ticTacToeView = (BorderPane) loader.load();
 //        
 //        rootLayout.setCenter(ticTacToeView);
