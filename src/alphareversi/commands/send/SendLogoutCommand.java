@@ -13,7 +13,7 @@ import alphareversi.commands.SendCommand;
 public class SendLogoutCommand extends SendCommand {
 
     /**
-     * Constructor SendLogoutCommand
+     * Constructor SendLogoutCommand.
      */
     public SendLogoutCommand() {
         this.setMethod("logout");

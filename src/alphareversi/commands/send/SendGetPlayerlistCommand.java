@@ -13,7 +13,7 @@ import alphareversi.commands.SendCommand;
 public class SendGetPlayerlistCommand extends SendCommand {
 
     /**
-     * Constructor SendGetPlayerlistCommand
+     * Constructor SendGetPlayerlistCommand.
      */
     public SendGetPlayerlistCommand() {
         this.setMethod("get");

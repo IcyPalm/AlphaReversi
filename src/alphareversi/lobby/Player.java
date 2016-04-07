@@ -9,7 +9,7 @@ public class Player {
 
     SimpleStringProperty username;
 
-    Player (String username) {
+    Player(String username) {
         this.username = new SimpleStringProperty(username);
     }
 

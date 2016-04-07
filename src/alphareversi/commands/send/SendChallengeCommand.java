@@ -15,7 +15,7 @@ public class SendChallengeCommand extends SendCommand {
     private String gameType;
 
     /**
-     * Constructor SendChallengeCommand
+     * Constructor SendChallengeCommand.
      * @param player set player name
      * @param gameType set game type
      */

@@ -12,7 +12,7 @@ import alphareversi.commands.SendCommand;
  */
 public class SendHelpCommand extends SendCommand {
     /**
-     * Constructor SendHelpCommand
+     * Constructor SendHelpCommand.
      */
     public SendHelpCommand() {
         this.setMethod("help");

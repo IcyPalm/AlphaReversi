@@ -1,8 +1,5 @@
 package alphareversi.lobby;
 
-import java.io.IOException;
-import java.util.Optional;
-
 import alphareversi.Connection;
 import alphareversi.Main;
 import alphareversi.commands.CommandListener;
@@ -19,6 +16,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+
+import java.io.IOException;
+import java.util.Optional;
+
+
+
+
+
 
 /**
  * Created by wouter on 24-3-2016. Controller for handling the Lobby input from the user
@@ -58,7 +64,7 @@ public class LobbyController implements CommandListener {
     }
 
     /**
-     * send to subscribe model only if a gameType is selected
+     * send to subscribe model only if a gameType is selected.
      */
     @FXML
     private void subscribe() {
@@ -75,7 +81,8 @@ public class LobbyController implements CommandListener {
     private void challengePlayer() {
         Object selectedGame = getSelectedGameObject();
         Player selectedPlayer = getSelectedPlayer();
-        if (selectedGame != null && selectedPlayer != null && !selectedPlayer.username.getValue().equals(model.username.getValue())) {
+        if (selectedGame != null && selectedPlayer != null
+                && !selectedPlayer.username.getValue().equals(model.username.getValue())) {
             model.challengePlayer(selectedPlayer.getUsername(), getSelectedGameObject().toString());
         }
     }
@@ -90,14 +97,15 @@ public class LobbyController implements CommandListener {
     }
 
     /**
-     * Create dialog for incoming challenge
+     * Create dialog for incoming challenge.
      */
     private void createIncomingChallengeDialog(RecvGameChallengeCommand challenge) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle("Incomming Match");
         alert.setHeaderText("We have an incomming match from " + challenge.getChallenger());
-        alert.setContentText("Match from " + challenge.getChallenger() + " for the gametype: " + challenge.getGameType());
+        alert.setContentText("Match from " + challenge.getChallenger()
+                + " for the gametype: " + challenge.getGameType());
 
         ButtonType accept = new ButtonType("Accept");
         ButtonType decline = new ButtonType("Decline");
@@ -114,11 +122,9 @@ public class LobbyController implements CommandListener {
 
 
     /**
-     * Create dialog for configuration and login information
+     * Create dialog for configuration and login information.
      */
     private void createConfigurationDialog() {
-        Connection connection = Connection.getInstance();
-
         LobbyTextInputDialog dialog = new LobbyTextInputDialog("AlphaReversi", "localhost", 7789);
         dialog.setTitle("Login credentials");
         dialog.setHeaderText("Enter your details");
@@ -129,6 +135,8 @@ public class LobbyController implements CommandListener {
         dialog.initModality(Modality.WINDOW_MODAL);
 
         String exceptionMessage = "";
+
+        Connection connection = Connection.getInstance();
 
         while (!connection.getConnected()) {
             // Traditional way to get the response value.
@@ -142,7 +150,8 @@ public class LobbyController implements CommandListener {
                 model.setServerAddress(result.get()[1]);
                 model.setServerPort(result.get()[2]);
                 try {
-                    Connection.getInstance().startConnection(model.serverAddress.getValue(), model.getServerPort());
+                    Connection.getInstance().startConnection(model.serverAddress.getValue(),
+                            model.getServerPort());
                     model.sendStartupCommands();
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -154,7 +163,7 @@ public class LobbyController implements CommandListener {
 
 
     /**
-     * Process all incomming commands from the server
+     * Process all incomming commands from the server.
      */
     @Override
     public void commandReceived(RecvCommand command) {

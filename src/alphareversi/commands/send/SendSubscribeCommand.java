@@ -14,7 +14,7 @@ public class SendSubscribeCommand extends SendCommand {
     private String gameType;
 
     /**
-     * Constructor SendSubscribeCommand
+     * Constructor SendSubscribeCommand.
      * @param gameType set game type
      */
     public SendSubscribeCommand(String gameType) {

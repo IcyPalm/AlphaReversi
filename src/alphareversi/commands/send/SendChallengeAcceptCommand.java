@@ -14,7 +14,7 @@ public class SendChallengeAcceptCommand extends SendCommand {
     private int challengeNumber;
 
     /**
-     * Contructor SendChallengeAcceptCommand
+     * Contructor SendChallengeAcceptCommand.
      * @param challengeNumber set challenge number
      */
     public SendChallengeAcceptCommand(int challengeNumber) {

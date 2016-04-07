@@ -94,7 +94,7 @@ public class Connection {
     }
 
     /**
-     * return the state of the serverconnection
+     * return the state of the serverconnection.
      * @return state of the connection
      */
     public boolean getConnected() {

@@ -14,7 +14,7 @@ public class SendMoveCommand extends SendCommand {
     private int move;
 
     /**
-     * Constructor SendMoveCommand
+     * Constructor SendMoveCommand.
      * @param move set move position
      */
     public SendMoveCommand(int move) {

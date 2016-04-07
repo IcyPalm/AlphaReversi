@@ -1,6 +1,5 @@
 package alphareversi.lobby;
 
-import java.util.ArrayList;
 
 import alphareversi.Connection;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
@@ -10,11 +9,15 @@ import alphareversi.commands.send.SendGetGamelistCommand;
 import alphareversi.commands.send.SendGetPlayerlistCommand;
 import alphareversi.commands.send.SendLoginCommand;
 import alphareversi.commands.send.SendSubscribeCommand;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
+
+import java.util.ArrayList;
+
 
 /**
  * Created by wouter on 24-3-2016.
@@ -45,7 +48,7 @@ public class LobbyModel {
     }
 
     /**
-     * Send initial server commands to server login, getPlayerList and getGameList;
+     * Send initial server commands to server login, getPlayerList and getGameList.
      */
     public void sendStartupCommands() {
         SendLoginCommand loginCommand = new SendLoginCommand(username.getValue());
@@ -57,7 +60,7 @@ public class LobbyModel {
     }
 
     /**
-     * Add a player to the playerList TableView
+     * Add a player to the playerList TableView.
      */
     private void addPlayer(String username) {
         ObservableList<Player> data = playerList.getItems();
@@ -104,7 +107,7 @@ public class LobbyModel {
     }
 
     /**
-     * send the challenge player command for a gametype
+     * send the challenge player command for a gametype.
      */
     public void challengePlayer(String username, String gameType) {
         SendChallengeCommand challenge = new SendChallengeCommand(username, gameType);
@@ -113,10 +116,11 @@ public class LobbyModel {
 
 
     /**
-     * Send the accept challenge command
+     * Send the accept challenge command.
      */
     public void acceptMatch(RecvGameChallengeCommand challenge) {
-        SendChallengeAcceptCommand acceptChallenge = new SendChallengeAcceptCommand(challenge.getChallengeNumber());
+        SendChallengeAcceptCommand acceptChallenge 
+                = new SendChallengeAcceptCommand(challenge.getChallengeNumber());
         connection.sendMessage(acceptChallenge);
         System.out.println(acceptChallenge.toString());
     }
@@ -145,8 +149,8 @@ public class LobbyModel {
                 }
                 try {
                     Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
                 }
             }
         }

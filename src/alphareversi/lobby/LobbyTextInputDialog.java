@@ -25,10 +25,6 @@ import javafx.scene.paint.Color;
 
 public class LobbyTextInputDialog extends Dialog<String[]> {
 
-    /**************************************************************************
-     * Fields
-     **************************************************************************/
-
     private final GridPane grid;
     private final Label serverLabel;
     private final Label usernameLabel;
@@ -45,11 +41,6 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     private SimpleStringProperty errorMessage;
 
 
-    /**************************************************************************
-     *
-     * Constructors
-     *
-     **************************************************************************/
 
     /**
      * Creates a new TextInputDialog without a default value entered into the dialog {@link
@@ -63,7 +54,8 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
      * Creates a new TextInputDialog with the default value entered into the dialog {@link
      * TextField}.
      */
-    public LobbyTextInputDialog(@NamedArg("defaultUsernameValue") String defaultUsernameValue, String defaultServerValue, int defaultPortValue) {
+    public LobbyTextInputDialog(@NamedArg("defaultUsernameValue") String defaultUsernameValue,
+                                String defaultServerValue, int defaultPortValue) {
         this.serverText = new SimpleStringProperty("");
         this.portText = new SimpleStringProperty("");
         this.errorMessage = new SimpleStringProperty("");
@@ -136,11 +128,6 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     }
 
 
-    /**************************************************************************
-     *
-     * Public API
-     *
-     **************************************************************************/
 
     /**
      * Returns the {@link TextField} used within this dialog.
@@ -171,9 +158,6 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     }
 
 
-    /**************************************************************************
-     * Private Implementation
-     **************************************************************************/
 
     private void updateGrid() {
         grid.getChildren().clear();

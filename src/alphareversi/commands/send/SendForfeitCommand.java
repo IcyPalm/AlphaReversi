@@ -13,7 +13,7 @@ import alphareversi.commands.SendCommand;
 public class SendForfeitCommand extends SendCommand {
 
     /**
-     * Constructor SendForfeitCommand
+     * Constructor SendForfeitCommand.
      */
     public SendForfeitCommand() {
         this.setMethod("forfeit");

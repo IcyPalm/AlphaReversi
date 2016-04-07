@@ -14,7 +14,7 @@ public class SendLoginCommand extends SendCommand {
     private String player;
 
     /**
-     * Constructor SendLoginCommand
+     * Constructor SendLoginCommand.
      * @param player set player name
      */
     public SendLoginCommand(String player) {

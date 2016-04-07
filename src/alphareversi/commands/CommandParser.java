@@ -86,8 +86,7 @@ public class CommandParser {
      */
     public static ArrayList<String> parseArraylist(String string) {
         ArrayList<String> arrayList = new ArrayList<>();
-        if(!string.contains("[]"))
-        {
+        if (!string.contains("[]")) {
             string = string.substring(1, string.length() - 1);
             String[] parts = CommandParser.trimStringArray(string.split(","));
             for (String part : parts) {
