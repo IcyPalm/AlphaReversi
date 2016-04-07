@@ -52,8 +52,11 @@ public class ReversiModel extends GameBasicSquareBasedModel {
      * are determined in an earlier stage of the program.
      */
     public void placePiece(int move, int side) {
-        gameBoard[move / 8][move % 8] = side;
-        flipper(move, gameBoard, side);
+        if ( getValidMoves(side, gameBoard).contains(move)) {
+            gameBoard[move / 8][move % 8] = side;
+            flipper(move, gameBoard, side);
+            playerOnTurn = getOpponent(playerOnTurn);
+        }
     }
 
     /**
@@ -814,4 +817,6 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             return 3; //draw
         }
     }
+
+
 }
