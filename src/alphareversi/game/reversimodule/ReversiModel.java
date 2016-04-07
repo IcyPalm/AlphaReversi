@@ -52,7 +52,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
      * are determined in an earlier stage of the program.
      */
     public void placePiece(int move, int side) {
-        if ( getValidMoves(side, gameBoard).contains(move)) {
+        if (getValidMoves(side, gameBoard).contains(move)) {
             gameBoard[move / 8][move % 8] = side;
             flipper(move, gameBoard, side);
             playerOnTurn = getOpponent(playerOnTurn);
@@ -61,7 +61,6 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * This method is purely for AI to work with placePiece is for actually doing a move.
-     *
      * @param move  The move that has been made.
      * @param side  The side doing the move.
      * @param board The board where the move has been made on.
