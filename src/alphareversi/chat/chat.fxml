@@ -7,13 +7,24 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" fx:controller="alphareversi.chat.ChatController" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn prefWidth="400.0" text="Player" />
-            <TableColumn prefWidth="100.0" text="Messages" />
-        </columns>
+      <TableView prefHeight="200.0" fx:id="playerList" prefWidth="200.0" BorderPane.alignment="CENTER">
+          <columns>
+              <TableColumn text="Username" prefWidth="400">
+                  <cellValueFactory><PropertyValueFactory property="username" />
+
+                  </cellValueFactory>
+
+              </TableColumn>
+              <TableColumn text="Messages" prefWidth="100">
+                  <cellValueFactory><PropertyValueFactory property="messages" />
+
+                  </cellValueFactory>
+
+              </TableColumn>
+          </columns>
       </TableView>
    </center>
    <bottom>

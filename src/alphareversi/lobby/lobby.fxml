@@ -111,6 +111,19 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </ChoiceBox>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="60.0" right="60.0" top="15.0" />
+               </VBox.margin>
+            </Separator>
+            <Button onAction="#openChat" mnemonicParsing="false" text="Chat">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Tahoma" size="21.0" />
+               </font>
+            </Button>
          </children>
          <opaqueInsets>
             <Insets />

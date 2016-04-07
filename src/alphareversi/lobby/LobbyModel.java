@@ -142,6 +142,10 @@ public class LobbyModel {
         System.out.println(acceptChallenge.toString());
     }
 
+    public TableView getPlayerList () {
+        return this.playerList;
+    }
+
 
     public void setServerPort(String serverPort) {
         this.serverPort = Integer.parseInt(serverPort);

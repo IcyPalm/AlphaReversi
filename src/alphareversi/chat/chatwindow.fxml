@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" fx:controller="alphareversi.chat.ChatWindowController" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
@@ -22,7 +22,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField prefHeight="50.0" prefWidth="400.0" promptText="Message" HBox.hgrow="ALWAYS">
+            <TextField prefHeight="50.0" prefWidth="400.0" fx:id="inputMessage" promptText="Message" HBox.hgrow="ALWAYS">
                <font>
                   <Font name="Tahoma" size="19.0" />
                </font>
@@ -30,7 +30,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" text="Send">
+            <Button mnemonicParsing="false" onAction="#sendMessage" text="Send">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -44,7 +44,7 @@
    <top>
       <HBox alignment="BASELINE_RIGHT" prefHeight="50.0" prefWidth="100.0">
          <children>
-            <Label text="User">
+            <Label text="User" fx:id="chatWith">
                <font>
                   <Font name="Tahoma Bold" size="19.0" />
                </font>
@@ -52,7 +52,7 @@
                   <Insets bottom="10.0" left="10.0" right="200.0" top="10.0" />
                </HBox.margin>
             </Label>
-            <Button alignment="CENTER" cancelButton="true" mnemonicParsing="false" text="Close" textAlignment="CENTER">
+            <Button alignment="CENTER" onAction="#close" cancelButton="true" mnemonicParsing="false" text="Close" textAlignment="CENTER">
                <font>
                   <Font name="Tahoma" size="15.0" />
                </font>
