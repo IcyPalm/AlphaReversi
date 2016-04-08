@@ -5,20 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 public class TicTacToeViewController{
 
 	@FXML private GridPane gridPane;
-	@FXML private Label opponent;
-    @FXML private Label opponentWins;
-    @FXML private Label opponentLosses;
-    @FXML private Label playerWins;
-    @FXML private Label playerLosses;
-    @FXML private Label serverMessage;
-    @FXML private Label round;
     private TicTacToeModel ticTacToeModel;
     
     public TicTacToeViewController(){}
@@ -54,17 +46,6 @@ public class TicTacToeViewController{
     
     public void setTicTacToeModel(TicTacToeModel ticTacToeModel){
     	this.ticTacToeModel = ticTacToeModel;
-    	//bindLabels();
-    }
-   
-    private void bindLabels(){
-    	//opponent.textProperty().bind(ticTacToeModel.getOpponent());
-        //opponentWins.textProperty().bind(ticTacToeModel.getLosses().asString());
-        //opponentLosses.textProperty().bind(ticTacToeModel.getWins().asString());
-        //playerWins.textProperty().bind(ticTacToeModel.getWins().asString());
-        //playerLosses.textProperty().bind(ticTacToeModel.getLosses().asString());
-        //serverMessage.textProperty().bind(ticTacToeModel.getServerMessage());
-        //round.textProperty().bind(ticTacToeModel.getRound().asString());
     }
     
 	public void updateBoard(int[][] board){

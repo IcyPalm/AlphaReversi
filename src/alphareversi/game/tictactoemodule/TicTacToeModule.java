@@ -5,6 +5,8 @@ import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.InterfaceGameModule;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Created by daant on 25-Mar-16.
@@ -14,16 +16,21 @@ public class TicTacToeModule implements InterfaceGameModule {
     private TicTacToeModel model;
     private String opponent;
     private SendMoveCommand lastCommand;
+    private String playerType;
+    private static final String[] playerTypes = {"HUMAN", "AI"};
+    private BorderPane ticTacToeView;
 
     /**
      * Constructor Module.
+     * @throws Exception 
      */
-    public TicTacToeModule(String player, boolean firstMove, String opponent) {
+    public TicTacToeModule(String playerType, String opponent) throws Exception {
         model = new TicTacToeModel();
         this.opponent = opponent;
-        if (!decidePlayer(player)) {
+        if (!decidePlayer(playerType)) {
             System.out.println("Wrong Command");
         }
+        ticTacToeView = setTicTacToeView();
     }
 
     /**
@@ -67,13 +74,15 @@ public class TicTacToeModule implements InterfaceGameModule {
      * Decides if the string in the class constructor matches.
      * with on off the classes with the interface Player.
      */
-    private boolean decidePlayer(String player) {
-        if (player.equals("HUMAN")) {
+    private boolean decidePlayer(String playerType) {
+        if (playerType.equals("HUMAN")) {
             this.player = new Human();
+            this.playerType = playerType;
             return true;
         }
-        if (player.equals("AI")) {
+        if (playerType.equals("AI")) {
             this.player = new ArtificialIntelligence(model);
+            this.playerType = playerType;
             return true;
         }
         return false;
@@ -85,5 +94,29 @@ public class TicTacToeModule implements InterfaceGameModule {
      */
     public boolean gameOver() {
         return model.gameOver();
+    }
+    
+    public String[] getPlayerTypes(){
+    	return playerTypes;
+    }
+    
+    private BorderPane setTicTacToeView() throws Exception{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(TicTacToeModule.class.getResource("ticTacToeView.fxml"));
+        BorderPane ticTacToeView = (BorderPane) loader.load();
+        
+        TicTacToeViewController controller = loader.getController();
+        model.setViewController(controller);
+        controller.setTicTacToeModel(model);
+        
+        return ticTacToeView;
+    }
+    
+    public String getPlayerType(){
+    	return playerType;
+    }
+    
+    public BorderPane getTicTacToeView(){
+    	return ticTacToeView;
     }
 }

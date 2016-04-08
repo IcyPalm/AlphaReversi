@@ -63,12 +63,12 @@
                         <Font name="Tahoma" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="opponentWins" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Tahoma" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="opponentLosses" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="Tahoma" size="14.0" />
                      </font>
@@ -138,12 +138,12 @@
                         <Font name="Tahoma" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="playerWins" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Tahoma" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="playerLosses" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="Tahoma" size="14.0" />
                      </font>
@@ -162,7 +162,7 @@
       </GridPane>
    </right>
    <top>
-      <Label fx:id="serverMessage" text="Your turn!" BorderPane.alignment="CENTER">
+      <Label text="Your turn!" BorderPane.alignment="CENTER">
          <font>
             <Font name="Tahoma" size="36.0" />
          </font>
