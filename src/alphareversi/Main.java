@@ -3,43 +3,80 @@ package alphareversi;
 import java.io.IOException;
 
 import alphareversi.chat.ChatController;
+import alphareversi.commands.CommandListener;
+import alphareversi.commands.RecvCommand;
+import alphareversi.commands.receive.RecvGameMatchCommand;
+import alphareversi.game.tictactoemodule.TicTacToeModel;
+import alphareversi.game.tictactoemodule.TicTacToeViewController;
 import alphareversi.lobby.LobbyController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-/**
- * Created by wouter on 16-3-2016.
- */
+public class Main extends Application implements CommandListener {
 
-public class Main extends Application {
-    static Scene baseScene;
-    static Stage primaryStage;
-    LobbyController lobbyController;
+    private Stage primaryStage;
+    private BorderPane rootLayout;
+    private LobbyController lobbyController;
+
+    public Main() {
+    }
+
+    public static void main(String[] args) {
+        // AlphaReversi
+        launch();
+    }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
+        try {
+            Connection connection = Connection.getInstance();
+            connection.commandDispatcher.addListener(this);
+            this.primaryStage = primaryStage;
+            this.primaryStage.setTitle("Tic Tac Toe");
+            initRootLayout();
+            showLobby();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void initRootLayout() throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("game/tictactoemodule/rootLayout.fxml"));
+        rootLayout = (BorderPane) loader.load();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby/lobby.fxml"));
-        Parent root = loader.load();
-
-        this.primaryStage = primaryStage;
-        baseScene = new Scene(root);
-        primaryStage.setScene(baseScene);
-
-        lobbyController =
-                loader.<LobbyController>getController();
-        lobbyController.setMainApp(this);
+        Scene scene = new Scene(rootLayout);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public Stage getPrimaryStage() {
-        return primaryStage;
+    private void showLobby() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby/lobby.fxml"));
+        BorderPane view = (BorderPane) loader.load();
+
+        rootLayout.setCenter(view);
+
+        lobbyController = loader.<LobbyController>getController();
+        lobbyController.setMainApp(this);
+    }
+
+    public void startGame(RecvGameMatchCommand command) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView.fxml"));
+        BorderPane ticTacToeView = (BorderPane) loader.load();
+
+        rootLayout.setCenter(ticTacToeView);
+
+        TicTacToeModel ticTacToeModel = new TicTacToeModel();
+
+        TicTacToeViewController controller = loader.getController();
+        ticTacToeModel.setViewController(controller);
+        controller.setTicTacToeModel(ticTacToeModel);
     }
 
     public void createChatWindow() {
@@ -65,20 +102,17 @@ public class Main extends Application {
         }
     }
 
-    private Parent replaceSceneContent(String fxml) throws Exception {
-        Parent page = (Parent) FXMLLoader.load(Main.class.getResource(fxml), null, new JavaFXBuilderFactory());
-        Scene scene = primaryStage.getScene();
-        if (scene == null) {
-            scene = new Scene(page, 700, 450);
-            primaryStage.setScene(scene);
-        } else {
-            primaryStage.getScene().setRoot(page);
+    @Override
+    public void commandReceived(RecvCommand command) {
+        if (command instanceof RecvGameMatchCommand) {
+            Platform.runLater(() -> {
+                try {
+                    startGame((RecvGameMatchCommand) command);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
-        primaryStage.sizeToScene();
-        return page;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
