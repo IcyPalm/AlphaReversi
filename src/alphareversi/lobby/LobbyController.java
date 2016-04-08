@@ -125,7 +125,7 @@ public class LobbyController implements CommandListener {
      * Create dialog for configuration and login information.
      */
     private void createConfigurationDialog() {
-        LobbyTextInputDialog dialog = new LobbyTextInputDialog("AlphaReversi", "localhost", 7789);
+        LobbyTextInputDialog dialog = new LobbyTextInputDialog("AlphaReversi", "hanzegameserver.nl", 7789);
         dialog.setTitle("Login credentials");
         dialog.setHeaderText("Enter your details");
         dialog.setContentText("Please enter your name:");

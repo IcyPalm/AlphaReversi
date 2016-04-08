@@ -70,7 +70,9 @@ public class Connection {
 
             while (true) {
                 try {
-                    RecvCommand command = CommandParser.parseString(input.readLine());
+                    String line = input.readLine();
+                    System.out.println(line);
+                    RecvCommand command = CommandParser.parseString(line);
                     this.commandDispatcher.sendCommand(command);
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -90,6 +92,7 @@ public class Connection {
      * @param command SendCommand send command to server
      */
     public void sendMessage(SendCommand command) {
+        System.out.println(command.toString());
         output.println(command.toString());
     }
 

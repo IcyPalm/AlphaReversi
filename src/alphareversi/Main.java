@@ -7,6 +7,7 @@ import alphareversi.game.tictactoemodule.TicTacToeModel;
 import alphareversi.game.tictactoemodule.TicTacToeViewController;
 import alphareversi.lobby.LobbyController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -28,6 +29,8 @@ public class Main extends Application implements CommandListener {
     @Override
     public void start(Stage primaryStage) {
         try {
+            Connection connection = Connection.getInstance();
+            connection.commandDispatcher.addListener(this);
             this.primaryStage = primaryStage;
             this.primaryStage.setTitle("Tic Tac Toe");
             initRootLayout();
@@ -74,11 +77,13 @@ public class Main extends Application implements CommandListener {
     @Override
     public void commandReceived(RecvCommand command) {
         if (command instanceof RecvGameMatchCommand) {
-            try {
-                startGame((RecvGameMatchCommand) command);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Platform.runLater(() -> {
+                try {
+                    startGame((RecvGameMatchCommand) command);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
