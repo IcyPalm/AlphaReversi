@@ -68,7 +68,7 @@ public class ChatController implements CommandListener {
         for (int i = 0; i < playerList.getItems().size(); i++) {
             Player player = playerList.getItems().get(i);
             if (player.getUsername().equals(from)) {
-                player.addChatMessage(messageText, from);
+                player.addChatMessage(from, messageText);
                 break;
             }
         }
