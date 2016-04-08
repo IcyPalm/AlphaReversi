@@ -24,13 +24,12 @@ public class TicTacToeModule extends GameModule {
     /**
      * Constructor Module.
      */
-    public TicTacToeModule(String playerType, String opponent, String beginningPlayer) throws Exception {
+    public TicTacToeModule(String playerType, String opponent) throws Exception {
         model = new TicTacToeModel();
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
             System.out.println("Wrong Command");
         }
-        decideWhoBegin(beginningPlayer);
         ticTacToeView = setTicTacToeView();
     }
 
@@ -89,13 +88,6 @@ public class TicTacToeModule extends GameModule {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Decide who begins
-     */
-    private void decideWhoBegin(String beginningPlayer) {
-
     }
 
     /**
