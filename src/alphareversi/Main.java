@@ -6,6 +6,7 @@ import alphareversi.chat.ChatController;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
+import alphareversi.commands.receive.RecvStatusErrCommand;
 import alphareversi.game.tictactoemodule.TicTacToeModel;
 import alphareversi.game.tictactoemodule.TicTacToeViewController;
 import alphareversi.lobby.LobbyController;
@@ -14,6 +15,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -86,7 +88,7 @@ public class Main extends Application implements CommandListener {
             root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Chat");
-            stage.setScene(new Scene(root, 600, 500 ));
+            stage.setScene(new Scene(root, 600, 500));
             stage.show();
 
             ChatController chatController =
@@ -104,15 +106,27 @@ public class Main extends Application implements CommandListener {
 
     @Override
     public void commandReceived(RecvCommand command) {
-        if (command instanceof RecvGameMatchCommand) {
-            Platform.runLater(() -> {
+        Platform.runLater(() -> {
+            if (command instanceof RecvGameMatchCommand) {
                 try {
                     startGame((RecvGameMatchCommand) command);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            });
-        }
+
+            } else if (command instanceof RecvStatusErrCommand) {
+                createErrorDialog((RecvStatusErrCommand) command);
+            }
+        });
+    }
+
+    private void createErrorDialog(RecvStatusErrCommand command) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error! Helemaal Ketteaa");
+        alert.setHeaderText("Error");
+        alert.setContentText(command.getReason());
+
+        alert.showAndWait();
     }
 
 }

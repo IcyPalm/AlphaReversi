@@ -10,6 +10,7 @@ import alphareversi.commands.send.SendGetPlayerlistCommand;
 import alphareversi.commands.send.SendLoginCommand;
 import alphareversi.commands.send.SendSubscribeCommand;
 
+import alphareversi.commands.send.SendUnsubscribeCommand;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -153,6 +154,11 @@ public class LobbyModel {
 
     public int getServerPort() {
         return this.serverPort;
+    }
+
+    public void unsubscirbe() {
+        SendUnsubscribeCommand command = new SendUnsubscribeCommand();
+        connection.sendMessage(command);
     }
 
     /**

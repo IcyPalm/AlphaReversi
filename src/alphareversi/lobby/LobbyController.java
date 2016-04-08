@@ -5,8 +5,11 @@ import alphareversi.Main;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
+import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
+import javafx.animation.Interpolator;
+import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
@@ -17,8 +20,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 import java.io.IOException;
@@ -38,6 +45,7 @@ public class LobbyController implements CommandListener {
     private Stage primaryStage;
     private Main main;
     private LobbyModel model;
+    private Alert subscribeAlert;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -74,7 +82,20 @@ public class LobbyController implements CommandListener {
         Object selected = getSelectedGameObject();
         if (selected != null) {
             model.subscribe(selected);
+            createSubscribeDialog(selected.toString());
         }
+    }
+
+    private void createSubscribeDialog(String gameType) {
+        subscribeAlert = new Alert(Alert.AlertType.INFORMATION);
+        subscribeAlert.setTitle("Subscription");
+        subscribeAlert.setHeaderText("Your are subscribed to " + gameType);
+        subscribeAlert.setContentText("Searching games.. Keep this dialog open.");
+        subscribeAlert.showAndWait();
+
+        subscribeAlert.setOnCloseRequest(event -> {
+            model.unsubscirbe();
+        });
     }
 
     /**
@@ -175,6 +196,10 @@ public class LobbyController implements CommandListener {
         } else if (command instanceof RecvGameChallengeCommand) {
             //Create the dialog in the javaFX thread
                 createIncomingChallengeDialog((RecvGameChallengeCommand) command);
+        } else if (command instanceof RecvGameMatchCommand) {
+            if (subscribeAlert != null){
+                subscribeAlert.close();
+            }
         }
         });
     }
@@ -182,4 +207,5 @@ public class LobbyController implements CommandListener {
     public void openChat(ActionEvent actionEvent) {
         this.main.createChatWindow();
     }
+
 }
