@@ -1,5 +1,7 @@
 package alphareversi.game.reversimodule;
 
+import java.net.URL;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,13 +28,7 @@ public class ReversiController {
 		this.reversiModel = reversiModel;
 	}*/
 
-	public static void main(String[] args) {
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource
-						("C:\\Users\\Robert\\Documents\\GitHub\\AlphaReversi\\src\\alphareversi\\game\\reversimodule"));
 
-
-	}
 
 
     /**
