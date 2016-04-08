@@ -4,25 +4,25 @@ import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
-import alphareversi.game.InterfaceGameModule;
+import alphareversi.game.GameModule;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 
 /**
  * Created by daant on 25-Mar-16.
  */
-public class TicTacToeModule implements InterfaceGameModule {
+public class TicTacToeModule extends GameModule {
+    private static final String[] playerTypes = {"HUMAN", "AI"};
     private Player player;
     private TicTacToeModel model;
     private String opponent;
+
     private SendMoveCommand lastCommand;
     private String playerType;
-    private static final String[] playerTypes = {"HUMAN", "AI"};
     private BorderPane ticTacToeView;
 
     /**
      * Constructor Module.
-     * @throws Exception 
      */
     public TicTacToeModule(String playerType, String opponent) throws Exception {
         model = new TicTacToeModel();
@@ -35,9 +35,10 @@ public class TicTacToeModule implements InterfaceGameModule {
 
     /**
      * Method for receiving a command.
+     *
      * @param command the command to receive
      */
-    public void receive(RecvCommand command) {
+    public void commandReceived(RecvCommand command) {
         if (command instanceof RecvGameMoveCommand) {
             System.out.println(((RecvGameMoveCommand) command).getPlayer());
             if (this.opponent == ((RecvGameMoveCommand) command).getPlayer()) {
@@ -52,6 +53,7 @@ public class TicTacToeModule implements InterfaceGameModule {
 
     /**
      * Updates the current SendMoveCommand with the latest move.
+     *
      * @param move the move to set the command to
      */
     public void updateMoveCommand(int move) {
@@ -71,8 +73,8 @@ public class TicTacToeModule implements InterfaceGameModule {
     }
 
     /**
-     * Decides if the string in the class constructor matches.
-     * with on off the classes with the interface Player.
+     * Decides if the string in the class constructor matches. with on off the classes with the
+     * interface Player.
      */
     private boolean decidePlayer(String playerType) {
         if (playerType.equals("HUMAN")) {
@@ -90,33 +92,34 @@ public class TicTacToeModule implements InterfaceGameModule {
 
     /**
      * checks if the game is over.
+     *
      * @return the boolean to check if a game is over
      */
     public boolean gameOver() {
         return model.gameOver();
     }
-    
-    public String[] getPlayerTypes(){
-    	return playerTypes;
+
+    public String[] getPlayerTypes() {
+        return playerTypes;
     }
-    
-    private BorderPane setTicTacToeView() throws Exception{
+
+    private BorderPane setTicTacToeView() throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(TicTacToeModule.class.getResource("ticTacToeView.fxml"));
         BorderPane ticTacToeView = (BorderPane) loader.load();
-        
+
         TicTacToeViewController controller = loader.getController();
         model.setViewController(controller);
         controller.setTicTacToeModel(model);
-        
+
         return ticTacToeView;
     }
-    
-    public String getPlayerType(){
-    	return playerType;
+
+    public String getPlayerType() {
+        return playerType;
     }
-    
-    public BorderPane getTicTacToeView(){
-    	return ticTacToeView;
+
+    public BorderPane getView() {
+        return ticTacToeView;
     }
 }

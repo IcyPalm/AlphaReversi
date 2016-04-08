@@ -3,7 +3,9 @@ package alphareversi;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
+import alphareversi.game.GameModule;
 import alphareversi.game.tictactoemodule.TicTacToeModel;
+import alphareversi.game.tictactoemodule.TicTacToeModule;
 import alphareversi.game.tictactoemodule.TicTacToeViewController;
 import alphareversi.lobby.LobbyController;
 import javafx.application.Application;
@@ -61,17 +63,12 @@ public class Main extends Application implements CommandListener {
     }
 
     public void startGame(RecvGameMatchCommand command) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView.fxml"));
-        BorderPane ticTacToeView = (BorderPane) loader.load();
+        Connection connection = Connection.getInstance();
+        GameModule gameModule = new TicTacToeModule("HUMAN",command.getOpponent());
 
-        rootLayout.setCenter(ticTacToeView);
+        rootLayout.setCenter(gameModule.getView());
 
-        TicTacToeModel ticTacToeModel = new TicTacToeModel();
-
-        TicTacToeViewController controller = loader.getController();
-        ticTacToeModel.setViewController(controller);
-        controller.setTicTacToeModel(ticTacToeModel);
+        connection.commandDispatcher.addListener(gameModule);
     }
 
     @Override
