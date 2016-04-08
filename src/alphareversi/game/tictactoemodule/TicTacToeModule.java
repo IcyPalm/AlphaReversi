@@ -2,6 +2,7 @@ package alphareversi.game.tictactoemodule;
 
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
+import alphareversi.commands.receive.RecvGameResultCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.GameModule;
@@ -122,4 +123,7 @@ public class TicTacToeModule extends GameModule {
     public BorderPane getView() {
         return ticTacToeView;
     }
+
+
+
 }
