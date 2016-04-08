@@ -23,7 +23,7 @@ public class GameBasicSquareBasedModel {
      *
      * @return Opponent
      */
-    protected int getOpponent(int side) {
+    public int getOpponent(int side) {
         if (side == playerOne) {
             return playerTwo;
         } else {
@@ -61,7 +61,13 @@ public class GameBasicSquareBasedModel {
         }
     }
 
+    public int getMySide() {
+        return mySide;
+    }
 
+    public  int getEmpty() {
+        return  empty;
+    }
 
 
 }

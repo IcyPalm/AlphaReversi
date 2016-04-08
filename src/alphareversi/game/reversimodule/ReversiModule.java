@@ -23,6 +23,8 @@ public class ReversiModule implements InterfaceGameModule {
         this.board = model.getBoard();
     }
 
+
+
     @Override
     public boolean gameOver() {
         return model.gameOver(board);
