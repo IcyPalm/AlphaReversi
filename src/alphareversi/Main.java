@@ -3,6 +3,7 @@ package alphareversi;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
+import alphareversi.commands.receive.RecvGameResultCommand;
 import alphareversi.game.GameModule;
 import alphareversi.game.tictactoemodule.TicTacToeModel;
 import alphareversi.game.tictactoemodule.TicTacToeModule;
@@ -12,13 +13,18 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Main extends Application implements CommandListener {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private BorderPane lobbyView;
+    private LobbyController lobbyController;
+    private GameModule gameModule;
 
     public Main() {
     }
@@ -36,6 +42,7 @@ public class Main extends Application implements CommandListener {
             this.primaryStage = primaryStage;
             this.primaryStage.setTitle("Tic Tac Toe");
             initRootLayout();
+            initLobby();
             showLobby();
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,36 +59,57 @@ public class Main extends Application implements CommandListener {
         primaryStage.show();
     }
 
-    private void showLobby() throws Exception {
+    private void initLobby() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby/lobby.fxml"));
-        BorderPane view = (BorderPane) loader.load();
 
-        rootLayout.setCenter(view);
+        lobbyView = (BorderPane) loader.load();
 
-        LobbyController controller = loader.<LobbyController>getController();
-        controller.setMainApp(this);
+        lobbyController = loader.<LobbyController>getController();
+        lobbyController.setMainApp(this);
+    }
+
+    public void showLobby() {
+        rootLayout.setCenter(lobbyView);
     }
 
     public void startGame(RecvGameMatchCommand command) throws Exception {
         Connection connection = Connection.getInstance();
-        GameModule gameModule = new TicTacToeModule("AI",command.getOpponent(), command.getPlayerToMove());
+        gameModule = new TicTacToeModule("AI",command.getOpponent());
 
         rootLayout.setCenter(gameModule.getView());
 
         connection.commandDispatcher.addListener(gameModule);
     }
 
+    private void stopGame(RecvGameResultCommand command) throws Exception {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setTitle("Game Over");
+        alert.setHeaderText("The game has ended.");
+        alert.setContentText("");
+        alert.showAndWait();
+
+        gameModule = null;
+        showLobby();
+    }
+
     @Override
     public void commandReceived(RecvCommand command) {
-        if (command instanceof RecvGameMatchCommand) {
-            Platform.runLater(() -> {
+        Platform.runLater(() -> {
+            if (command instanceof RecvGameMatchCommand) {
                 try {
                     startGame((RecvGameMatchCommand) command);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            });
-        }
+            }  else if (command instanceof RecvGameResultCommand) {
+                try {
+                    stopGame((RecvGameResultCommand) command);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }
