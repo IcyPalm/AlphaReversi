@@ -126,7 +126,7 @@ public class TicTacToeModule extends GameModule {
 
         TicTacToeViewController controller = loader.getController();
         model.setViewController(controller);
-        controller.setTicTacToeModel(model);
+        controller.setTicTacToeModel(model, this.playerType, this.opponent);
 
         return ticTacToeView;
     }
