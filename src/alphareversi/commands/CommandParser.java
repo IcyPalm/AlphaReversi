@@ -8,6 +8,7 @@ import alphareversi.commands.receive.RecvGameResultCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvHelpCommand;
+import alphareversi.commands.receive.RecvMessageCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
 import alphareversi.commands.receive.RecvStatusErrCommand;
 import alphareversi.commands.receive.RecvStatusOkCommand;
@@ -32,6 +33,7 @@ public class CommandParser {
             put("SVR GAME (WIN|DRAW|LOSS) \\{(.*?)\\}", RecvGameResultCommand.class);
             put("SVR GAME YOURTURN \\{(.*?)\\}", RecvGameYourturnCommand.class);
             put("SVR PLAYERLIST \\[(.*?)\\]", RecvPlayerlistCommand.class);
+            put("SVR MESSAGE \\{(.*?)\\}", RecvMessageCommand.class);
             put("SVR HELP (.*?)+", RecvHelpCommand.class);
             put("ERR (.*?)+", RecvStatusErrCommand.class);
             put("OK", RecvStatusOkCommand.class);

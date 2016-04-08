@@ -10,6 +10,7 @@ import alphareversi.commands.send.SendGetPlayerlistCommand;
 import alphareversi.commands.send.SendHelpCommand;
 import alphareversi.commands.send.SendLoginCommand;
 import alphareversi.commands.send.SendLogoutCommand;
+import alphareversi.commands.send.SendMessageCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.commands.send.SendSubscribeCommand;
 
@@ -73,6 +74,12 @@ public class TestSendCommands {
         SendForfeitCommand forfeitCommand = new SendForfeitCommand();
 
         assertEquals(true, forfeitCommand.toString().contains("forfeit"));
+    }
+
+    @Test
+    public void testSendMessageCommand() {
+        SendMessageCommand messageCommand = new SendMessageCommand("Zolero", "Houston we have a problem");
+        assertEquals(true, messageCommand.toString().contains("msg \"Zolero\" Houston we have a problem"));
     }
 
     @Test
