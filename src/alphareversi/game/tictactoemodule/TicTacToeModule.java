@@ -1,8 +1,11 @@
 package alphareversi.game.tictactoemodule;
 
+import alphareversi.Connection;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
+import alphareversi.commands.receive.RecvGameResultCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
+import alphareversi.commands.receive.RecvStatusErrCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.GameModule;
 import javafx.fxml.FXMLLoader;
@@ -24,13 +27,14 @@ public class TicTacToeModule extends GameModule {
     /**
      * Constructor Module.
      */
-    public TicTacToeModule(String playerType, String opponent) throws Exception {
+    public TicTacToeModule(String playerType, String opponent, String playerToMove) throws Exception {
         model = new TicTacToeModel();
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
             System.out.println("Wrong Command");
         }
         ticTacToeView = setTicTacToeView();
+        decideWhoBegins(playerToMove);
     }
 
     /**
@@ -40,8 +44,7 @@ public class TicTacToeModule extends GameModule {
      */
     public void commandReceived(RecvCommand command) {
         if (command instanceof RecvGameMoveCommand) {
-            System.out.println(((RecvGameMoveCommand) command).getPlayer());
-            if (this.opponent == ((RecvGameMoveCommand) command).getPlayer()) {
+            if (this.opponent.equals(((RecvGameMoveCommand) command).getPlayer())) {
                 model.playMove(processMove((RecvGameMoveCommand) command));
             }
         } else if (command instanceof RecvGameYourturnCommand) {
@@ -57,9 +60,10 @@ public class TicTacToeModule extends GameModule {
      * @param move the move to set the command to
      */
     public void updateMoveCommand(int move) {
+        System.out.println("send command");
+        Connection connection = Connection.getInstance();
         SendMoveCommand command = new SendMoveCommand(move);
-        command.setMove(move);
-        this.lastCommand = command;
+        connection.sendMessage(command);
     }
 
     @Override
@@ -89,6 +93,18 @@ public class TicTacToeModule extends GameModule {
         }
         return false;
     }
+
+    /**
+     * Checks who should begin
+     */
+    private void decideWhoBegins(String playerToMove) {
+        if (!opponent.equals(playerToMove)) {
+            int move = this.player.chooseMove();
+            model.playMove(move);
+            updateMoveCommand(move);
+        }
+    }
+
 
     /**
      * checks if the game is over.

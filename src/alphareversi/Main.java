@@ -64,7 +64,7 @@ public class Main extends Application implements CommandListener {
 
     public void startGame(RecvGameMatchCommand command) throws Exception {
         Connection connection = Connection.getInstance();
-        GameModule gameModule = new TicTacToeModule("HUMAN",command.getOpponent());
+        GameModule gameModule = new TicTacToeModule("AI",command.getOpponent(), command.getPlayerToMove());
 
         rootLayout.setCenter(gameModule.getView());
 
