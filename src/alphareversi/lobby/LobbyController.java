@@ -167,16 +167,16 @@ public class LobbyController implements CommandListener {
      */
     @Override
     public void commandReceived(RecvCommand command) {
+        Platform.runLater(() -> {
         if (command instanceof RecvGamelistCommand) {
             model.setGameList(((RecvGamelistCommand) command).getGameList());
         } else if (command instanceof RecvPlayerlistCommand) {
             model.setPlayerList(((RecvPlayerlistCommand) command).getPlayerList());
         } else if (command instanceof RecvGameChallengeCommand) {
             //Create the dialog in the javaFX thread
-            Platform.runLater(() -> {
                 createIncomingChallengeDialog((RecvGameChallengeCommand) command);
-            });
         }
+        });
     }
 
     public void openChat(ActionEvent actionEvent) {

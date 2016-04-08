@@ -49,7 +49,7 @@ public class Main extends Application {
             root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Chat");
-            stage.setScene(new Scene(root, 600, 500));
+            stage.setScene(new Scene(root, 600, 500 ));
             stage.show();
 
             ChatController chatController =
