@@ -8,10 +8,7 @@ import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
-import javafx.animation.Interpolator;
-import javafx.animation.Transition;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,13 +17,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
 
 import java.io.IOException;
 import java.util.Optional;
