@@ -2,6 +2,9 @@ package alphareversi.game.reversimodule;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+
+import javax.swing.tree.TreeNode;
 
 
 /*
@@ -10,93 +13,61 @@ import java.util.Iterator;
  * @author Maarten le Clercq
  */
 public class ReversiMinimaxPlayer {
-    
-    // Current side = the player who's turn it is
-    // Default starting player 0 = white
     int currentSide = 0;
-    
-    // Import a model
     ReversiModel model = new ReversiModel(currentSide);
-    
-    //Current time
     protected long starttime=0;
-    
-    // How many moves do we think ahead?
     public static final int MAX_DEPTH = 2;
-    
-    // Time to think, in milliseconds
-    // Default 2000 = 2 seconds
-    public static final int THINK_TIME = 2000; 
-    
-    // The current actual board that the AI will work with
+    public static final int THINK_TIME = 2000;
     int[][] currentBoard = new int[8][8];
-    
-    // This is the board that the minimax is currently working with
     int[][] secondBoard = new int[8][8];
-    
-    // source: http://www.riscos.com/support/developers/agrm/images/fig19.gif
-    private int[] heatMap   = { 7, 2, 5, 4, 4, 5, 2, 7,
-                                2, 1, 3, 3, 3, 3, 1, 2,
-                                5, 3, 6, 5, 5, 6, 3, 5,
-                                4, 3, 5, 6, 6, 5, 3, 4,
-                                4, 3, 5, 6, 6, 5, 3, 4,
-                                5, 3, 6, 5, 5, 6, 3, 5,
-                                2, 1, 3, 3, 3, 3, 1, 2,
-                                7, 2, 5, 4, 4, 5, 2, 7  };
-    
-    int heat = 0;
-    
-    // Potential moves
     HashSet potentialMoves;
-    
-    // Potential depth moves
     HashSet potentialDepthMoves;
-    
-    
+
     public ReversiMinimaxPlayer() {
-        
+        ReversiHeatmap heatmap = new ReversiHeatmap();
+        LinkedList<Rnode> list = new LinkedList<Rnode>();
     }
-    
-    
+
+
     /*
      * Initialization of the AI.
      * Prepares and calls the minimax method.
      * @return calculatedMove The best move according to the heatmap.
      * @param board The board to work with.
      * @param side The side whose turn it is.
-     * TODO: This method needs a prevention from executing at all if side+board has NO valid moves, 
+     * TODO: This method needs a prevention from executing at all if side+board has NO valid moves,
      * will now return 0.
      */
     public int doMinimax(int side, int[][] board) {
-        
+        Node r = new Node();
         currentSide = side;
         currentBoard = board;
-        
+
         // This will be the calculated move.
         int calculatedMove = 0;
-        
+
         int oldHeatValue = -100;
         int heatValue = 0;
-        
+
         // Get all directly possible moves and iterate through them
         // TODO model.getPotentialMoves()
-        
+
         // Set starting time
         starttime = System.currentTimeMillis();
-        
+
         potentialMoves = model.getValidMoves(currentSide, currentBoard);
         Iterator it = potentialMoves.iterator();
         while (it.hasNext()) {
-            
+
             int move = (int) it.next();
             System.out.println("First base move");
-            
+
             // Calculate heatValue for every move. Save hottest move.
             // TODO afterMove() returns an incorrect board!
             heatValue = heatMap[move];
 
             heatValue += minimax(currentSide, move, 0, heatValue, currentBoard);
-            
+
             if (heatValue > oldHeatValue) {
                 calculatedMove = move;
             }
@@ -105,19 +76,19 @@ public class ReversiMinimaxPlayer {
         System.out.println("Calculated a move! " + calculatedMove);
         return calculatedMove;
     }
-    
+
     /*
      * Recursive heat-finding AI with base cases:
      * Depth of moves reached
      * Time limit reached
-     * Game finished 
+     * Game finished
      * @return heat The heat of a move
      */
     private int minimax(int side, int move, int depth, int heat, int[][] thisBoard) {
-        
+
         // Base cases ----------------------------
-        
-        // If depth threshold has been reached, 
+
+        // If depth threshold has been reached,
         // stop and return move
         if (depth > MAX_DEPTH) {
             System.out.println("Maximum depth reached! " + depth + MAX_DEPTH + " Heat = " + heat);
@@ -128,22 +99,22 @@ public class ReversiMinimaxPlayer {
             System.out.println("Time's up!");
             return heat;
         }
-        
-        
+
+
         secondBoard = thisBoard;
-        
+
         // The board after this move has been made
         model.setBoard(thisBoard);
         int[][] boardAfterMove = model.afterMove(move, side, thisBoard);
         model.printBoard(boardAfterMove);
         System.out.println();
-        
+
         // Game finished - has anyone won?
         //if (isGameFinished(boardAfterMove)) {
             // TODO - some action to perform like:
             // model.getPieces(mySide)
         //}
-        
+
         // End Base cases -----------------------
 
 
@@ -151,12 +122,12 @@ public class ReversiMinimaxPlayer {
         int newSide = flipSide(side);
         potentialDepthMoves = model.getValidMoves(newSide, boardAfterMove);
         Iterator it = potentialDepthMoves.iterator();
-        
+
         System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + heat);
         while (it.hasNext()) {
-            
+
             int move2 = (int) it.next();
-        
+
             // Subtract the heat if the heat is meant for your opponent.
             if (newSide == currentSide) {
                return minimax(newSide, move2, depth+1, (heat + heatMap[move2]), secondBoard);
@@ -167,7 +138,7 @@ public class ReversiMinimaxPlayer {
         }
         return heat;
     }
-    
+
     public boolean isGameFinished(int[][] board) {
         if ((model.getValidMoves(1, currentBoard).size() == 0) && (model.getValidMoves(2, currentBoard).size() == 0)) {
             return true;
@@ -175,7 +146,7 @@ public class ReversiMinimaxPlayer {
             return false;
         }
     }
-    
+
     public int flipSide(int side) {
         if (side == 1) {
             return 2;
@@ -183,10 +154,10 @@ public class ReversiMinimaxPlayer {
             return 1;
         }
     }
-    
+
 
     private long getTimeLeft() {
         return THINK_TIME - (System.currentTimeMillis() - starttime);
     }
-    
+
 }
