@@ -8,14 +8,15 @@ import java.util.HashMap;
 /**
  * Created by Joost van Berkel on 3/24/2016.
  * Een uitdaging ontvangen.
- * S: SVR GAME CHALLENGE {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
+ * S: SVR GAME CHALLENGE {CHALLENGER: "Henk", GAMETYPE: "TicTacToe",
+ * CHALLENGENUMBER: "Challengenummer", TURNTIME: "2"}
  * Nu mogelijkheid de uitdaging te accepteren.
  */
 public class RecvGameChallengeCommand extends RecvCommand {
     private String challenger;
     private String gameType;
     private int challengeNumber;
-
+    private int turntime;
 
     /**
      * Parse string to create a filled RecvGameChallengeCommand.
@@ -31,8 +32,8 @@ public class RecvGameChallengeCommand extends RecvCommand {
         this.setChallenger((String) objects.get("CHALLENGER"));
         this.setGameType((String) objects.get("GAMETYPE"));
         this.setChallengeNumber(Integer.parseInt((String) objects.get("CHALLENGENUMBER")));
+        this.setTurntime(Integer.parseInt((String) objects.get("TURNTIME")));
     }
-
 
     public String getChallenger() {
         return challenger;
@@ -56,5 +57,13 @@ public class RecvGameChallengeCommand extends RecvCommand {
 
     public void setChallengeNumber(int challengeNumber) {
         this.challengeNumber = challengeNumber;
+    }
+
+    public int getTurntime() {
+        return turntime;
+    }
+
+    public void setTurntime(int turntime) {
+        this.turntime = turntime;
     }
 }
