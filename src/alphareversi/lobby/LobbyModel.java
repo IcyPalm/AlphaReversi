@@ -44,13 +44,12 @@ public class LobbyModel {
         return username;
     }
 
-    private SimpleStringProperty serverAddress;
-    private SimpleStringProperty username;
+    private final SimpleStringProperty serverAddress;
+    private final SimpleStringProperty username;
     private ChoiceBox gameList;
     private Connection connection;
     private int serverPort;
     private ArrayList oldPlayerList;
-    private Thread requestPlayerList;
 
     /**
      * Set the TableView playerList, ChoiceBox gameList, Connection. Create a new thread for

@@ -23,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 
@@ -124,6 +125,12 @@ public class LobbyController implements CommandListener {
 
     public ObservableList<Player> getPlayerList() {
         return model.getPlayerList().getItems();
+    }
+
+    private ArrayList getAvaliblePlayers() {
+
+
+        return null;
     }
 
     /**

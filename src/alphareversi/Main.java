@@ -45,7 +45,7 @@ public class Main extends Application implements CommandListener {
             Connection connection = Connection.getInstance();
             connection.commandDispatcher.addListener(this);
             this.primaryStage = primaryStage;
-            this.primaryStage.setTitle("Tic Tac Toe");
+            this.primaryStage.setTitle("Lobby");
             initRootLayout();
             initLobby();
             showLobby();
@@ -97,9 +97,6 @@ public class Main extends Application implements CommandListener {
 
                 chatController.setPlayerList(lobbyController.getPlayerList());
 
-/*            //hide this current window (if this is whant you want
-            ((Node)(event.getSource())).getScene().getWindow().hide();*/
-
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
@@ -116,6 +113,7 @@ public class Main extends Application implements CommandListener {
      */
     public void startGame(RecvGameMatchCommand command) throws Exception {
         Connection connection = Connection.getInstance();
+
         gameModule = new TicTacToeModule("AI",command.getOpponent(),command.getPlayerToMove());
 
         rootLayout.setCenter(gameModule.getView());
