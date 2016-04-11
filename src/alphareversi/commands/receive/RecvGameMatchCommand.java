@@ -28,7 +28,7 @@ public class RecvGameMatchCommand extends RecvCommand {
         this.setAction(parts[2]);
 
         HashMap objects = CommandParser.parseObjectMap(parts[3]);
-        this.setGametype((String) objects.get("GAMTYPE"));
+        this.setGametype((String) objects.get("GAMETYPE"));
         this.setPlayerToMove((String) objects.get("PLAYERTOMOVE"));
         this.setOpponent((String) objects.get("OPPONENT"));
     }

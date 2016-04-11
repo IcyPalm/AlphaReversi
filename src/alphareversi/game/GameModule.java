@@ -15,6 +15,4 @@ public abstract class GameModule implements CommandListener {
     public abstract SendMoveCommand send(SendMoveCommand command);
 
     public abstract BorderPane getView();
-
-
 }

@@ -12,12 +12,13 @@ import javafx.scene.layout.BorderPane;
  * Created by Robert on 7-4-2016.
  */
 public class ReversiModule extends GameModule {
+    private static final String[] playerTypes = {"HUMAN", "AI"};
     private Player player;
     private ReversiModel model;
     private String opponent;
     private SendMoveCommand lastCommand;
     private int[][] board;
-
+    private static final String gameName = "Reversi";
     /**
      * Reversi module for sever communication.
      * @param reversiModel The model that is based to the Module.
@@ -83,5 +84,13 @@ public class ReversiModule extends GameModule {
     @Override
     public void commandReceived(RecvCommand command) {
         //TODO: NEEDS IMPLEMENTING!
+    }
+
+    public static String[] getPlayerTypes() {
+        return playerTypes;
+    }
+
+    public static String getGameName() {
+        return gameName;
     }
 }

@@ -26,6 +26,9 @@ import java.util.ArrayList;
 public class LobbyModel {
 
 
+    private final ChoiceBox playAs;
+    private final SimpleStringProperty serverAddress;
+    private final SimpleStringProperty username;
     private TableView playerList;
 
     public String getServerAddress() {
@@ -43,9 +46,6 @@ public class LobbyModel {
     public SimpleStringProperty usernameProperty() {
         return username;
     }
-
-    private final SimpleStringProperty serverAddress;
-    private final SimpleStringProperty username;
     private ChoiceBox gameList;
     private Connection connection;
     private int serverPort;
@@ -55,11 +55,12 @@ public class LobbyModel {
      * Set the TableView playerList, ChoiceBox gameList, Connection. Create a new thread for
      * refreshing playerList
      */
-    LobbyModel(TableView playerList, ChoiceBox gameList) {
+    LobbyModel(TableView playerList, ChoiceBox gameList, ChoiceBox playAs) {
         serverAddress = new SimpleStringProperty();
         username = new SimpleStringProperty();
         this.playerList = playerList;
         this.gameList = gameList;
+        this.playAs = playAs;
         this.connection = Connection.getInstance();
         oldPlayerList = new ArrayList();
         new Thread(new RequestPlayerList()).start();
@@ -171,9 +172,19 @@ public class LobbyModel {
         return this.serverPort;
     }
 
-    public void unsubscirbe() {
+    public void unsubscribe() {
         SendUnsubscribeCommand command = new SendUnsubscribeCommand();
         connection.sendMessage(command);
+    }
+
+    public void setGamePlayers(String[] gamePlayers) {
+        ObservableList<String> data = FXCollections.observableArrayList();
+        playAs.getItems().clear();
+        for (int i = 0; i < gamePlayers.length; i++) {
+            data.add(gamePlayers[i]);
+        }
+        playAs.getItems().setAll(data);
+        playAs.getSelectionModel().select(1);
     }
 
     /**

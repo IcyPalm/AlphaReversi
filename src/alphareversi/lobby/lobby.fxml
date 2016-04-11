@@ -103,7 +103,7 @@
                   <Insets bottom="10.0" left="60.0" right="60.0" top="15.0" />
                </VBox.margin>
             </Separator>
-            <ChoiceBox prefHeight="40.0" prefWidth="250.0">
+            <ChoiceBox prefHeight="40.0" fx:id="playAs" prefWidth="250.0">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

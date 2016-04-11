@@ -23,7 +23,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 
@@ -45,6 +44,8 @@ public class LobbyController implements CommandListener {
     private TableView playerList;
     @FXML
     private ChoiceBox gameList;
+    @FXML
+    private ChoiceBox playAs;
 
     public void setMainApp(Main main) {
         this.main = main;
@@ -54,11 +55,18 @@ public class LobbyController implements CommandListener {
      * Bind the labels to the textValues. Create the lobbyModel. Subscribe to the commandDispatcher
      */
     public void initialize() {
-        model = new LobbyModel(playerList, gameList);
+        model = new LobbyModel(playerList, gameList, playAs);
         createConfigurationDialog();
         usernameLabel.textProperty().bind(model.usernameProperty());
         serverAddressLabel.textProperty().bind(model.serverAddressProperty());
         Connection.getInstance().commandDispatcher.addListener(this);
+        gameList.setOnAction(event -> {
+            model.setGamePlayers(getAvailablePlayers(getSelectedGameObject().toString()));
+        });
+    }
+
+    public String getSelectedPlayerToPlay() {
+        return playAs.getSelectionModel().getSelectedItem().toString();
     }
 
     private Stage getPrimaryStage() {
@@ -85,7 +93,7 @@ public class LobbyController implements CommandListener {
         subscribeAlert.showAndWait();
 
         subscribeAlert.setOnCloseRequest(event -> {
-            model.unsubscirbe();
+            model.unsubscribe();
         });
     }
 
@@ -127,10 +135,8 @@ public class LobbyController implements CommandListener {
         return model.getPlayerList().getItems();
     }
 
-    private ArrayList getAvaliblePlayers() {
-
-
-        return null;
+    private String[] getAvailablePlayers(String serverGame) {
+        return main.getGamesWithPlayers().get(serverGame);
     }
 
     /**

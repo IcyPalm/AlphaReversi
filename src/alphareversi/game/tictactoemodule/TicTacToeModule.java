@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class TicTacToeModule extends GameModule {
     private static final String[] playerTypes = {"HUMAN", "AI"};
+    private static final String gameName = "Tic-tac-toe";
     private Player player;
     private TicTacToeModel model;
     private String opponent;
@@ -118,8 +119,12 @@ public class TicTacToeModule extends GameModule {
         return model.gameOver();
     }
 
-    public String[] getPlayerTypes() {
+    public static String[] getPlayerTypes() {
         return playerTypes;
+    }
+
+    public static String getGameName() {
+        return gameName;
     }
 
     private BorderPane setTicTacToeView() throws Exception {
