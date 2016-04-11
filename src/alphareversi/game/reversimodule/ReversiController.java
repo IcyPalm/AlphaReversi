@@ -1,5 +1,7 @@
 package alphareversi.game.reversimodule;
 
+import alphareversi.Connection;
+import alphareversi.commands.send.SendMoveCommand;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -23,6 +25,7 @@ public class ReversiController {
     @FXML private Label whiteScore;
 
     private ReversiModel reversiModel;
+    private Player player;
 
     public ReversiController() {
     }
@@ -50,17 +53,30 @@ public class ReversiController {
                                 int row = GridPane.getRowIndex( canvas ) ;
                                 int col = GridPane.getColumnIndex( canvas ) ;
                                 int move = convertMove(row, col);
-                                if (! reversiModel.gameOver()
-                                        &&
-                                        reversiModel.moveOk(move, reversiModel.getPlayerOnTurn())) {
-                                    reversiModel.placePiece(move, reversiModel.getPlayerOnTurn());
-                                    updateBoard(reversiModel.getBoard());
+                                if (player instanceof Human
+                                        && !reversiModel.gameOver()
+                                        && ((Human) player).allowedToPlay()
+                                        && reversiModel.moveOk(move,((Human) player).getSide())) {
+                                    reversiModel.placePiece(move, ((Human) player).getSide());
+                                    updateMoveCommand(move);
+                                    ((Human) player).setAllowedToPlayFalse();
                                 }
                             }
                         });
             }
         }
         //updateBoard(reversiModel.getBoard());
+    }
+    /**
+     * Updates the current SendMoveCommand with the latest move.
+     *
+     * @param move the move to set the command to
+     */
+    public void updateMoveCommand(int move) {
+        System.out.println("send command");
+        Connection connection = Connection.getInstance();
+        SendMoveCommand command = new SendMoveCommand(move);
+        connection.sendMessage(command);
     }
     
     private int convertMove(int row, int col) {
@@ -70,6 +86,8 @@ public class ReversiController {
     public void setReversiModel(ReversiModel reversiModel) {
         this.reversiModel = reversiModel;
     }
+
+    public void setPlayer(Player player) { this.player = player; }
 
     /**
      * Update the GUI so that it represents the Board.
@@ -90,12 +108,12 @@ public class ReversiController {
 
                         //gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
                         //gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
-                        gc.setFill((Color.BLACK));
+                        gc.setFill((Color.WHITE));
                         gc.fillOval(10, 20, canvas.getWidth() - 40, canvas.getHeight() - 40);
 
                         canvas.setId("filled");
                     } else {
-                        gc.setFill((Color.WHITE));
+                        gc.setFill((Color.BLACK));
                         gc.fillOval(10, 20, canvas.getWidth() - 40, canvas.getHeight() - 40);
                         canvas.setId("filled");
                     }

@@ -6,8 +6,6 @@ import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.GameModule;
-import alphareversi.game.tictactoemodule.Player;
-import alphareversi.game.tictactoemodule.TicTacToeViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -67,14 +65,18 @@ public class ReversiModule extends GameModule {
         if (!opponent.equals(playerToMove)) {
             selfSide = 2;
             opponentSide = 1;
+            if (player instanceof Human) {
+                ((Human) player).setSide(selfSide);
+            }
             this.model = new ReversiModel(selfSide);
             reversiView = setReversiView();
-            int move = this.player.chooseMove();
-            model.placePiece(move, selfSide);
-            updateMoveCommand(move);
+            this.player.chooseMove();
         } else {
             selfSide = 1;
             opponentSide = 2;
+            if (player instanceof Human) {
+                ((Human) player).setSide(selfSide);
+            }
             this.model = new ReversiModel(selfSide);
             reversiView = setReversiView();
         }
@@ -99,7 +101,8 @@ public class ReversiModule extends GameModule {
 
     @Override
     public SendMoveCommand send(SendMoveCommand command) {
-        //TODO: NEEDS IMPLEMENTING!
+        //TODO: yeah, this is fucked
+        // the implementation of this is in another method. This is also fucked on TicTacToe
         return null;
     }
 
@@ -119,9 +122,7 @@ public class ReversiModule extends GameModule {
         } else if (command instanceof RecvGameYourturnCommand) {
             RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
             System.out.println("it is now my turn");
-            int move = this.player.chooseMove();
-            model.placePiece(move, selfSide);
-            updateMoveCommand(move);
+            this.player.chooseMove();
         }
     }
 
@@ -133,6 +134,8 @@ public class ReversiModule extends GameModule {
         ReversiController controller = loader.getController();
         model.setViewController(controller);
         controller.setReversiModel(model);
+        controller.setPlayer(player);
+        controller.updateBoard(model.getBoard());
 
         return reversiView;
     }
