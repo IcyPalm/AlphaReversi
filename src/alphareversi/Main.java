@@ -25,6 +25,7 @@ public class Main extends Application implements CommandListener {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private LobbyController lobbyController;
+    private Stage chatStage;
 
     public Main() {
     }
@@ -91,25 +92,30 @@ public class Main extends Application implements CommandListener {
      * Create the chat window and set the playerlist from the lobby controller.
      */
     public void createChatWindow() {
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("chat/chat.fxml"));
-            root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Chat");
-            stage.setScene(new Scene(root, 600, 500));
-            stage.show();
+        if (chatStage == null) {
+            Parent root;
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("chat/chat.fxml"));
+                root = loader.load();
+                chatStage = new Stage();
+                chatStage.setTitle("Chat");
+                chatStage.setScene(new Scene(root, 600, 500));
+                chatStage.show();
 
-            ChatController chatController =
-                    loader.<ChatController>getController();
+                ChatController chatController =
+                        loader.<ChatController>getController();
 
-            chatController.setPlayerList(lobbyController.getPlayerList());
+                chatController.setPlayerList(lobbyController.getPlayerList());
 
 /*            //hide this current window (if this is whant you want
             ((Node)(event.getSource())).getScene().getWindow().hide();*/
 
-        } catch (IOException exception) {
-            exception.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        } else {
+            chatStage.show();
+            chatStage.requestFocus();
         }
     }
 
