@@ -97,7 +97,8 @@ public class LobbyController implements CommandListener {
         Player selectedPlayer = getSelectedPlayer();
         if (selectedGame != null && selectedPlayer != null
                 && !selectedPlayer.getUsername().equals(model.getUsername())) {
-            createOutgoingChallengeDialog(selectedPlayer.getUsername(), getSelectedGameObject().toString());
+            createOutgoingChallengeDialog(selectedPlayer.getUsername(),
+                    getSelectedGameObject().toString());
         }
     }
 
@@ -108,7 +109,8 @@ public class LobbyController implements CommandListener {
         dialog.setContentText("Please enter the turn time:");
         Optional<String> result = dialog.showAndWait();
 
-        result.ifPresent(turnTime -> model.challengePlayer(username, gameType, Integer.parseInt(turnTime)));
+        result.ifPresent(turnTime ->
+                model.challengePlayer(username, gameType, Integer.parseInt(turnTime)));
     }
 
     private Object getSelectedGameObject() {
@@ -133,7 +135,8 @@ public class LobbyController implements CommandListener {
         alert.setTitle("Incomming Match");
         alert.setHeaderText("We have an incomming match from " + challenge.getChallenger());
         alert.setContentText("Match from " + challenge.getChallenger()
-                + " for the gametype: " + challenge.getGameType() + " with a turntime of " + challenge.getTurntime() + " seconds.");
+                + " for the gametype: " + challenge.getGameType()
+                + " with a turntime of " + challenge.getTurntime() + " seconds.");
 
         ButtonType accept = new ButtonType("Accept");
         ButtonType decline = new ButtonType("Decline");
