@@ -73,7 +73,7 @@ public class TestSendCommands {
     @Test
     public void testSendMoveCommand() {
         SendMoveCommand moveCommand = new SendMoveCommand(5);
-        assertEquals(true, moveCommand.toString().contains("move 5"));
+        assertEquals(true, moveCommand.toString().contains("MOVE 5"));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class TestSendCommands {
     @Test
     public void testSendMessageCommand() {
         SendMessageCommand messageCommand = new SendMessageCommand("Zolero", "rip");
-        assertEquals(true, messageCommand.toString().contains("msg \"Zolero\" rip"));
+        assertEquals(true, messageCommand.toString().contains("MSG \"Zolero\" rip"));
     }
 
     @Test
