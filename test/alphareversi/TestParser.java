@@ -22,7 +22,8 @@ import org.junit.Test;
  * PLAYERTWOSCORE: "--score speler2--", COMMENT: "Player forfeited match"}
  * S: SVR GAME --speler resultaat-- {PLAYERONESCORE: "--score speler1--",
  * PLAYERTWOSCORE: "--score speler2--", COMMENT: "Client disconnected"}
- * S: SVR GAME CHALLENGE {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
+ * S: SVR GAME CHALLENGE {CHALLENGER: "Henk", GAMETYPE: "TicTacToe",
+ * CHALLENGENUMBER: "Challengenummer", TURNTIME: "2"}
  * S: SVR GAME CHALLENGE CANCELLED {CHALLENGENUMBER: "--uitdaging nummer--"}
  * S: SVR HELP --help informatie--
  */
@@ -84,7 +85,7 @@ public class TestParser {
     public void testSvrGameChallengeCommand() {
         RecvCommand recvCommand = CommandParser.parseString(
                 "SVR GAME CHALLENGE {CHALLENGER: \"Sjors\", GAMETYPE: \"Guess Game\", "
-                        + "CHALLENGENUMBER: \"1\"}");
+                        + "CHALLENGENUMBER: \"1\", TURNTIME: \"2\"}");
         assertEquals(recvCommand.getClass().getSimpleName(), "RecvGameChallengeCommand");
     }
 
