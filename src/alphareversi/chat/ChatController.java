@@ -4,9 +4,8 @@ import alphareversi.Connection;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvMessageCommand;
-import alphareversi.commands.receive.RecvPlayerlistCommand;
 import alphareversi.lobby.Player;
-
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,6 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -25,7 +23,7 @@ import java.util.HashMap;
  */
 public class ChatController implements CommandListener {
 
-    private ObservableList<Player> playerListdata;
+    private ObservableList<Player> playerListdata = FXCollections.observableArrayList();
     private Connection connection;
     private HashMap<Player, Stage> chatWindows;
 
@@ -33,8 +31,8 @@ public class ChatController implements CommandListener {
     private TableView<Player> playerList;
 
     /**
-     * Initialize the chatController. Set the connection and register with commandDispatcher
-     * Set actionEvent on the Table
+     * Initialize the chatController. Set the connection and register with commandDispatcher Set
+     * actionEvent on the Table
      */
     public void initialize() {
         connection = Connection.getInstance();
@@ -49,6 +47,7 @@ public class ChatController implements CommandListener {
 
     public void setPlayerList(ObservableList<Player> playerList) {
         this.playerListdata = playerList;
+        this.playerList.setItems(playerListdata);
     }
 
     private void createChatWindow(Player player) {
@@ -62,7 +61,7 @@ public class ChatController implements CommandListener {
                 stage.setScene(new Scene(root, 600, 400));
                 stage.show();
                 stage.requestFocus();
-                chatWindows.put(player,stage);
+                chatWindows.put(player, stage);
 
                 ChatWindowController chatWindowController =
                         loader.<ChatWindowController>getController();
@@ -81,7 +80,6 @@ public class ChatController implements CommandListener {
     }
 
 
-
     private Player findPlayer(RecvMessageCommand command) {
         for (int i = 0; i < playerList.getItems().size(); i++) {
             Player player = playerList.getItems().get(i);
@@ -95,9 +93,7 @@ public class ChatController implements CommandListener {
 
     @Override
     public void commandReceived(RecvCommand command) {
-        if (command instanceof RecvPlayerlistCommand) {
-            playerList.setItems(playerListdata);
-        } else if (command instanceof RecvMessageCommand) {
+        if (command instanceof RecvMessageCommand) {
             RecvMessageCommand messageCommand = (RecvMessageCommand) command;
             Player player = findPlayer((RecvMessageCommand) command);
             if (player != null) {

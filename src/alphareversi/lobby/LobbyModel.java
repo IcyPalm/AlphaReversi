@@ -50,6 +50,7 @@ public class LobbyModel {
     private Connection connection;
     private int serverPort;
     private ArrayList oldPlayerList;
+    private Thread requestPlayerList;
 
     /**
      * Set the TableView playerList, ChoiceBox gameList, Connection. Create a new thread for
@@ -190,7 +191,7 @@ public class LobbyModel {
                     connection.sendMessage(getPlayerList);
                 }
                 try {
-                    Thread.sleep(500000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }
