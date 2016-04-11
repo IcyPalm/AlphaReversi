@@ -31,7 +31,7 @@ public class ChatController implements CommandListener {
     private TableView<Player> playerList;
 
     /**
-     * Initialize the chatController. Set the connection and register with commandDispatcher Set
+     * Initialize the chatController. Set the connection and register with commandDispatcher and Set
      * actionEvent on the Table
      */
     public void initialize() {
@@ -65,11 +65,7 @@ public class ChatController implements CommandListener {
 
                 ChatWindowController chatWindowController =
                         loader.<ChatWindowController>getController();
-
                 chatWindowController.setPlayer(player);
-
-/*            //hide this current window (if this is whant you want
-            ((Node)(event.getSource())).getScene().getWindow().hide();*/
 
             } catch (IOException exception) {
                 exception.printStackTrace();

@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -96,8 +97,18 @@ public class LobbyController implements CommandListener {
         Player selectedPlayer = getSelectedPlayer();
         if (selectedGame != null && selectedPlayer != null
                 && !selectedPlayer.getUsername().equals(model.getUsername())) {
-            model.challengePlayer(selectedPlayer.getUsername(), getSelectedGameObject().toString());
+            createOutgoingChallengeDialog(selectedPlayer.getUsername(), getSelectedGameObject().toString());
         }
+    }
+
+    private void createOutgoingChallengeDialog(String username, String gameType) {
+        TextInputDialog dialog = new TextInputDialog("challenge player");
+        dialog.setTitle("Challenge " + username);
+        dialog.setHeaderText("Challenge the player " + username + " for the game " + gameType);
+        dialog.setContentText("Please enter the turn time:");
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(turnTime -> model.challengePlayer(username, gameType, Integer.parseInt(turnTime)));
     }
 
     private Object getSelectedGameObject() {
@@ -122,7 +133,7 @@ public class LobbyController implements CommandListener {
         alert.setTitle("Incomming Match");
         alert.setHeaderText("We have an incomming match from " + challenge.getChallenger());
         alert.setContentText("Match from " + challenge.getChallenger()
-                + " for the gametype: " + challenge.getGameType());
+                + " for the gametype: " + challenge.getGameType() + " with a turntime of " + challenge.getTurntime() + " seconds.");
 
         ButtonType accept = new ButtonType("Accept");
         ButtonType decline = new ButtonType("Decline");

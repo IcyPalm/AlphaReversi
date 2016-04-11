@@ -143,8 +143,8 @@ public class LobbyModel {
     /**
      * send the challenge player command for a gametype.
      */
-    public void challengePlayer(String username, String gameType) {
-        SendChallengeCommand challenge = new SendChallengeCommand(username, gameType);
+    public void challengePlayer(String username, String gameType, int turnTime) {
+        SendChallengeCommand challenge = new SendChallengeCommand(username, gameType, turnTime);
         connection.sendMessage(challenge);
     }
 
