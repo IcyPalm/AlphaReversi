@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import javax.swing.tree.TreeNode;
 
-
 /*
  * MiniMax AI test
  * BASIC IDEA, uses only heat from the heatMap
@@ -15,22 +14,38 @@ import javax.swing.tree.TreeNode;
 public class ReversiMinimaxPlayer {
     int currentSide = 0;
     ReversiModel model = new ReversiModel(currentSide);
-    protected long starttime=0;
+    protected long starttime = 0;
     public static final int MAX_DEPTH = 2;
     public static final int THINK_TIME = 2000;
     int[][] currentBoard = new int[8][8];
-    int[][] secondBoard = new int[8][8];
-    HashSet potentialMoves;
-    HashSet potentialDepthMoves;
-
     ReversiHeatmap heatMap = new ReversiHeatmap();
+    LinkedList<Node> leaves = new LinkedList<>();
     int moveNumber = 0;
+    Node root;
 
     public ReversiMinimaxPlayer() {
-        ReversiHeatmap heatmap = new ReversiHeatmap();
-        LinkedList<Node> list = new LinkedList<Node>();
+        this.root = new Node(currentBoard, null, null, null);
+        this.leaves.add(this.root);
     }
 
+    public void setRoot(Node root) {
+        this.root = root;
+        this.leaves = root.getLeaves();
+    }
+
+    public void incomingNewMove(int move) {
+        Node[] children = this.root.getChildren();
+        for (Node child : children) {
+            if (child.getMove() == move) {
+                this.setRoot(child);
+                return;
+            }
+        }
+    }
+
+    public int getBestMove() {
+
+    }
 
     /*
      * Initialization of the AI.
@@ -57,28 +72,35 @@ public class ReversiMinimaxPlayer {
         // Set starting time
         starttime = System.currentTimeMillis();
 
-        potentialMoves = model.getValidMoves(currentSide, currentBoard);
-        Iterator it = potentialMoves.iterator();
-        while (it.hasNext()) {
-
-            int move = (int) it.next();
-            System.out.println("First base move");
-
-            // Calculate heatValue for every move. Save hottest move.
-            // TODO afterMove() returns an incorrect board!
-            heatValue = heatMap.getHeat(move);
-
-            heatValue += minimax(currentSide, move, 0, heatValue, currentBoard);
-
-            if (heatValue > oldHeatValue) {
-                calculatedMove = move;
-            }
-            oldHeatValue = heatValue;
-        }
-        System.out.println("Calculated a move! " + calculatedMove);
-
+        minimax(root, 0);
         moveNumber++;
         return calculatedMove;
+    }
+
+    private void tempBaseCases() {
+
+              // Base cases ----------------------------
+
+              // If depth threshold has been reached,
+              // stop and return move
+              if (depth > MAX_DEPTH) {
+                  System.out.println("Maximum depth reached! " + depth + MAX_DEPTH + " Heat = " + heat);
+                  // return heat;
+              }
+              // Time up
+              if (getTimeLeft()<=0) {
+                  System.out.println("Time's up!");
+                  // return heat;
+              }
+
+              // Game finished - has anyone won?
+              //if (isGameFinished(boardAfterMove)) {
+                  // TODO - some action to perform like:
+                  // model.getPieces(mySide)
+              //}
+
+              // End Base cases -----------------------
+
     }
 
     /*
@@ -88,60 +110,31 @@ public class ReversiMinimaxPlayer {
      * Game finished
      * @return heat The heat of a move
      */
-    private int minimax(int side, int move, int depth, int heat, int[][] thisBoard) {
-
-        // Base cases ----------------------------
-
-        // If depth threshold has been reached,
-        // stop and return move
-        if (depth > MAX_DEPTH) {
-            System.out.println("Maximum depth reached! " + depth + MAX_DEPTH + " Heat = " + heat);
-            return heat;
-        }
-        // Time up
-        if (getTimeLeft()<=0) {
-            System.out.println("Time's up!");
-            return heat;
-        }
-
-
-        secondBoard = thisBoard;
-
-        // The board after this move has been made
-        model.setBoard(thisBoard);
-        int[][] boardAfterMove = model.afterMove(move, side, thisBoard);
-        model.printBoard(boardAfterMove);
-        System.out.println();
-
-        // Game finished - has anyone won?
-        //if (isGameFinished(boardAfterMove)) {
-            // TODO - some action to perform like:
-            // model.getPieces(mySide)
-        //}
-
-        // End Base cases -----------------------
-
-
+    private int minimax(Node parent, int depth) {
         // Recursive MiniMax
-        int newSide = flipSide(side);
-        potentialDepthMoves = model.getValidMoves(newSide, boardAfterMove);
-        Iterator it = potentialDepthMoves.iterator();
+        int newSide = flipSide(parent.getSide());
+        HashSet validMoves = model.getValidMoves(newSide, parent.getBoard());
+        Iterator it = validMoves.iterator();
 
-        System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + heat);
+        System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + parent.getHeat());
+        leaves.remove(parent);
         while (it.hasNext()) {
-            // Iets met nodes en childs
-
             int move2 = (int) it.next();
 
-            // Subtract the heat if the heat is meant for your opponent.
+            int[][] newBoard = model.afterMove(move2, newSide, parent.getBoard());
+
+            int heat;
             if (newSide == currentSide) {
-               return minimax(newSide, move2, depth+1, (heat + heatMap[move2]), secondBoard);
+                heat = parent.getHeat() + heatMap.getHeat(move2);
             } else {
-               return minimax(newSide, move2, depth+1, (heat - heatMap[move2]), secondBoard);
+                // Subtract the heat if the heat is meant for your opponent.
+                heat = parent.getHeat() - heatMap.getHeat(move2);
             }
 
+            Node child = new Node(newBoard, newSide, move2, heat);
+            parent.add(child);
+            leaves.add(child);
         }
-        return heat;
     }
 
     public boolean isGameFinished(int[][] board) {

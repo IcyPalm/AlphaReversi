@@ -9,7 +9,7 @@ public class Node extends DefaultMutableTreeNode {
     int side;
     int heat;
     int move;
-    
+
     public Node(int[][] board, int side, int move, int heat) {
         super();
         this.board = board;
@@ -17,19 +17,57 @@ public class Node extends DefaultMutableTreeNode {
         this.move = move;
         this.heat = heat;
     }
-    
+
+    public Node[] getChildren() {
+        int count = this.getChildCount();
+        Node[] children = new Node[count];
+        Enumeration<Node> e = this.children()
+        int i = 0;
+        while (e.hasMoreElements()) {
+            children[i] = e.nextElement();
+            i++;
+        }
+        return children;
+    }
+
+    public Collection<Node> getLeaves() {
+        Enumeration<Node> e = this.children();
+        LinkedList<Node> leaves = new LinkedList<>();
+        while (e.hasMoreElements()) {
+            Node child = e.nextElement();
+            if (child.isLeaf()) {
+                leaves.add(child);
+            } else {
+                leaves.addAll(child.getLeaves());
+            }
+        }
+        return leaves;
+    }
+
+    private void getLeaves(Node parent) {
+        Enumeration<Node> e = parent.children()
+        while (e.hasMoreElements()) {
+            Node child = e.nextElement();
+            if (child.isLeaf()) {
+                leaves.add(child);
+            } else {
+                this.getLeaves(child, leaves);
+            }
+        }
+    }
+
     public int[][] getBoard() {
         return this.board;
     }
-    
+
     public int getMove() {
         return this.move;
     }
-    
+
     public int getSide() {
         return this.side;
     }
-    
+
     public int getHeat() {
         return this.heat;
     }
