@@ -1,6 +1,6 @@
 package alphareversi.game.reversimodule;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Enumeration;
 import java.util.LinkedList;
 
@@ -34,9 +34,9 @@ public class Node extends DefaultMutableTreeNode {
         return children;
     }
 
-    public Collection<Node> getLeaves() {
+    public List<Node> getLeaves() {
         Enumeration<Node> e = this.children();
-        LinkedList<Node> leaves = new LinkedList<>();
+        List<Node> leaves = new LinkedList<>();
         while (e.hasMoreElements()) {
             Node child = e.nextElement();
             if (child.isLeaf()) {
@@ -44,6 +44,9 @@ public class Node extends DefaultMutableTreeNode {
             } else {
                 leaves.addAll(child.getLeaves());
             }
+        }
+        if (leaves.size() == 0) {
+            leaves.add(this);
         }
         return leaves;
     }

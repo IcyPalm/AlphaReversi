@@ -1,9 +1,10 @@
 package alphareversi.game.reversimodule;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.tree.TreeNode;
 
@@ -13,16 +14,22 @@ import javax.swing.tree.TreeNode;
  * @author Maarten le Clercq
  */
 public class ReversiMinimaxPlayer {
-    int currentSide = 0;
-    ReversiModel model;
-    protected long starttime = 0;
     public static final int MAX_DEPTH = 2;
     public static final int THINK_TIME = 2000;
-    int[][] currentBoard = new int[8][8];
-    ReversiHeatmap heatMap = new ReversiHeatmap();
-    Collection<Node> leaves = new LinkedList<>();
-    int moveNumber = 0;
-    Node root;
+
+    private ReversiModel model;
+    private ReversiHeatmap heatMap = new ReversiHeatmap();
+
+    private int currentSide = 0;
+    private int[][] currentBoard = new int[8][8];
+
+    private Node root;
+    private List<Node> leaves = new LinkedList<>();
+
+    private ReentrantLock lock;
+    private Minimax minimaxer;
+    private long starttime = 0;
+    private int moveNumber = 0;
 
     public ReversiMinimaxPlayer(ReversiModel model) {
         this.model = model;
@@ -33,7 +40,8 @@ public class ReversiMinimaxPlayer {
             side = 2;
         }
         this.root = new Node(currentBoard, side, 0, 0);
-        this.leaves.add(this.root);
+
+        this.startMinimax();
     }
 
     public void setRoot(Node root) {
@@ -51,38 +59,15 @@ public class ReversiMinimaxPlayer {
         }
     }
 
-    //public int getBestMove() {
-
-//    }
-
-    /*
-     * Initialization of the AI.
-     * Prepares and calls the minimax method.
-     * @return calculatedMove The best move according to the heatmap.
-     * @param board The board to work with.
-     * @param side The side whose turn it is.
-     * TODO: This method needs a prevention from executing at all if side+board has NO valid moves,
-     * will now return 0.
-     */
-    public int doMinimax(int side, int[][] board) {
-        currentSide = side;
-        currentBoard = board;
-
-        // This will be the calculated move.
-        int calculatedMove = 0;
-
-        int oldHeatValue = -100;
-        int heatValue = 0;
-
-        // Get all directly possible moves and iterate through them
-        // TODO model.getPotentialMoves()
-
-        // Set starting time
-        starttime = System.currentTimeMillis();
-
-        minimax(root, 0);
-        moveNumber++;
-        return calculatedMove;
+    public int getBestMove() {
+        List<Node> leaves = this.getKnownLeaves();
+        Node best = leaves.get(0);
+        for (Node leaf : leaves) {
+            if (leaf.getHeat() > best.getHeat()) {
+                best = leaf;
+            }
+        }
+        return best.getMove();
     }
 
     private void tempBaseCases() {
@@ -119,25 +104,57 @@ public class ReversiMinimaxPlayer {
         }
     }
 
-    public int flipSide(int side) {
-        if (side == 1) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
-
-
     private long getTimeLeft() {
         return THINK_TIME - (System.currentTimeMillis() - starttime);
     }
 
+    public void startMinimax() {
+        this.lock = new ReentrantLock();
+        this.minimaxer = new Minimax(this.lock, this.root);
+        new Thread(this.minimaxer).start();
+    }
+
+    public List<Node> getKnownLeaves() {
+        this.lock.lock();
+        List<Node> leaves = this.minimaxer.getLeaves();
+        this.lock.unlock();
+        return leaves;
+    }
+
     private class Minimax implements Runnable {
+        private boolean running = true;
+
+        private ReentrantLock lock;
+        private List<Node> leaves;
+
+        public Minimax(ReentrantLock lock, Node root) {
+            this.lock = lock;
+            this.setRoot(root);
+        }
+
+        /**
+         * Stop computing the tree entirely.
+         */
+        public void stop() {
+            this.running = false;
+        }
+
+        public void setRoot(Node root) {
+            this.leaves = root.getLeaves();
+        }
+
+        public List<Node> getLeaves() {
+            return this.leaves;
+        }
+
         public void run() {
-            while (true) {
+            while (this.running) {
+                lock.lock();
                 for (Node leaf : this.leaves) {
-                    // Minimax
+                    this.step(leaf);
                 }
+                // Give the parent thread a chance to access/mutate leaves.
+                lock.unlock();
             }
         }
 
@@ -150,11 +167,10 @@ public class ReversiMinimaxPlayer {
          */
         private void step(Node parent) {
             // Recursive MiniMax
-            int newSide = flipSide(parent.getSide());
+            int newSide = this.flipSide(parent.getSide());
             HashSet validMoves = model.getValidMoves(newSide, parent.getBoard());
             Iterator it = validMoves.iterator();
 
-            System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + parent.getHeat());
             leaves.remove(parent);
             while (it.hasNext()) {
                 int move2 = (int) it.next();
@@ -172,6 +188,14 @@ public class ReversiMinimaxPlayer {
                 Node child = new Node(newBoard, newSide, move2, heat);
                 parent.add(child);
                 leaves.add(child);
+            }
+        }
+
+        private int flipSide(int side) {
+            if (side == 1) {
+                return 2;
+            } else {
+                return 1;
             }
         }
     }
