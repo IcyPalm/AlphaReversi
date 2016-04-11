@@ -165,7 +165,7 @@ public class Main extends Application implements CommandListener {
                 createErrorDialog((RecvStatusErrCommand) command);
             }
         });
-	
+	}
 	private void showTicTacToeView() throws Exception{
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView.fxml"));
