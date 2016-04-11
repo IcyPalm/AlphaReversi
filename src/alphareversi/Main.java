@@ -138,6 +138,7 @@ public class Main extends Application implements CommandListener {
                 command.getOpponent(),
                 command.getPlayerToMove());
 
+
         rootLayout.setCenter(gameModule.getView());
 
         connection.commandDispatcher.addListener(gameModule);

@@ -25,7 +25,6 @@ public class ReversiController {
     private ReversiModel reversiModel;
 
     public ReversiController() {
-        reversiModel = new ReversiModel(1);
     }
 
 
@@ -51,7 +50,7 @@ public class ReversiController {
                                 int row = GridPane.getRowIndex( canvas ) ;
                                 int col = GridPane.getColumnIndex( canvas ) ;
                                 int move = convertMove(row, col);
-                                if (! reversiModel.gameOver( reversiModel.getBoard())
+                                if (! reversiModel.gameOver()
                                         &&
                                         reversiModel.moveOk(move, reversiModel.getPlayerOnTurn())) {
                                     reversiModel.placePiece(move, reversiModel.getPlayerOnTurn());
@@ -61,7 +60,7 @@ public class ReversiController {
                         });
             }
         }
-        updateBoard(reversiModel.getBoard());
+        //updateBoard(reversiModel.getBoard());
     }
     
     private int convertMove(int row, int col) {
@@ -77,6 +76,7 @@ public class ReversiController {
      * @param board The board that needs to be updated.
      */
     public void updateBoard(int[][] board) {
+        System.out.println("I should have updated the board");
         for ( int col = 0; col < board.length; col++ ) {
             for ( int row = 0; row < board.length; row++ ) {
                 Canvas canvas = getCanvasFromGridPane(row,col);
