@@ -3,7 +3,6 @@ package alphareversi.game.reversimodule;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -13,6 +12,8 @@ import javafx.stage.Stage;
 public class ReversiControllerFxTest extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
+
+    public ReversiControllerFxTest(){}
 
     @Override
     public void start(Stage primaryStage) throws Exception {
