@@ -41,7 +41,7 @@ public class ReversiController {
      * after the fxml file has been loaded.
      */
     @FXML
-	public void initialize() {
+    public void initialize() {
         for (Node node: gridPane.getChildren()) {
             if ( node instanceof Canvas ) {
                 Canvas canvas = (Canvas) node;

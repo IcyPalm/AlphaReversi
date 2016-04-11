@@ -166,7 +166,7 @@ public class Main extends Application implements CommandListener {
             }
         });
     }
-//	private void showTicTacToeView() throws Exception{
+//    private void showTicTacToeView() throws Exception{
 //        FXMLLoader loader = new FXMLLoader();
 //        loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView.fxml"));
 //        BorderPane ticTacToeView = (BorderPane) loader.load();
