@@ -111,40 +111,6 @@ public class ReversiMinimaxPlayer {
 
     }
 
-    /*
-     * Recursive heat-finding AI with base cases:
-     * Depth of moves reached
-     * Time limit reached
-     * Game finished
-     * @return heat The heat of a move
-     */
-    private void minimax(Node parent, int depth) {
-        // Recursive MiniMax
-        int newSide = flipSide(parent.getSide());
-        HashSet validMoves = model.getValidMoves(newSide, parent.getBoard());
-        Iterator it = validMoves.iterator();
-
-        System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + parent.getHeat());
-        leaves.remove(parent);
-        while (it.hasNext()) {
-            int move2 = (int) it.next();
-
-            int[][] newBoard = model.afterMove(move2, newSide, parent.getBoard());
-
-            int heat;
-            if (newSide == currentSide) {
-                heat = parent.getHeat() + heatMap.getHeat(move2);
-            } else {
-                // Subtract the heat if the heat is meant for your opponent.
-                heat = parent.getHeat() - heatMap.getHeat(move2);
-            }
-
-            Node child = new Node(newBoard, newSide, move2, heat);
-            parent.add(child);
-            leaves.add(child);
-        }
-    }
-
     public boolean isGameFinished(int[][] board) {
         if ((model.getValidMoves(1, currentBoard).size() == 0) && (model.getValidMoves(2, currentBoard).size() == 0)) {
             return true;
@@ -166,4 +132,47 @@ public class ReversiMinimaxPlayer {
         return THINK_TIME - (System.currentTimeMillis() - starttime);
     }
 
+    private class Minimax implements Runnable {
+        public void run() {
+            while (true) {
+                for (Node leaf : this.leaves) {
+                    // Minimax
+                }
+            }
+        }
+
+        /*
+         * Recursive heat-finding AI with base cases:
+         * Depth of moves reached
+         * Time limit reached
+         * Game finished
+         * @return heat The heat of a move
+         */
+        private void step(Node parent) {
+            // Recursive MiniMax
+            int newSide = flipSide(parent.getSide());
+            HashSet validMoves = model.getValidMoves(newSide, parent.getBoard());
+            Iterator it = validMoves.iterator();
+
+            System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + parent.getHeat());
+            leaves.remove(parent);
+            while (it.hasNext()) {
+                int move2 = (int) it.next();
+
+                int[][] newBoard = model.afterMove(move2, newSide, parent.getBoard());
+
+                int heat;
+                if (newSide == currentSide) {
+                    heat = parent.getHeat() + heatMap.getHeat(move2);
+                } else {
+                    // Subtract the heat if the heat is meant for your opponent.
+                    heat = parent.getHeat() - heatMap.getHeat(move2);
+                }
+
+                Node child = new Node(newBoard, newSide, move2, heat);
+                parent.add(child);
+                leaves.add(child);
+            }
+        }
+    }
 }
