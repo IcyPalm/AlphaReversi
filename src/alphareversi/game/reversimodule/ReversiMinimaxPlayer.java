@@ -1,9 +1,9 @@
 package alphareversi.game.reversimodule;
 
-import java.util.List;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.tree.TreeNode;
@@ -24,17 +24,21 @@ public class ReversiMinimaxPlayer {
     private int[][] currentBoard = new int[8][8];
 
     private Node root;
-    private List<Node> leaves = new LinkedList<>();
 
     private ReentrantLock lock;
     private Minimax minimaxer;
     private long starttime = 0;
     private int moveNumber = 0;
 
+    /**
+     * Create a Minimax AI player.
+     *
+     * @param model The Model (board etc.) to play with.
+     */
     public ReversiMinimaxPlayer(ReversiModel model) {
         this.model = model;
         int side;
-        if(model.amIOnTurn()) {
+        if (model.amIOnTurn()) {
             side = 1;
         } else {
             side = 2;
@@ -44,11 +48,12 @@ public class ReversiMinimaxPlayer {
         this.startMinimax();
     }
 
-    public void setRoot(Node root) {
-        this.root = root;
-        this.leaves = root.getLeaves();
-    }
-
+    /**
+     * Process an incoming move, by the opponent or by us. Discards the parts of
+     * the move tree that are no longer useful.
+     *
+     * @param move The new move.
+     */
     public void incomingNewMove(int move) {
         Node[] children = this.root.getChildren();
         for (Node child : children) {
@@ -59,6 +64,11 @@ public class ReversiMinimaxPlayer {
         }
     }
 
+    /**
+     * Get the best available move that has been computed so far.
+     *
+     * @return The best move according to the current move tree.
+     */
     public int getBestMove() {
         List<Node> leaves = this.getKnownLeaves();
         Node best = leaves.get(0);
@@ -70,55 +80,71 @@ public class ReversiMinimaxPlayer {
         return best.getMove();
     }
 
-    private void tempBaseCases() {
-
-              // Base cases ----------------------------
-
-              // If depth threshold has been reached,
-              // stop and return move
-              //if (depth > MAX_DEPTH) {
-              //    System.out.println("Maximum depth reached! " + depth + MAX_DEPTH + " Heat = " + heat);
-              //    // return heat;
-              //}
-              // Time up
-              //if (getTimeLeft()<=0) {
-              //    System.out.println("Time's up!");
-                  // return heat;
-              //}
-
-              // Game finished - has anyone won?
-              //if (isGameFinished(boardAfterMove)) {
-                  // TODO - some action to perform like:
-                  // model.getPieces(mySide)
-              //}
-
-              // End Base cases -----------------------
-
+    /**
+     * Check whether a player can place any pieces on a board.
+     *
+     * @param side  The player to check
+     * @param board The board state.
+     * @return Whether the player has valid moves on the given board.
+     */
+    private boolean canPlayerMove(int side, int[][] board) {
+        return this.model.getValidMoves(side, board).size() > 0;
     }
 
+    /**
+     * Check whether the game is over on a board.
+     *
+     * @param board The board state.
+     * @return True if no more moves are possible, false otherwise.
+     */
     public boolean isGameFinished(int[][] board) {
-        if ((model.getValidMoves(1, currentBoard).size() == 0) && (model.getValidMoves(2, currentBoard).size() == 0)) {
+        if (!this.canPlayerMove(1, board) || !this.canPlayerMove(2, board)) {
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * @return The remaining time in the current turn.
+     */
     private long getTimeLeft() {
         return THINK_TIME - (System.currentTimeMillis() - starttime);
     }
 
+    /**
+     * Start computing the moves tree.
+     */
     public void startMinimax() {
         this.lock = new ReentrantLock();
         this.minimaxer = new Minimax(this.lock, this.root);
         new Thread(this.minimaxer).start();
     }
 
+    /**
+     * Get the current known computed "end" states (leaves).
+     *
+     * @return A list of current "end" states.
+     */
     public List<Node> getKnownLeaves() {
         this.lock.lock();
         List<Node> leaves = this.minimaxer.getLeaves();
         this.lock.unlock();
         return leaves;
+    }
+
+    /**
+     * Set the current move/board state.
+     */
+    public void setRoot(Node root) {
+        this.lock.lock();
+        this.root = root;
+        this.minimaxer.setRoot(root);
+
+        // TODO Remove the parent node reference from the new root node to save
+        // memory.
+
+        this.lock.unlock();
     }
 
     private class Minimax implements Runnable {
@@ -127,6 +153,12 @@ public class ReversiMinimaxPlayer {
         private ReentrantLock lock;
         private List<Node> leaves;
 
+        /**
+         * Create a new Minimax tree computation thread.
+         *
+         * @param lock Lock used to lock on the current computed leaves.
+         * @param root Initial state node.
+         */
         public Minimax(ReentrantLock lock, Node root) {
             this.lock = lock;
             this.setRoot(root);
@@ -139,14 +171,30 @@ public class ReversiMinimaxPlayer {
             this.running = false;
         }
 
+        /**
+         * Configure the thread to work out the tree of a different Node.
+         * Consumers should wait for this thread's lock first to avoid
+         * concurrency fun.
+         *
+         * @param root The new root state.
+         */
         public void setRoot(Node root) {
             this.leaves = root.getLeaves();
         }
 
+        /**
+         * Retrieve the current leaf states. Consumers should wait for this
+         * thread's lock first to avoid concurrency fun.
+         *
+         * @return The current leaf states.
+         */
         public List<Node> getLeaves() {
             return this.leaves;
         }
 
+        /**
+         * Calculate the moves tree.
+         */
         public void run() {
             while (this.running) {
                 lock.lock();
@@ -192,6 +240,8 @@ public class ReversiMinimaxPlayer {
         }
 
         private int flipSide(int side) {
+            // TODO Do not flip if the other player does not have any moves
+            // available.
             if (side == 1) {
                 return 2;
             } else {
