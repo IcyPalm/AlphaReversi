@@ -5,9 +5,13 @@ import alphareversi.Main;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
+import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
+
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -17,13 +21,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-
 import java.io.IOException;
 import java.util.Optional;
-
-
-
-
 
 
 /**
@@ -35,6 +34,7 @@ public class LobbyController implements CommandListener {
     private Stage primaryStage;
     private Main main;
     private LobbyModel model;
+    private Alert subscribeAlert;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -71,7 +71,20 @@ public class LobbyController implements CommandListener {
         Object selected = getSelectedGameObject();
         if (selected != null) {
             model.subscribe(selected);
+            createSubscribeDialog(selected.toString());
         }
+    }
+
+    private void createSubscribeDialog(String gameType) {
+        subscribeAlert = new Alert(Alert.AlertType.INFORMATION);
+        subscribeAlert.setTitle("Subscription");
+        subscribeAlert.setHeaderText("Your are subscribed to " + gameType);
+        subscribeAlert.setContentText("Searching games.. Keep this dialog open.");
+        subscribeAlert.showAndWait();
+
+        subscribeAlert.setOnCloseRequest(event -> {
+            model.unsubscirbe();
+        });
     }
 
     /**
@@ -82,7 +95,7 @@ public class LobbyController implements CommandListener {
         Object selectedGame = getSelectedGameObject();
         Player selectedPlayer = getSelectedPlayer();
         if (selectedGame != null && selectedPlayer != null
-                && !selectedPlayer.username.getValue().equals(model.getUsername())) {
+                && !selectedPlayer.getUsername().equals(model.getUsername())) {
             model.challengePlayer(selectedPlayer.getUsername(), getSelectedGameObject().toString());
         }
     }
@@ -94,6 +107,10 @@ public class LobbyController implements CommandListener {
     private Player getSelectedPlayer() {
         Object selected = playerList.getSelectionModel().getSelectedItem();
         return (Player) selected;
+    }
+
+    public ObservableList<Player> getPlayerList() {
+        return model.getPlayerList().getItems();
     }
 
     /**
@@ -125,7 +142,8 @@ public class LobbyController implements CommandListener {
      * Create dialog for configuration and login information.
      */
     private void createConfigurationDialog() {
-        LobbyTextInputDialog dialog = new LobbyTextInputDialog("AlphaReversi", "localhost", 7789);
+        LobbyTextInputDialog dialog =
+                new LobbyTextInputDialog("AlphaReversi", "hanzegameserver.nl", 7789);
         dialog.setTitle("Login credentials");
         dialog.setHeaderText("Enter your details");
         dialog.setContentText("Please enter your name:");
@@ -160,15 +178,24 @@ public class LobbyController implements CommandListener {
      */
     @Override
     public void commandReceived(RecvCommand command) {
-        if (command instanceof RecvGamelistCommand) {
-            model.setGameList(((RecvGamelistCommand) command).getGameList());
-        } else if (command instanceof RecvPlayerlistCommand) {
-            model.setPlayerList(((RecvPlayerlistCommand) command).getPlayerList());
-        } else if (command instanceof RecvGameChallengeCommand) {
-            //Create the dialog in the javaFX thread
-            Platform.runLater(() -> {
+        Platform.runLater(() -> {
+            if (command instanceof RecvGamelistCommand) {
+                model.setGameList(((RecvGamelistCommand) command).getGameList());
+            } else if (command instanceof RecvPlayerlistCommand) {
+                model.setPlayerList(((RecvPlayerlistCommand) command).getPlayerList());
+            } else if (command instanceof RecvGameChallengeCommand) {
+                //Create the dialog in the javaFX thread
                 createIncomingChallengeDialog((RecvGameChallengeCommand) command);
-            });
-        }
+            } else if (command instanceof RecvGameMatchCommand) {
+                if (subscribeAlert != null) {
+                    subscribeAlert.close();
+                }
+            }
+        });
     }
+
+    public void openChat(ActionEvent actionEvent) {
+        this.main.createChatWindow();
+    }
+
 }

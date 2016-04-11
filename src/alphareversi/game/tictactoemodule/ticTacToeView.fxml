@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alphareversi.game.tictactoemodule.TicTacToeViewController">
+   <center>
+      <AnchorPane prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <Label text="Opponent">
+                     <font>
+                        <Font name="Tahoma Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Separator>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="NEVER" minWidth="95.0" />
+                      <ColumnConstraints hgrow="NEVER" minWidth="95.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="45.0" minWidth="0.0" prefWidth="7.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="30.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="30.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="30.0" vgrow="NEVER" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Name:">
+                           <font>
+                              <Font name="Tahoma Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Player Type:" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Tahoma Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Character: " GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Tahoma Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="opponentName" text="unknown" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="Tahoma" size="14.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="opponentPlayerType" text="unknown" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Tahoma" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="opponentCharacter" text="unknown" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Tahoma" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <Label text="Player">
+                     <font>
+                        <Font name="Tahoma Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Separator prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="95.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="95.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="30.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="30.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="30.0" vgrow="NEVER" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Name:">
+                           <font>
+                              <Font name="Tahoma Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Player Type:" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Tahoma Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Character:" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Tahoma Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="AlphaReversi" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="Tahoma" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="playerPlayerType" text="unknown" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Tahoma" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="playerCharacter" text="unknown" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Tahoma" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="100.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <Label fx:id="message" text="Your turn!">
+                     <font>
+                        <Font name="Tahoma Bold" size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <GridPane fx:id="gridPane" gridLinesVisible="true" style="-fx-background-color: white;" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="160.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="160.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="160.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints prefHeight="160.0" valignment="CENTER" vgrow="NEVER" />
+                <RowConstraints prefHeight="160.0" valignment="CENTER" vgrow="NEVER" />
+                <RowConstraints prefHeight="160.0" valignment="CENTER" vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+                  <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Canvas>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

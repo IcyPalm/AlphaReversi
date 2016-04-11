@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" fx:controller="alphareversi.chat.ChatController" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TableView prefHeight="200.0" fx:id="playerList" prefWidth="200.0" BorderPane.alignment="CENTER">
+          <columns>
+              <TableColumn text="Username" prefWidth="400">
+                  <cellValueFactory><PropertyValueFactory property="username" />
+
+                  </cellValueFactory>
+
+              </TableColumn>
+              <TableColumn text="Messages" prefWidth="100">
+                  <cellValueFactory><PropertyValueFactory property="messagesCount" />
+
+                  </cellValueFactory>
+
+              </TableColumn>
+          </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <Button mnemonicParsing="false" text="Close" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Tahoma" size="24.0" />
+         </font>
+      </Button>
+   </bottom>
+</BorderPane>

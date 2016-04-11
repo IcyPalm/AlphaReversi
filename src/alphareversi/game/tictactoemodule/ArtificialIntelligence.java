@@ -35,11 +35,11 @@ public class ArtificialIntelligence implements Player {
         } else {
             if (side == model.opponent) {
                 value = model.SELF_WIN;
-                opp = model.getOpponent(model.opponent);
+                opp = model.getOpponentBySide(model.opponent);
 
             } else {
                 value = model.OPPONENT_WIN;
-                opp = model.getOpponent(side);
+                opp = model.getOpponentBySide(side);
             }
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
@@ -63,7 +63,7 @@ public class ArtificialIntelligence implements Player {
     }
 
     // Play a move, possibly clearing a square
-    private void place( int row, int column, int piece ) {
+    private void place(int row, int column, int piece) {
         board[row][column] = piece;
     }
 

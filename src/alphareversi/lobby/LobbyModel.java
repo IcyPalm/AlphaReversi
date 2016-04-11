@@ -10,6 +10,7 @@ import alphareversi.commands.send.SendGetPlayerlistCommand;
 import alphareversi.commands.send.SendLoginCommand;
 import alphareversi.commands.send.SendSubscribeCommand;
 
+import alphareversi.commands.send.SendUnsubscribeCommand;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -109,9 +110,24 @@ public class LobbyModel {
      */
     public void setPlayerList(ArrayList<String> playerList) {
         if (!playerList.equals(oldPlayerList)) {
-            this.playerList.getItems().clear();
-            playerList.forEach(this::addPlayer);
             oldPlayerList = playerList;
+            ObservableList newList = FXCollections.observableArrayList();
+            ObservableList list = this.playerList.getItems();
+            for (int i = 0; i < playerList.size(); i++) {
+                for (Object object: list) {
+                    Player player = (Player) object;
+                    if (player.getUsername().equals(playerList.get(i))) {
+                        newList.add(player);
+                        playerList.remove(i);
+                    }
+                }
+            }
+            for (int i = 0; i < playerList.size(); i++) {
+                Player player = new Player(playerList.get(i));
+                newList.add(player);
+            }
+            list.setAll(newList);
+
         }
     }
 
@@ -142,6 +158,10 @@ public class LobbyModel {
         System.out.println(acceptChallenge.toString());
     }
 
+    public TableView getPlayerList() {
+        return this.playerList;
+    }
+
 
     public void setServerPort(String serverPort) {
         this.serverPort = Integer.parseInt(serverPort);
@@ -149,6 +169,11 @@ public class LobbyModel {
 
     public int getServerPort() {
         return this.serverPort;
+    }
+
+    public void unsubscirbe() {
+        SendUnsubscribeCommand command = new SendUnsubscribeCommand();
+        connection.sendMessage(command);
     }
 
     /**
@@ -165,7 +190,7 @@ public class LobbyModel {
                     connection.sendMessage(getPlayerList);
                 }
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(500000);
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }

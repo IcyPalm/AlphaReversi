@@ -1,6 +1,7 @@
 package alphareversi.commands;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public class CommandDispatcher {
 
-    private List<CommandListener> commandListeners;
+    public List<CommandListener> commandListeners;
 
     public CommandDispatcher() {
         this.commandListeners = new ArrayList<>();
@@ -24,6 +25,21 @@ public class CommandDispatcher {
 
         if (!this.commandListeners.contains(listener)) {
             this.commandListeners.add(listener);
+        }
+
+    }
+
+    /**
+     * Method for removing a listener.
+     * @param listener The listener to remove.
+     */
+    public void removeListener(CommandListener listener) {
+
+        for (Iterator<CommandListener> iter = commandListeners.listIterator(); iter.hasNext(); ) {
+            CommandListener listeners = iter.next();
+            if (listeners == listener) {
+                iter.remove();
+            }
         }
 
     }
