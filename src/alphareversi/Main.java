@@ -1,7 +1,5 @@
 package alphareversi;
 
-import java.io.IOException;
-
 import alphareversi.chat.ChatController;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
@@ -9,10 +7,9 @@ import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGameResultCommand;
 import alphareversi.commands.receive.RecvStatusErrCommand;
 import alphareversi.game.GameModule;
-import alphareversi.game.tictactoemodule.TicTacToeModel;
 import alphareversi.game.tictactoemodule.TicTacToeModule;
-import alphareversi.game.tictactoemodule.TicTacToeViewController;
 import alphareversi.lobby.LobbyController;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +19,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Main extends Application implements CommandListener {
 
