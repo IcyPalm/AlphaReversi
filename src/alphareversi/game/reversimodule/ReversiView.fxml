@@ -461,10 +461,5 @@
       </GridPane>
    </center>
    <bottom>
-      <Label text="Round: 0" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="Tahoma" size="36.0" />
-         </font>
-      </Label>
    </bottom>
 </BorderPane>
