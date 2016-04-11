@@ -162,6 +162,16 @@
       </GridPane>
    </right>
    <top>
+       <Label fx:id="blackScore" text="2" BorderPane.alignment="CENTER_LEFT">
+           <font>
+               <Font name="Tahoma" size="36.0" />
+           </font>
+       </Label>
+       <Label fx:id="whiteScore" text="2" BorderPane.alignment="CENTER_RIGHT">
+           <font>
+               <Font name="Tahoma" size="36.0" />
+           </font>
+       </Label>
       <Label fx:id="serverMessage" text="Your turn!" BorderPane.alignment="CENTER">
          <font>
             <Font name="Tahoma" size="36.0" />
@@ -203,6 +213,26 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="0" GridPane.rowIndex="6">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="0" GridPane.rowIndex="7">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
             <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -215,6 +245,26 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
             <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -227,6 +277,186 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="4" GridPane.rowIndex="6">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="4" GridPane.rowIndex="7">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="5" GridPane.rowIndex="0">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="5" GridPane.rowIndex="6">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="5" GridPane.rowIndex="7">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="6" GridPane.rowIndex="0">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="6" GridPane.rowIndex="5">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="6" GridPane.rowIndex="6">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="6" GridPane.rowIndex="7">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="7" GridPane.rowIndex="0">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="7" GridPane.rowIndex="3">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="7" GridPane.rowIndex="4">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="7" GridPane.rowIndex="5">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="7" GridPane.rowIndex="6">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
+             <Canvas height="160.0" width="160.0" GridPane.columnIndex="7" GridPane.rowIndex="7">
+                 <cursor>
+                     <Cursor fx:constant="HAND" />
+                 </cursor></Canvas>
          </children>
       </GridPane>
    </center>

@@ -11,6 +11,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class ReversiController {
 	@FXML private GridPane gridPane;
@@ -21,12 +23,14 @@ public class ReversiController {
 	@FXML private Label playerLosses;
 	@FXML private Label serverMessage;
 	@FXML private Label round;
+	@FXML private Label blackScore;
+	@FXML private Label whiteScore;
 
     private ReversiModel reversiModel;
 
-/*    public ReversiController(ReversiModel reversiModel) {
-		this.reversiModel = reversiModel;
-	}*/
+    public ReversiController() {
+		reversiModel = new ReversiModel(1);
+	}
 
 
 
@@ -41,6 +45,9 @@ public class ReversiController {
 			if ( node instanceof Canvas ) {
 				Canvas canvas = (Canvas) node;
 				canvas.setId("blank");
+				GraphicsContext gc = canvas.getGraphicsContext2D();
+				gc.setFill(Color.GREEN);
+				gc.fillRect(10, 10, canvas.getWidth(), canvas.getHeight());
 				canvas.addEventFilter(MouseEvent.MOUSE_PRESSED,
 						new EventHandler<MouseEvent>() {
 					@Override
@@ -49,13 +56,15 @@ public class ReversiController {
 						int col = GridPane.getColumnIndex( canvas ) ;
 						int move = convertMove(row, col);
 						if (! reversiModel.gameOver( reversiModel.getBoard() )
-								&& reversiModel.moveOk(move, reversiModel.getMySide())) {
-							reversiModel.placePiece(move, reversiModel.getMySide());
+								&& reversiModel.moveOk(move, reversiModel.getPlayerOnTurn())) {
+							reversiModel.placePiece(move, reversiModel.getPlayerOnTurn());
+							updateBoard(reversiModel.getBoard());
 						}
 					}
 				});
 			}
 		}
+		updateBoard(reversiModel.getBoard());
 	}
     
     private int convertMove(int row, int col){
@@ -82,28 +91,34 @@ public class ReversiController {
 			for(int row = 0; row < board.length; row++) {
 				Canvas canvas = getCanvasFromGridPane(row,col);
 				GraphicsContext gc = canvas.getGraphicsContext2D();
+
 				int piece = board[col][row];
 				if (piece == reversiModel.getEmpty() ) {
-					gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+					//gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+					//gc.setFill(Color.CORAL);
 					canvas.setId("blank");
 				}
-				else if (canvas.getId().equals("blank")) {
-					if ((piece == reversiModel.getMySide() && reversiModel.getMyCharacter() == 'B') ||
-							(piece == reversiModel.getOpponent(reversiModel.getMySide())
-									&& reversiModel.getOpponentCharacter() == 'B')) {
-						gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
-						gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
+				else //if (canvas.getId().equals("blank"))
+				{
+					if ((piece == 1)) {
+
+						//gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
+						//gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
+						gc.setFill((Color.BLACK));
+						gc.fillOval(10, 20, canvas.getWidth() - 40, canvas.getHeight() - 40);
+
 						canvas.setId("filled");
 					}
 					else {
-						gc.strokeOval(10, 10, canvas.getWidth() - 20, canvas.getHeight() - 20);
+						gc.setFill((Color.WHITE));
+						gc.fillOval(10, 20, canvas.getWidth() - 40, canvas.getHeight() - 40);
 						canvas.setId("filled");
 					}
 				}
 			}
 		}
 	}
-	
+
 	private Canvas getCanvasFromGridPane(int col, int row) {
 	    for (Node node : gridPane.getChildren()) {
 	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {

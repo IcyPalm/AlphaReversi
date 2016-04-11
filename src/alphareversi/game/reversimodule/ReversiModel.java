@@ -43,8 +43,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         locations = new ArrayList<>();
         playerOneScore = 2;
         playerTwoScore = 2;
-        playerOnTurn = playerTwo;
-        getValidMoves(playerOnTurn, this.gameBoard);
+        playerOnTurn = playerOne;
     }
 
     /**
@@ -56,6 +55,9 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             gameBoard[move / 8][move % 8] = side;
             flipper(move, gameBoard, side);
             playerOnTurn = getOpponent(playerOnTurn);
+            if(getValidMoves(playerOnTurn,gameBoard).size() == 0) {
+                playerOnTurn = getOpponent(playerOnTurn);
+            }
         }
     }
 
