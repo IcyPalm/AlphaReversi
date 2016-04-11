@@ -8,6 +8,7 @@ import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,10 +23,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
-
-
-
-
 
 
 /**
@@ -112,7 +109,7 @@ public class LobbyController implements CommandListener {
         return (Player) selected;
     }
 
-    public ObservableList<Player> getPlayerList () {
+    public ObservableList<Player> getPlayerList() {
         return model.getPlayerList().getItems();
     }
 
@@ -145,7 +142,8 @@ public class LobbyController implements CommandListener {
      * Create dialog for configuration and login information.
      */
     private void createConfigurationDialog() {
-        LobbyTextInputDialog dialog = new LobbyTextInputDialog("AlphaReversi", "hanzegameserver.nl", 7789);
+        LobbyTextInputDialog dialog =
+                new LobbyTextInputDialog("AlphaReversi", "hanzegameserver.nl", 7789);
         dialog.setTitle("Login credentials");
         dialog.setHeaderText("Enter your details");
         dialog.setContentText("Please enter your name:");
@@ -181,18 +179,18 @@ public class LobbyController implements CommandListener {
     @Override
     public void commandReceived(RecvCommand command) {
         Platform.runLater(() -> {
-        if (command instanceof RecvGamelistCommand) {
-            model.setGameList(((RecvGamelistCommand) command).getGameList());
-        } else if (command instanceof RecvPlayerlistCommand) {
-            model.setPlayerList(((RecvPlayerlistCommand) command).getPlayerList());
-        } else if (command instanceof RecvGameChallengeCommand) {
-            //Create the dialog in the javaFX thread
+            if (command instanceof RecvGamelistCommand) {
+                model.setGameList(((RecvGamelistCommand) command).getGameList());
+            } else if (command instanceof RecvPlayerlistCommand) {
+                model.setPlayerList(((RecvPlayerlistCommand) command).getPlayerList());
+            } else if (command instanceof RecvGameChallengeCommand) {
+                //Create the dialog in the javaFX thread
                 createIncomingChallengeDialog((RecvGameChallengeCommand) command);
-        } else if (command instanceof RecvGameMatchCommand) {
-            if (subscribeAlert != null){
-                subscribeAlert.close();
+            } else if (command instanceof RecvGameMatchCommand) {
+                if (subscribeAlert != null) {
+                    subscribeAlert.close();
+                }
             }
-        }
         });
     }
 

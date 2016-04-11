@@ -1,7 +1,5 @@
 package alphareversi.lobby;
 
-import java.util.ArrayList;
-
 import alphareversi.chat.Message;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
+ * Player class with chatMessages and chat information.
  * Created by wouter on 29-3-2016.
  */
 public class Player {
@@ -25,7 +24,12 @@ public class Player {
         this.chatHistory = chatHistory;
     }
 
-    public void addChatMessage (String messageText, String from) {
+    /**
+     * Add an chat message to the chat history.
+     * @param messageText message text
+     * @param from message sender
+     */
+    public void addChatMessage(String messageText, String from) {
         Message message = new Message(messageText, from);
         chatHistory.add(message);
         int count = messagesCount.getValue();
@@ -35,7 +39,7 @@ public class Player {
 
     Player(String username) {
         this.username = new SimpleStringProperty(username);
-         messagesCount = new SimpleIntegerProperty(0);
+        messagesCount = new SimpleIntegerProperty(0);
     }
 
     public String getUsername() {

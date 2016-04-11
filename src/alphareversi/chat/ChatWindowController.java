@@ -30,19 +30,19 @@ public class ChatWindowController {
     TextField inputMessage;
     Connection connection;
     private ObservableList<Message> chatHistoryData;
-    
+
+    /**
+     * Set connection and all gui elements.
+     */
     public void start() {
         connection = Connection.getInstance();
         chatWith.setText(player.getUsername());
         chatHistoryData = player.getChatHistory();
         chatHistory.setItems(chatHistoryData);
-        inputMessage.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
+        inputMessage.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
-            public void handle(KeyEvent ke)
-            {
-                if (ke.getCode().equals(KeyCode.ENTER))
-                {
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
                     sendMessage();
                 }
             }
@@ -55,14 +55,22 @@ public class ChatWindowController {
         start();
     }
 
+    /**
+     * Send the message in the TextInput.
+     */
     public void sendMessage() {
         String messageText = inputMessage.getText();
         player.addChatMessage("You", messageText);
         inputMessage.setText("");
-        SendMessageCommand messageCommand = new SendMessageCommand(player.getUsername(), messageText);
+        SendMessageCommand messageCommand =
+                new SendMessageCommand(player.getUsername(), messageText);
         connection.sendMessage(messageCommand);
     }
 
+    /**
+     * Close the chat scene.
+     * @param actionEvent actionEvent from the close button.
+     */
     public void close(ActionEvent actionEvent) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         // do what you have to do

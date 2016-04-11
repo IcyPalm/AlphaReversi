@@ -3,18 +3,17 @@ package alphareversi.commands.send;
 import alphareversi.commands.SendCommand;
 
 /**
- * Created by Joost van Berkel on 3/24/2016.
+ * Created by Wouter Bijen on 04-04-2015.
  *
- * <p>Inschrijven voor een speltype.
+ * <p>uitschrijven voor een speltype.
  *
- * <p>C: subscribe --speltype--
+ * <p>C: unsubscribe --speltype--
  * S: OK
  */
 public class SendUnsubscribeCommand extends SendCommand {
 
     /**
      * Constructor SendSubscribeCommand.
-     * @param gameType set game type
      */
     public SendUnsubscribeCommand() {
         this.setMethod("unsubscribe");
@@ -22,5 +21,6 @@ public class SendUnsubscribeCommand extends SendCommand {
 
     @Override
     public String toString() {
-        return this.getMethod();}
+        return this.getMethod();
+    }
 }

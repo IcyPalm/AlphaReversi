@@ -1,7 +1,5 @@
 package alphareversi;
 
-import java.io.IOException;
-
 import alphareversi.chat.ChatController;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
@@ -10,6 +8,7 @@ import alphareversi.commands.receive.RecvStatusErrCommand;
 import alphareversi.game.tictactoemodule.TicTacToeModel;
 import alphareversi.game.tictactoemodule.TicTacToeViewController;
 import alphareversi.lobby.LobbyController;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Main extends Application implements CommandListener {
 
@@ -42,8 +43,8 @@ public class Main extends Application implements CommandListener {
             this.primaryStage.setTitle("Tic Tac Toe");
             initRootLayout();
             showLobby();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -67,6 +68,11 @@ public class Main extends Application implements CommandListener {
         lobbyController.setMainApp(this);
     }
 
+    /**
+     * Start the game.
+     * @param command game match command from server
+     * @throws Exception cannot load
+     */
     public void startGame(RecvGameMatchCommand command) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("game/tictactoemodule/ticTacToeView.fxml"));
@@ -81,6 +87,9 @@ public class Main extends Application implements CommandListener {
         controller.setTicTacToeModel(ticTacToeModel);
     }
 
+    /**
+     * Create the chat window and set the playerlist from the lobby controller.
+     */
     public void createChatWindow() {
         Parent root;
         try {
@@ -99,8 +108,8 @@ public class Main extends Application implements CommandListener {
 /*            //hide this current window (if this is whant you want
             ((Node)(event.getSource())).getScene().getWindow().hide();*/
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -110,8 +119,8 @@ public class Main extends Application implements CommandListener {
             if (command instanceof RecvGameMatchCommand) {
                 try {
                     startGame((RecvGameMatchCommand) command);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
 
             } else if (command instanceof RecvStatusErrCommand) {

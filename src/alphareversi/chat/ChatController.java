@@ -1,15 +1,12 @@
 package alphareversi.chat;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import alphareversi.Connection;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvMessageCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
 import alphareversi.lobby.Player;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +14,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 /**
  * Created by wouter on 7-4-2016.
@@ -30,6 +32,10 @@ public class ChatController implements CommandListener {
     @FXML
     private TableView<Player> playerList;
 
+    /**
+     * Initialize the chatController. Set the connection and register with commandDispatcher
+     * Set actionEvent on the Table
+     */
     public void initialize() {
         connection = Connection.getInstance();
         connection.commandDispatcher.addListener(this);
@@ -66,8 +72,8 @@ public class ChatController implements CommandListener {
 /*            //hide this current window (if this is whant you want
             ((Node)(event.getSource())).getScene().getWindow().hide();*/
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         } else {
             chatWindows.get(player).show();

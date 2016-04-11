@@ -122,7 +122,7 @@ public class LobbyModel {
                     }
                 }
             }
-            for (int i = 0; i <playerList.size(); i++) {
+            for (int i = 0; i < playerList.size(); i++) {
                 Player player = new Player(playerList.get(i));
                 newList.add(player);
             }
@@ -158,7 +158,7 @@ public class LobbyModel {
         System.out.println(acceptChallenge.toString());
     }
 
-    public TableView getPlayerList () {
+    public TableView getPlayerList() {
         return this.playerList;
     }
 

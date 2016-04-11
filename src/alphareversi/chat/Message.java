@@ -10,6 +10,11 @@ public class Message {
     SimpleStringProperty from;
     SimpleStringProperty messageText;
 
+    /**
+     * Set the message from and text.
+     * @param from from player
+     * @param message player message
+     */
     public Message(String from, String message) {
         this.from = new SimpleStringProperty(from);
         this.messageText = new SimpleStringProperty(message);
