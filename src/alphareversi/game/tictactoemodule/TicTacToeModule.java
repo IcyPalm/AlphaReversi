@@ -44,10 +44,14 @@ public class TicTacToeModule extends GameModule {
      */
     public void commandReceived(RecvCommand command) {
         if (command instanceof RecvGameMoveCommand) {
+            RecvGameMoveCommand com = (RecvGameMoveCommand) command;
+            System.out.println(com.getPlayer() + " : made move : " + com.getMove().toString());
             if (this.opponent.equals(((RecvGameMoveCommand) command).getPlayer())) {
                 model.playMove(processMove((RecvGameMoveCommand) command));
             }
         } else if (command instanceof RecvGameYourturnCommand) {
+            RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
+            System.out.println("it is now my turn");
             int move = this.player.chooseMove();
             model.playMove(move);
             updateMoveCommand(move);

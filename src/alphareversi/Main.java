@@ -74,7 +74,7 @@ public class Main extends Application implements CommandListener {
 
     public void startGame(RecvGameMatchCommand command) throws Exception {
         Connection connection = Connection.getInstance();
-        gameModule = new TicTacToeModule("AI",command.getOpponent());
+        gameModule = new TicTacToeModule("AI",command.getOpponent(),command.getPlayerToMove());
 
         rootLayout.setCenter(gameModule.getView());
 
@@ -82,11 +82,14 @@ public class Main extends Application implements CommandListener {
     }
 
     private void stopGame(RecvGameResultCommand command) throws Exception {
+        Connection connection = Connection.getInstance();
+        connection.commandDispatcher.removeListner(gameModule);
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle("Game Over");
-        alert.setHeaderText("The game has ended.");
-        alert.setContentText("");
+        alert.setHeaderText("The game has ended. You have " + command.getType());
+        alert.setContentText(command.getComment());
         alert.showAndWait();
 
         gameModule = null;

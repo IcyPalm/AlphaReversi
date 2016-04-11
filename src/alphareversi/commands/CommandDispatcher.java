@@ -1,6 +1,10 @@
 package alphareversi.commands;
 
+import com.sun.deploy.util.ArrayUtil;
+import com.sun.tools.javac.util.ArrayUtils;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -10,7 +14,7 @@ import java.util.List;
  */
 public class CommandDispatcher {
 
-    private List<CommandListener> commandListeners;
+    public List<CommandListener> commandListeners;
 
     public CommandDispatcher() {
         this.commandListeners = new ArrayList<>();
@@ -24,6 +28,17 @@ public class CommandDispatcher {
 
         if (!this.commandListeners.contains(listener)) {
             this.commandListeners.add(listener);
+        }
+
+    }
+
+    public void removeListner(CommandListener listener) {
+
+        for (Iterator<CommandListener> iter = commandListeners.listIterator(); iter.hasNext(); ) {
+            CommandListener a = iter.next();
+            if (a == listener) {
+                iter.remove();
+            }
         }
 
     }
