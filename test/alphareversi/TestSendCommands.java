@@ -18,7 +18,6 @@ import org.junit.Test;
 
 /**
  * Created by Joost van Berkel on 3/26/2016.
- *
  * C: login --speler--
  * C: logout
  * C: get gamelist
@@ -78,8 +77,8 @@ public class TestSendCommands {
 
     @Test
     public void testSendMessageCommand() {
-        SendMessageCommand messageCommand = new SendMessageCommand("Zolero", "Houston we have a problem");
-        assertEquals(true, messageCommand.toString().contains("msg \"Zolero\" Houston we have a problem"));
+        SendMessageCommand messageCommand = new SendMessageCommand("Zolero", "rip");
+        assertEquals(true, messageCommand.toString().contains("msg \"Zolero\" rip"));
     }
 
     @Test

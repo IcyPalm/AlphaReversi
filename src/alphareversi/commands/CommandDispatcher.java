@@ -32,11 +32,15 @@ public class CommandDispatcher {
 
     }
 
-    public void removeListner(CommandListener listener) {
+    /**
+     * Method for removing a listener.
+     * @param listener The listener to remove.
+     */
+    public void removeListener(CommandListener listener) {
 
         for (Iterator<CommandListener> iter = commandListeners.listIterator(); iter.hasNext(); ) {
-            CommandListener a = iter.next();
-            if (a == listener) {
+            CommandListener listeners = iter.next();
+            if (listeners == listener) {
                 iter.remove();
             }
         }

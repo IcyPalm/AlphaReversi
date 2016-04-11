@@ -9,15 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
-public class TicTacToeViewController{
+public class TicTacToeViewController {
 
-	@FXML private GridPane gridPane;
-	@FXML private Label opponentName;
-	@FXML private Label opponentPlayerType;
-	@FXML private Label opponentCharacter;
-	@FXML private Label playerPlayerType;
-	@FXML private Label playerCharacter;
-	@FXML private Label message;
+    @FXML private GridPane gridPane;
+    @FXML private Label opponentName;
+    @FXML private Label opponentPlayerType;
+    @FXML private Label opponentCharacter;
+    @FXML private Label playerPlayerType;
+    @FXML private Label playerCharacter;
+    @FXML private Label message;
     private TicTacToeModel ticTacToeModel;
     
     public TicTacToeViewController(){}
@@ -27,36 +27,40 @@ public class TicTacToeViewController{
      * after the fxml file has been loaded.
      */
     @FXML
-    private void initialize(){
-    	for(Node node: gridPane.getChildren()){
-            if(node instanceof Canvas){
-            	Canvas canvas = (Canvas) node;
-            	canvas.setId("blank");
-            	canvas.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+    private void initialize() {
+    	for (Node node: gridPane.getChildren()) {
+            if (node instanceof Canvas) {
+                Canvas canvas = (Canvas) node;
+                canvas.setId("blank");
+                canvas.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                     @Override
-                    public void handle(MouseEvent e){
-                    	int row = GridPane.getRowIndex(canvas).intValue();
-                    	int col = GridPane.getColumnIndex(canvas).intValue();
-                    	int move = convertMove(row, col);
-                    	if(playerPlayerType.getText() == "HUMAN" && !ticTacToeModel.gameOver() && ticTacToeModel.getSide() == ticTacToeModel.getSelf() && ticTacToeModel.moveOk(move)){
-                    		ticTacToeModel.playMove(move);
-                    	}
+                    public void handle(MouseEvent event) {
+                        int row = GridPane.getRowIndex(canvas).intValue();
+                        int col = GridPane.getColumnIndex(canvas).intValue();
+                        int move = convertMove(row, col);
+                        if (playerPlayerType.getText() == "HUMAN"
+                                && !ticTacToeModel.gameOver()
+                                && ticTacToeModel.getSide() == ticTacToeModel.getSelf()
+                                && ticTacToeModel.moveOk(move)) {
+                            ticTacToeModel.playMove(move);
+                        }
                     }
                 });
             }
         }
     }
     
-    private int convertMove(int row, int col){
-    	return (row * 3) + col;
+    private int convertMove(int row, int col) {
+        return (row * 3) + col;
     }
     
-    public void setTicTacToeModel(TicTacToeModel ticTacToeModel, String playerType, String opponentName){
-    	this.ticTacToeModel = ticTacToeModel;
-    	opponentCharacter.setText(String.valueOf(this.ticTacToeModel.getOpponentChar()));
-    	playerCharacter.setText(String.valueOf(this.ticTacToeModel.getSelfChar()));
-    	playerPlayerType.setText(playerType);
-    	this.opponentName.setText(opponentName);
+    public void setTicTacToeModel(TicTacToeModel ticTacToeModel,
+                                  String playerType, String opponentName) {
+        this.ticTacToeModel = ticTacToeModel;
+        opponentCharacter.setText(String.valueOf(this.ticTacToeModel.getOpponentChar()));
+        playerCharacter.setText(String.valueOf(this.ticTacToeModel.getSelfChar()));
+        playerPlayerType.setText(playerType);
+        this.opponentName.setText(opponentName);
     }
     
 	public void updateBoard(int[][] board){

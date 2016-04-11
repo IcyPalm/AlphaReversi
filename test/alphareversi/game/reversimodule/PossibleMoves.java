@@ -1,10 +1,8 @@
 package alphareversi.game.reversimodule;
 
-import org.junit.Test;
-
-import alphareversi.game.reversimodule.ReversiModel;
-
 import static junit.framework.TestCase.assertEquals;
+
+import org.junit.Test;
 
 /**
  * Created by Robert on 28-3-2016.
@@ -114,6 +112,9 @@ public class PossibleMoves {
         assertEquals(1, reversiModel.getValidMoves(1, board).size());
     }
 
+    /**
+     * Test diagonal moves.
+     */
     public void testDiagonalMoves() {
         System.out.println("START DIAGONAL TEST");
         leftUpTest();

@@ -44,8 +44,8 @@ public class Main extends Application implements CommandListener {
             initRootLayout();
             initLobby();
             showLobby();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception error) {
+            error.printStackTrace();
         }
     }
 
@@ -72,6 +72,11 @@ public class Main extends Application implements CommandListener {
         rootLayout.setCenter(lobbyView);
     }
 
+    /**
+     * Method for starting a game.
+     * @param command The command for starting a game.
+     * @throws Exception A regular exception.
+     */
     public void startGame(RecvGameMatchCommand command) throws Exception {
         Connection connection = Connection.getInstance();
         gameModule = new TicTacToeModule("AI",command.getOpponent(),command.getPlayerToMove());
@@ -102,14 +107,14 @@ public class Main extends Application implements CommandListener {
             if (command instanceof RecvGameMatchCommand) {
                 try {
                     startGame((RecvGameMatchCommand) command);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception error) {
+                    error.printStackTrace();
                 }
             }  else if (command instanceof RecvGameResultCommand) {
                 try {
                     stopGame((RecvGameResultCommand) command);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception error) {
+                    error.printStackTrace();
                 }
             }
         });

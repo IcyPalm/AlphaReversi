@@ -181,24 +181,19 @@ public class TicTacToeModel {
         return side == opponent;
     }
 
-    public void setViewController(TicTacToeViewController vieController){
-		this.viewController = vieController;
-	}
+    public void setViewController(TicTacToeViewController viewController) {
+        this.viewController = viewController;
+    }
     
-    public int getSelf(){
-		return self;
-	}
+    public int getSelf() {
+        return self;
+    }
 	
-	public int getOpponent(){
-		return opponent;
-	}
-	
-	public int getEmpty(){
-		return EMPTY;
-	}
-	
-	public int getSide(){
-		return side;
-	}
+    public int getEmpty() {
+        return EMPTY;
+    }
 
+    public int getSide() {
+        return side;
+    }
 }
