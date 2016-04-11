@@ -1,5 +1,6 @@
 package alphareversi.game.reversimodule;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,18 +14,25 @@ import javax.swing.tree.TreeNode;
  */
 public class ReversiMinimaxPlayer {
     int currentSide = 0;
-    ReversiModel model = new ReversiModel(currentSide);
+    ReversiModel model;
     protected long starttime = 0;
     public static final int MAX_DEPTH = 2;
     public static final int THINK_TIME = 2000;
     int[][] currentBoard = new int[8][8];
     ReversiHeatmap heatMap = new ReversiHeatmap();
-    LinkedList<Node> leaves = new LinkedList<>();
+    Collection<Node> leaves = new LinkedList<>();
     int moveNumber = 0;
     Node root;
 
-    public ReversiMinimaxPlayer() {
-        this.root = new Node(currentBoard, null, null, null);
+    public ReversiMinimaxPlayer(ReversiModel model) {
+        this.model = model;
+        int side;
+        if(model.amIOnTurn()) {
+            side = 1;
+        } else {
+            side = 2;
+        }
+        this.root = new Node(currentBoard, side, 0, 0);
         this.leaves.add(this.root);
     }
 
@@ -43,9 +51,9 @@ public class ReversiMinimaxPlayer {
         }
     }
 
-    public int getBestMove() {
+    //public int getBestMove() {
 
-    }
+//    }
 
     /*
      * Initialization of the AI.
@@ -83,15 +91,15 @@ public class ReversiMinimaxPlayer {
 
               // If depth threshold has been reached,
               // stop and return move
-              if (depth > MAX_DEPTH) {
-                  System.out.println("Maximum depth reached! " + depth + MAX_DEPTH + " Heat = " + heat);
-                  // return heat;
-              }
+              //if (depth > MAX_DEPTH) {
+              //    System.out.println("Maximum depth reached! " + depth + MAX_DEPTH + " Heat = " + heat);
+              //    // return heat;
+              //}
               // Time up
-              if (getTimeLeft()<=0) {
-                  System.out.println("Time's up!");
+              //if (getTimeLeft()<=0) {
+              //    System.out.println("Time's up!");
                   // return heat;
-              }
+              //}
 
               // Game finished - has anyone won?
               //if (isGameFinished(boardAfterMove)) {
@@ -110,7 +118,7 @@ public class ReversiMinimaxPlayer {
      * Game finished
      * @return heat The heat of a move
      */
-    private int minimax(Node parent, int depth) {
+    private void minimax(Node parent, int depth) {
         // Recursive MiniMax
         int newSide = flipSide(parent.getSide());
         HashSet validMoves = model.getValidMoves(newSide, parent.getBoard());

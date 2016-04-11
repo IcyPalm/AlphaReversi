@@ -1,5 +1,9 @@
 package alphareversi.game.reversimodule;
 
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.LinkedList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Node extends DefaultMutableTreeNode {
@@ -21,7 +25,7 @@ public class Node extends DefaultMutableTreeNode {
     public Node[] getChildren() {
         int count = this.getChildCount();
         Node[] children = new Node[count];
-        Enumeration<Node> e = this.children()
+        Enumeration<Node> e = this.children();
         int i = 0;
         while (e.hasMoreElements()) {
             children[i] = e.nextElement();
@@ -42,18 +46,6 @@ public class Node extends DefaultMutableTreeNode {
             }
         }
         return leaves;
-    }
-
-    private void getLeaves(Node parent) {
-        Enumeration<Node> e = parent.children()
-        while (e.hasMoreElements()) {
-            Node child = e.nextElement();
-            if (child.isLeaf()) {
-                leaves.add(child);
-            } else {
-                this.getLeaves(child, leaves);
-            }
-        }
     }
 
     public int[][] getBoard() {
