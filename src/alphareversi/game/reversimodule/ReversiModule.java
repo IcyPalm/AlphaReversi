@@ -17,7 +17,12 @@ public class ReversiModule implements InterfaceGameModule {
     private SendMoveCommand lastCommand;
     private int[][] board;
 
-    public ReversiModule (ReversiModel reversiModel,  String opponent) {
+    /**
+     * Reversi module for sever communication.
+     * @param reversiModel The model that is based to the Module.
+     * @param opponent The opponent's name.
+     */
+    public ReversiModule(ReversiModel reversiModel,  String opponent) {
         this.model = reversiModel;
         this.opponent = opponent;
         this.board = model.getBoard();
@@ -35,7 +40,8 @@ public class ReversiModule implements InterfaceGameModule {
         if (command instanceof RecvGameMoveCommand) {
             System.out.println(((RecvGameMoveCommand) command).getPlayer());
             if (this.opponent == ((RecvGameMoveCommand) command).getPlayer()) {
-                model.placePiece(processMove((RecvGameMoveCommand) command), model.getPlayerOnTurn() );
+                model.placePiece(processMove((RecvGameMoveCommand) command),
+                        model.getPlayerOnTurn() );
             }
         } else if (command instanceof RecvGameYourturnCommand) {
             int move = this.player.chooseMove();

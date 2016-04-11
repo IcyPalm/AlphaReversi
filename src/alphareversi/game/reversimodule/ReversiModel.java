@@ -55,7 +55,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             gameBoard[move / 8][move % 8] = side;
             flipper(move, gameBoard, side);
             playerOnTurn = getOpponent(playerOnTurn);
-            if(getValidMoves(playerOnTurn,gameBoard).size() == 0) {
+            if (getValidMoves(playerOnTurn,gameBoard).size() == 0) {
                 playerOnTurn = getOpponent(playerOnTurn);
             }
         }
