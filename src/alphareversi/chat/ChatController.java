@@ -55,6 +55,7 @@ public class ChatController implements CommandListener {
                 stage.setTitle("Chat with " + player.getUsername());
                 stage.setScene(new Scene(root, 600, 400));
                 stage.show();
+                stage.requestFocus();
                 chatWindows.put(player,stage);
 
                 ChatWindowController chatWindowController =
@@ -94,7 +95,7 @@ public class ChatController implements CommandListener {
             RecvMessageCommand messageCommand = (RecvMessageCommand) command;
             Player player = findPlayer((RecvMessageCommand) command);
             if (player != null) {
-                player.addChatMessage(messageCommand.getMessage(), messageCommand.getPlayer());
+                player.addChatMessage(messageCommand.getPlayer(), messageCommand.getMessage());
             }
 
         }

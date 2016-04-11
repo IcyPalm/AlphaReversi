@@ -110,9 +110,24 @@ public class LobbyModel {
      */
     public void setPlayerList(ArrayList<String> playerList) {
         if (!playerList.equals(oldPlayerList)) {
-            this.playerList.getItems().clear();
-            playerList.forEach(this::addPlayer);
             oldPlayerList = playerList;
+            ObservableList newList = FXCollections.observableArrayList();
+            ObservableList list = this.playerList.getItems();
+            for (int i = 0; i < playerList.size(); i++) {
+                for (Object object: list) {
+                    Player player = (Player) object;
+                    if (player.getUsername().equals(playerList.get(i))) {
+                        newList.add(player);
+                        playerList.remove(i);
+                    }
+                }
+            }
+            for (int i = 0; i <playerList.size(); i++) {
+                Player player = new Player(playerList.get(i));
+                newList.add(player);
+            }
+            list.setAll(newList);
+
         }
     }
 
