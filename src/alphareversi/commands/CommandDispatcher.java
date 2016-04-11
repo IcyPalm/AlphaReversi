@@ -1,8 +1,5 @@
 package alphareversi.commands;
 
-import com.sun.deploy.util.ArrayUtil;
-import com.sun.tools.javac.util.ArrayUtils;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +28,7 @@ public class CommandDispatcher {
         }
 
     }
-
+    
     public void removeListner(CommandListener listener) {
 
         for (Iterator<CommandListener> iter = commandListeners.listIterator(); iter.hasNext(); ) {
