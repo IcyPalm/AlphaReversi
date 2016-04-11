@@ -19,7 +19,7 @@ public class SendMessageCommand extends SendCommand {
      * @param message set message
      */
     public SendMessageCommand(String player, String message) {
-        this.setMethod("msg");
+        this.setMethod("MSG");
         this.setPlayer(player);
         this.setMessage(message);
     }

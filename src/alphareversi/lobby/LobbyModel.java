@@ -190,7 +190,7 @@ public class LobbyModel {
                     connection.sendMessage(getPlayerList);
                 }
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(500000);
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }

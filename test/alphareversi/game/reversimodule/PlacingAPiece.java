@@ -1,10 +1,8 @@
 package alphareversi.game.reversimodule;
 
-import org.junit.Test;
-
-import alphareversi.game.reversimodule.ReversiModel;
-
 import static junit.framework.TestCase.assertEquals;
+
+import org.junit.Test;
 
 /**
  * Created by Robert on 31-3-2016. Tests for placing pieces

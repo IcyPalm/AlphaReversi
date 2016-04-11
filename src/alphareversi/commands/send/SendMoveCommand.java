@@ -18,7 +18,7 @@ public class SendMoveCommand extends SendCommand {
      * @param move set move position
      */
     public SendMoveCommand(int move) {
-        this.setMethod("move");
+        this.setMethod("MOVE");
         this.setMove(move);
     }
 
