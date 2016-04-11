@@ -43,8 +43,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         locations = new ArrayList<>();
         playerOneScore = 2;
         playerTwoScore = 2;
-        playerOnTurn = playerTwo;
-        getValidMoves(playerOnTurn, this.gameBoard);
+        playerOnTurn = playerOne;
     }
 
     /**
@@ -56,7 +55,23 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             gameBoard[move / 8][move % 8] = side;
             flipper(move, gameBoard, side);
             playerOnTurn = getOpponent(playerOnTurn);
+            if (getValidMoves(playerOnTurn,gameBoard).size() == 0) {
+                playerOnTurn = getOpponent(playerOnTurn);
+            }
         }
+    }
+
+    /**
+     * This method is purely used for placePiece since it looks @ the current gameboard.
+     * @param move The move you want to do.
+     * @param side The side wanting to do the move.
+     * @return Indicates if the move is oké.
+     */
+    public boolean moveOk( int move, int side) {
+        if (getValidMoves(side, gameBoard).contains(move) ) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -815,6 +830,30 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             return playerTwoScore;
         } else {
             return 3; //draw
+        }
+    }
+
+    /**
+     * Get the character associated with my side.
+     * @return The character that is returned.
+     */
+    public char getMyCharacter() {
+        if (mySide == playerOne) {
+            return white;
+        } else {
+            return black;
+        }
+    }
+
+    /**
+     * Get the character associated with my opponent's side.
+     * @return The character that is returned.
+     */
+    public char getOpponentCharacter() {
+        if (mySide != playerOne) {
+            return white;
+        } else {
+            return black;
         }
     }
 }
