@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * Created by Robert on 8-4-2016.
  */
-public class ReversiControllerFXTest extends Application {
+public class ReversiControllerFxTest extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
@@ -36,8 +36,8 @@ public class ReversiControllerFXTest extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
         }
     }
 }
