@@ -4,14 +4,17 @@ package alphareversi.game.tictactoemodule;
  * Created by Daniël on 25-Mar-16.
  */
 public class TicTacToeModel {
+    private int[][] board = new int[3][3];
+
     public static final int self = 0;
     public static final int opponent = 1;
-    public static final int EMPTY = 2;
-    public static final int SELF_WIN = 0;
-    public static final int DRAW = 1;
-    public static final int UNCLEAR = 2;
-    public static final int OPPONENT_WIN = 3;
-    private int[][] board = new int[3][3];
+    public  static final int EMPTY = 2;
+
+    public  static final int SELF_WIN = 0;
+    public  static final int DRAW = 1;
+    public  static final int UNCLEAR = 2;
+    public  static final int OPPONENT_WIN = 3;
+
     private int position = UNCLEAR;
 
     private int side;
@@ -22,17 +25,19 @@ public class TicTacToeModel {
     private TicTacToeViewController viewController;
 
     /**
-     * Constructor for TicTacToeModel. creates a view.
+     * Constructor for TicTacToeModel.
+     * creates a view.
      */
     public TicTacToeModel() {
         //view = new TicTacToeView(self, opponent, this);
-        clearBoard();
+        clearBoard( );
         initSide();
     }
 
     /**
-     * Plays a move on the board. Switches the turn to the opposite player. Calls the
-     * TicTacToeView.
+     * Plays a move on the board.
+     * Switches the turn to the opposite player.
+     * Calls the TicTacToeView.
      */
     public void playMove(int move) {
         board[move / 3][move % 3] = this.side;
@@ -74,15 +79,14 @@ public class TicTacToeModel {
      * Checks if a move is good to set.
      */
     public boolean moveOk(int move) {
-        return (move >= 0 && move <= 8 && board[move / 3][move % 3] == EMPTY);
+        return ( move >= 0 && move <= 8 && board[move / 3][move % 3] == EMPTY );
     }
 
     /**
      * Checks if a side has won.
-     *
      * @param side The side to check.
      */
-    public boolean isAWin(int side) {
+    public boolean isAWin( int side ) {
         // verticaal
         for (int y = 0; y < 3; y++) {
             if (board[0][y] == board[1][y] && board[1][y] == board[2][y] && board[0][y] == side) {
@@ -177,18 +181,14 @@ public class TicTacToeModel {
         return side == opponent;
     }
 
-    public void setViewController(TicTacToeViewController vieController) {
-        this.viewController = vieController;
+    public void setViewController(TicTacToeViewController viewController) {
+        this.viewController = viewController;
     }
-
+    
     public int getSelf() {
         return self;
     }
-
-    public int getOpponent() {
-        return opponent;
-    }
-
+	
     public int getEmpty() {
         return EMPTY;
     }
@@ -196,5 +196,4 @@ public class TicTacToeModel {
     public int getSide() {
         return side;
     }
-
 }

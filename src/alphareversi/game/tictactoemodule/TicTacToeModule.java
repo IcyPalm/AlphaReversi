@@ -27,7 +27,8 @@ public class TicTacToeModule extends GameModule {
     /**
      * Constructor Module.
      */
-    public TicTacToeModule(String playerType, String opponent, String playerToMove) throws Exception {
+    public TicTacToeModule(String playerType, String opponent,
+                           String playerToMove) throws Exception {
         model = new TicTacToeModel();
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
@@ -99,7 +100,7 @@ public class TicTacToeModule extends GameModule {
     }
 
     /**
-     * Checks who should begin
+     * Checks who should begin.
      */
     private void decideWhoBegins(String playerToMove) {
         if (!opponent.equals(playerToMove)) {
