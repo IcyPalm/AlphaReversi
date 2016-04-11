@@ -11,24 +11,32 @@ import javafx.scene.layout.GridPane;
 
 public class TicTacToeViewController {
 
-    @FXML private GridPane gridPane;
-    @FXML private Label opponentName;
-    @FXML private Label opponentPlayerType;
-    @FXML private Label opponentCharacter;
-    @FXML private Label playerPlayerType;
-    @FXML private Label playerCharacter;
-    @FXML private Label message;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private Label opponentName;
+    @FXML
+    private Label opponentPlayerType;
+    @FXML
+    private Label opponentCharacter;
+    @FXML
+    private Label playerPlayerType;
+    @FXML
+    private Label playerCharacter;
+    @FXML
+    private Label message;
     private TicTacToeModel ticTacToeModel;
-    
-    public TicTacToeViewController(){}
-    
+
+    public TicTacToeViewController() {
+    }
+
     /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
+     * Initializes the controller class. This method is automatically called after the fxml file has
+     * been loaded.
      */
     @FXML
     private void initialize() {
-    	for (Node node: gridPane.getChildren()) {
+        for (Node node : gridPane.getChildren()) {
             if (node instanceof Canvas) {
                 Canvas canvas = (Canvas) node;
                 canvas.setId("blank");
@@ -49,11 +57,17 @@ public class TicTacToeViewController {
             }
         }
     }
-    
+
     private int convertMove(int row, int col) {
         return (row * 3) + col;
     }
-    
+
+    /**
+     * Bind the tictactoe model to the view.
+     * @param ticTacToeModel the model to bind
+     * @param playerType type of player
+     * @param opponentName name of the opponent
+     */
     public void setTicTacToeModel(TicTacToeModel ticTacToeModel,
                                   String playerType, String opponentName) {
         this.ticTacToeModel = ticTacToeModel;
@@ -62,38 +76,42 @@ public class TicTacToeViewController {
         playerPlayerType.setText(playerType);
         this.opponentName.setText(opponentName);
     }
-    
-	public void updateBoard(int[][] board){
-		for(int col = 0; col < board.length; col++){
-			for(int row = 0; row < board.length; row++){
-				Canvas canvas = getCanvasFromGridPane(row,col);
-				GraphicsContext gc = canvas.getGraphicsContext2D();
-				int piece = board[col][row];
-				if(piece == ticTacToeModel.getEmpty()){
-					gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-					canvas.setId("blank");
-				}
-				else if(canvas.getId().equals("blank")){
-					if((piece == ticTacToeModel.getSelf() && ticTacToeModel.getSelfChar() == 'X') || (piece == ticTacToeModel.getOpponent() && ticTacToeModel.getOpponentChar() == 'X')){
-						gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
-						gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
-						canvas.setId("filled");
-					}
-					else{
-						gc.strokeOval(10, 10, canvas.getWidth() - 20, canvas.getHeight() - 20);
-						canvas.setId("filled");
-					}
-				}
-			}
-		}
-	}
-	
-	private Canvas getCanvasFromGridPane(int col, int row){
-	    for(Node node : gridPane.getChildren()){
-	        if(GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row){
-	            return (Canvas) node;
-	        }
-	    }
-	    return null;
-	}
+
+    /**
+     * update the boars visual.
+     * @param board state of the game
+     */
+    public void updateBoard(int[][] board) {
+        for (int col = 0; col < board.length; col++) {
+            for (int row = 0; row < board.length; row++) {
+                Canvas canvas = getCanvasFromGridPane(row, col);
+                GraphicsContext gc = canvas.getGraphicsContext2D();
+                int piece = board[col][row];
+                if (piece == ticTacToeModel.getEmpty()) {
+                    gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                    canvas.setId("blank");
+                } else if (canvas.getId().equals("blank")) {
+                    if ((piece == ticTacToeModel.getSelf() && ticTacToeModel.getSelfChar() == 'X')
+                            || (piece == ticTacToeModel.getOpponent()
+                            && ticTacToeModel.getOpponentChar() == 'X')) {
+                        gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
+                        gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
+                        canvas.setId("filled");
+                    } else {
+                        gc.strokeOval(10, 10, canvas.getWidth() - 20, canvas.getHeight() - 20);
+                        canvas.setId("filled");
+                    }
+                }
+            }
+        }
+    }
+
+    private Canvas getCanvasFromGridPane(int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return (Canvas) node;
+            }
+        }
+        return null;
+    }
 }
