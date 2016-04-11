@@ -13,6 +13,7 @@ import alphareversi.commands.send.SendLogoutCommand;
 import alphareversi.commands.send.SendMessageCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.commands.send.SendSubscribeCommand;
+import alphareversi.commands.send.SendUnsubscribeCommand;
 
 import org.junit.Test;
 
@@ -23,9 +24,10 @@ import org.junit.Test;
  * C: get gamelist
  * C: get playerlist
  * C: subscribe --speltype--
+ * C: unsubscribe
  * C: move --zet--
  * C: forfeit
- * C: challenge "--speler--" "--speltype--"
+ * C: challenge "--speler--" "--speltype--" --turntime--
  * C: challenge accept --uitdaging nummer--
  * C: help
  */
@@ -63,6 +65,12 @@ public class TestSendCommands {
     }
 
     @Test
+    public void testSendUnsubscribeCommand() {
+        SendUnsubscribeCommand unsubscribeCommand = new SendUnsubscribeCommand();
+        assertEquals(true, unsubscribeCommand.toString().contains("subscribe"));
+    }
+
+    @Test
     public void testSendMoveCommand() {
         SendMoveCommand moveCommand = new SendMoveCommand(5);
         assertEquals(true, moveCommand.toString().contains("move 5"));
@@ -83,9 +91,9 @@ public class TestSendCommands {
 
     @Test
     public void testSendChallengeCommand() {
-        SendChallengeCommand challengeCommand = new SendChallengeCommand("Zolero", "Reversi");
+        SendChallengeCommand challengeCommand = new SendChallengeCommand("Zolero", "Reversi", 2);
         assertEquals(true, challengeCommand.toString().contains(
-                "challenge \"Zolero\" \"Reversi\""));
+                "challenge \"Zolero\" \"Reversi\" 2"));
     }
 
     @Test
@@ -93,7 +101,6 @@ public class TestSendCommands {
         SendChallengeAcceptCommand challengeAcceptCommand = new SendChallengeAcceptCommand(1);
         assertEquals(true, challengeAcceptCommand.toString().contains("challenge accept 1"));
     }
-
 
     @Test
     public void testSendHelpCommand() {
