@@ -4,13 +4,14 @@ import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
-import alphareversi.game.InterfaceGameModule;
+import alphareversi.game.GameModule;
 import alphareversi.game.tictactoemodule.Player;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Created by Robert on 7-4-2016.
  */
-public class ReversiModule implements InterfaceGameModule {
+public class ReversiModule extends GameModule {
     private Player player;
     private ReversiModel model;
     private String opponent;
@@ -35,7 +36,10 @@ public class ReversiModule implements InterfaceGameModule {
         return model.gameOver(board);
     }
 
-    @Override
+    /**
+     * TODO: NEEDS WRITING.
+     * @param command somethingsomething
+     */
     public void receive(RecvCommand command) {
         if (command instanceof RecvGameMoveCommand) {
             System.out.println(((RecvGameMoveCommand) command).getPlayer());
@@ -66,6 +70,18 @@ public class ReversiModule implements InterfaceGameModule {
 
     @Override
     public SendMoveCommand send(SendMoveCommand command) {
+        //TODO: NEEDS IMPLEMENTING!
         return lastCommand;
+    }
+
+    @Override
+    public BorderPane getView() {
+        //TODO: NEEDS IMPLEMENTING!
+        return null;
+    }
+
+    @Override
+    public void commandReceived(RecvCommand command) {
+        //TODO: NEEDS IMPLEMENTING!
     }
 }
