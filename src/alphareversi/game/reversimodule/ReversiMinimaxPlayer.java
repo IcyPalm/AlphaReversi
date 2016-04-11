@@ -23,9 +23,12 @@ public class ReversiMinimaxPlayer {
     HashSet potentialMoves;
     HashSet potentialDepthMoves;
 
+    ReversiHeatmap heatMap = new ReversiHeatmap();
+    int moveNumber = 0;
+
     public ReversiMinimaxPlayer() {
         ReversiHeatmap heatmap = new ReversiHeatmap();
-        LinkedList<Rnode> list = new LinkedList<Rnode>();
+        LinkedList<Node> list = new LinkedList<Node>();
     }
 
 
@@ -39,7 +42,6 @@ public class ReversiMinimaxPlayer {
      * will now return 0.
      */
     public int doMinimax(int side, int[][] board) {
-        Node r = new Node();
         currentSide = side;
         currentBoard = board;
 
@@ -64,7 +66,7 @@ public class ReversiMinimaxPlayer {
 
             // Calculate heatValue for every move. Save hottest move.
             // TODO afterMove() returns an incorrect board!
-            heatValue = heatMap[move];
+            heatValue = heatMap.getHeat(move);
 
             heatValue += minimax(currentSide, move, 0, heatValue, currentBoard);
 
@@ -74,6 +76,8 @@ public class ReversiMinimaxPlayer {
             oldHeatValue = heatValue;
         }
         System.out.println("Calculated a move! " + calculatedMove);
+
+        moveNumber++;
         return calculatedMove;
     }
 
@@ -125,6 +129,7 @@ public class ReversiMinimaxPlayer {
 
         System.out.println("Calculating depth moves, depth = " + depth + " Heat = " + heat);
         while (it.hasNext()) {
+            // Iets met nodes en childs
 
             int move2 = (int) it.next();
 
