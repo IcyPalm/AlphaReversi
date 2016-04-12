@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.tree.TreeNode;
@@ -260,19 +261,38 @@ public class ReversiMinimaxPlayer implements Player {
          */
         public void run() {
             while (this.running) {
-                System.out.println("AI: Deepening - " + leaves.size() + " leaves");
+                System.out.println("AI: Deepening - " + this.leaves.size() + " leaves");
                 LinkedList<Node> temp = new LinkedList<Node>(leaves);
+                boolean didProcessLeaf = false;
                 for (Node leaf : temp) {
+                    if (leaf.isEndState()) {
+                        continue;
+                    }
+
+                    didProcessLeaf = true;
+
                     // The lock is INSIDE the loop so the thread can be interrupted in
                     // an interval equal to the step() burst time
                     lock.lock();
                     this.step(leaf);
                     lock.unlock();
                 }
+
+                if (!didProcessLeaf) {
+                    this.running = false;
+                }
+
+                if (this.leaves.size() > 10000) {
+                    lock.lock();
+                    System.out.println("AI: Pruning at " + this.leaves.size());
+                    this.prune();
+                    System.out.println("AI: Pruned to " + this.leaves.size());
+                    lock.unlock();
+                }
             }
         }
 
-        /*
+        /**
          * Recursive heat-finding AI with base cases:
          * Depth of moves reached
          * Time limit reached
@@ -283,9 +303,15 @@ public class ReversiMinimaxPlayer implements Player {
             int newSide = this.flipSide(parent.getSide());
 
             HashSet validMoves = model.getValidMoves(parent.getSide(), parent.getBoard());
-            Iterator it = validMoves.iterator();
+
+            if (validMoves.size() == 0) {
+                int winState = model.getWinner(parent.getBoard());
+                parent.markEndState(winState);
+                return;
+            }
 
             leaves.remove(parent);
+            Iterator it = validMoves.iterator();
             while (it.hasNext()) {
                 int move2 = (int) it.next();
 
@@ -303,6 +329,27 @@ public class ReversiMinimaxPlayer implements Player {
                 parent.add(child);
                 leaves.add(child);
             }
+        }
+
+        private void prune() {
+            final int MAX_LEAVES = 10000;
+            TreeSet<Node> leaves = new TreeSet<>((a, b) -> {
+              return a.getHeat() > b.getHeat() ? 1 : -1;
+            });
+
+            for (Node leaf : this.leaves) {
+                leaves.add(leaf);
+            }
+
+            Iterator<Node> it = leaves.descendingIterator();
+            List<Node> newLeaves = new LinkedList<>();
+            int len = 0;
+            while (it.hasNext() && len < MAX_LEAVES) {
+                newLeaves.add(it.next());
+                len++;
+            }
+
+            this.leaves = newLeaves;
         }
 
         /*

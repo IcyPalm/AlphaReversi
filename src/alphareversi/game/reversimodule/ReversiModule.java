@@ -126,7 +126,7 @@ public class ReversiModule extends GameModule {
     public void commandReceived(RecvCommand command) {
         if (command instanceof RecvGameMoveCommand) {
             RecvGameMoveCommand com = (RecvGameMoveCommand) command;
-            System.out.println(com.getPlayer() + " : made move : " + com.getMove().toString());
+            System.out.println(com.getPlayer() + " : made move : " + com.getMove());
             if (this.opponent.equals(com.getPlayer())) {
                 model.placePiece(processMove(com), opponentSide);
             }

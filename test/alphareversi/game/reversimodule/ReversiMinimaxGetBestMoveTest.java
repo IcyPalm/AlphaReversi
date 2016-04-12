@@ -50,7 +50,7 @@ public class ReversiMinimaxGetBestMoveTest extends TestCase {
         board[4][4] = 1;
         return board;
     }
-    
+
     public int[][] testBoardTwo() {
         int[][] board = new int[8][8];
         board[1][3] = 2;
@@ -72,7 +72,7 @@ public class ReversiMinimaxGetBestMoveTest extends TestCase {
         board[6][2] = 1;
         return board;
     }
-    
+
     public int[][] testBoardThree() {
         int[][] board = new int[8][8];
         board[0][0] = 1;

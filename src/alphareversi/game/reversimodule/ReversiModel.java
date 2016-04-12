@@ -75,6 +75,8 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             if (getValidMoves(playerOnTurn,gameBoard).size() == 0) {
                 playerOnTurn = getOpponent(playerOnTurn);
             }
+        } else {
+            System.out.println("MODEL: Invalid move");
         }
     }
 
@@ -848,7 +850,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         if (playerOneScore > playerTwoScore) {
             return playerOne;
         } else if ( playerTwoScore > playerOneScore) {
-            return playerTwoScore;
+            return playerTwo;
         } else {
             return 3; //draw
         }
