@@ -14,7 +14,6 @@ import javafx.scene.layout.BorderPane;
  * Created by Robert on 7-4-2016.
  */
 public class ReversiModule extends GameModule {
-    private static final String[] playerTypes = {"HUMAN", "AI"};
     private Player player;
     private ReversiModel model;
     private String opponent;
