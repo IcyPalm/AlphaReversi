@@ -91,16 +91,24 @@ public class Board {
         return 0;
     }
 
-    public void place(int player, int position) {
+    public void place(int player, int position) throws InvalidMoveException {
         int row = position / 8;
         int col = position % 8;
         this.place(player, row, col);
     }
 
-    public void place(int player, int row, int col) {
-        this.board[row][col] = player;
+    public void place(int player, int row, int col) throws InvalidMoveException {
+        int totalFlipped = 0;
         for (Direction d : DIRECTIONS) {
             int flip = this.attackablePiecesInDirection(row, col, d, player);
+
+            // No attackable pieces found.
+            if (flip == 0) {
+                continue;
+            }
+
+            // Move `flip` places into the Direction, replacing all pieces with
+            // ours.
             int flipRow = row + d.y;
             int flipCol = col + d.x;
             for (int i = 0; i < flip; i++) {
@@ -108,7 +116,15 @@ public class Board {
                 flipRow += d.y;
                 flipCol += d.x;
             }
+
+            totalFlipped += flip;
         }
+
+        if (totalFlipped == 0) {
+            throw new InvalidMoveException("Invalid move: Move does not flip any pieces");
+        }
+
+        this.board[row][col] = player;
     }
 
     private static class Direction {

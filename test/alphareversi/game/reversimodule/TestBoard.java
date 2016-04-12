@@ -54,7 +54,7 @@ public class TestBoard extends TestCase {
     }
 
     @Test
-    public void testPlacePiece() {
+    public void testPlacePiece() throws InvalidMoveException {
         Board b = new Board();
         b.place(B, 4 * 8 + 5);
         assertBoard(b.get(), new int[][] {
