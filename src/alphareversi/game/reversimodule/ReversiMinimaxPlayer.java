@@ -128,11 +128,12 @@ public class ReversiMinimaxPlayer {
      */
     public void setRoot(Node root) {
         this.lock.lock();
-        this.root = root;
-        this.minimaxer.setRoot(root);
 
-        // TODO Remove the parent node reference from the new root node to save
-        // memory.
+        this.root = root;
+        // Discard the rest of the tree
+        root.removeFromParent();
+
+        this.minimaxer.setRoot(root);
 
         this.lock.unlock();
     }
