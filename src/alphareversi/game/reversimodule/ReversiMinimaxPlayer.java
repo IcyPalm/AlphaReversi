@@ -78,7 +78,25 @@ public class ReversiMinimaxPlayer {
             }
         }
         this.lock.unlock();
-        return best.getMove();
+
+        best = getNextMove(best);
+        return best == null ? -1 : best.getMove();
+    }
+
+    /**
+     * Find the next move to get to the given end state.
+     *
+     * @param endState
+     * @return The next move.
+     */
+    private Node getNextMove(Node endState) {
+        Node next = (Node) endState.getParent();
+        Node parent = (Node) next.getParent();
+        while (!parent.isRoot()) {
+            next = parent;
+            parent = (Node) parent.getParent();
+        }
+        return next;
     }
 
     /**
