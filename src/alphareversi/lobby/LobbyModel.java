@@ -33,12 +33,14 @@ public class LobbyModel {
     private Connection connection;
     private int serverPort;
     private ArrayList oldPlayerList;
+    private String challengePlayWithResult;
 
     /**
      * Set the TableView playerList, ChoiceBox gameList, Connection. Create a new thread for
      * refreshing playerList
      */
     LobbyModel(TableView playerList, ChoiceBox gameList, ChoiceBox playAs) {
+        challengePlayWithResult = null;
         serverAddress = new SimpleStringProperty();
         username = new SimpleStringProperty();
         this.playerList = playerList;
@@ -97,7 +99,7 @@ public class LobbyModel {
             oldPlayerList = playerList;
             ObservableList newList = FXCollections.observableArrayList();
             ObservableList list = this.playerList.getItems();
-            for (int i = 0; i < playerList.size(); i++) {
+            for (int i = 0; i < playerList.size() && list.size() != 0; i++) {
                 for (Object object: list) {
                     Player player = (Player) object;
                     if (player.getUsername().equals(playerList.get(i))) {
@@ -111,7 +113,6 @@ public class LobbyModel {
                 newList.add(player);
             }
             list.setAll(newList);
-
         }
     }
 
@@ -172,6 +173,14 @@ public class LobbyModel {
         }
         playAs.getItems().setAll(data);
         playAs.getSelectionModel().select(1);
+    }
+
+    public String getChallengePlayWithResult() {
+        return challengePlayWithResult;
+    }
+
+    public void setChallengePlayWithResult(String challengePlayWithResult) {
+        this.challengePlayWithResult = challengePlayWithResult;
     }
 
     /**
