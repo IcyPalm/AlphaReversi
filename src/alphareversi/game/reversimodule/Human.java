@@ -15,13 +15,13 @@ public class Human implements Player {
         this.side = side;
     }
 
-    public int getSide(){
+    public int getSide() {
         return side;
     }
 
     public int chooseMove() {
         allowedToPlay = true;
-        return 19;
+        return 0;
     }
 
     public boolean allowedToPlay() {

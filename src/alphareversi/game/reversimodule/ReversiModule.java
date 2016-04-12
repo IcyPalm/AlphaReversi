@@ -45,11 +45,11 @@ public class ReversiModule extends GameModule {
             if (player instanceof Human) {
                 player.chooseMove();
             }
-//            if (player instanceof artificialIntelligence) {
-//                int move = player.chooseMove();
-//                model.placePiece(move, selfSide);
-//                updateMoveCommand(move);
-//            }
+            //if (player instanceof artificialIntelligence) {
+            //    int move = player.chooseMove();
+            //    model.placePiece(move, selfSide);
+            //    updateMoveCommand(move);
+            //}
         }
     }
 
@@ -133,11 +133,11 @@ public class ReversiModule extends GameModule {
             if (player instanceof Human) {
                 this.player.chooseMove();
             }
-//            if (player instanceof artificialIntelligence) {
-//                int move = player.chooseMove();
-//                model.placePiece(move, selfSide);
-//                updateMoveCommand(move);
-//            }
+            //            if (player instanceof artificialIntelligence) {
+            //                int move = player.chooseMove();
+            //                model.placePiece(move, selfSide);
+            //                updateMoveCommand(move);
+            //            }
         }
     }
 
@@ -148,11 +148,15 @@ public class ReversiModule extends GameModule {
 
         ReversiController controller = loader.getController();
         model.setViewController(controller);
+        setController(controller);
+
+        return reversiView;
+    }
+
+    private void setController(ReversiController controller) {
         controller.setReversiModel(model);
         controller.setPlayer(player);
         controller.updateBoard(model.getBoard());
-
-        return reversiView;
     }
 
     public static String[] getPlayerTypes() {

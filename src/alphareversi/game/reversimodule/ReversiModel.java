@@ -861,6 +861,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
             return black;
         }
     }
+
     public void setViewController(ReversiController viewController) {
         this.viewController = viewController;
     }

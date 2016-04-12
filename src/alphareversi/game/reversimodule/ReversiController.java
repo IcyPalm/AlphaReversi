@@ -67,6 +67,7 @@ public class ReversiController {
         }
         //updateBoard(reversiModel.getBoard());
     }
+
     /**
      * Updates the current SendMoveCommand with the latest move.
      *
@@ -87,7 +88,9 @@ public class ReversiController {
         this.reversiModel = reversiModel;
     }
 
-    public void setPlayer(Player player) { this.player = player; }
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     /**
      * Update the GUI so that it represents the Board.
