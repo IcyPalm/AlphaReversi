@@ -10,11 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-
-import java.net.URL;
-
-
-
 public class ReversiController {
     @FXML private GridPane gridPane;
     @FXML private Label opponent;

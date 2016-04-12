@@ -8,7 +8,6 @@ import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
-
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,18 +17,18 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
 
-
 /**
  * Created by wouter on 24-3-2016. Controller for handling the Lobby input from the user
  */
-public class LobbyController implements CommandListener {
 
+public class LobbyController implements CommandListener {
 
     private Stage primaryStage;
     private Main main;
@@ -43,6 +42,8 @@ public class LobbyController implements CommandListener {
     private TableView playerList;
     @FXML
     private ChoiceBox gameList;
+    @FXML
+    private ChoiceBox playAs;
 
     public void setMainApp(Main main) {
         this.main = main;
@@ -52,11 +53,18 @@ public class LobbyController implements CommandListener {
      * Bind the labels to the textValues. Create the lobbyModel. Subscribe to the commandDispatcher
      */
     public void initialize() {
-        model = new LobbyModel(playerList, gameList);
+        model = new LobbyModel(playerList, gameList, playAs);
         createConfigurationDialog();
         usernameLabel.textProperty().bind(model.usernameProperty());
         serverAddressLabel.textProperty().bind(model.serverAddressProperty());
         Connection.getInstance().commandDispatcher.addListener(this);
+        gameList.setOnAction(event -> {
+            model.setGamePlayers(getAvailablePlayers(getSelectedGameObject().toString()));
+        });
+    }
+
+    public String getSelectedPlayerToPlay() {
+        return playAs.getSelectionModel().getSelectedItem().toString();
     }
 
     private Stage getPrimaryStage() {
@@ -83,7 +91,7 @@ public class LobbyController implements CommandListener {
         subscribeAlert.showAndWait();
 
         subscribeAlert.setOnCloseRequest(event -> {
-            model.unsubscirbe();
+            model.unsubscribe();
         });
     }
 
@@ -96,8 +104,27 @@ public class LobbyController implements CommandListener {
         Player selectedPlayer = getSelectedPlayer();
         if (selectedGame != null && selectedPlayer != null
                 && !selectedPlayer.getUsername().equals(model.getUsername())) {
-            model.challengePlayer(selectedPlayer.getUsername(), getSelectedGameObject().toString());
+            createOutgoingChallengeDialog(selectedPlayer.getUsername(),
+                    getSelectedGameObject().toString());
         }
+    }
+
+    private void createOutgoingChallengeDialog(String username, String gameType) {
+        TextInputDialog dialog = new TextInputDialog("4");
+        dialog.setTitle("Challenge " + username);
+        dialog.setHeaderText("Challenge the player " + username + " for the game " + gameType);
+        dialog.setContentText("Please enter the turn time:");
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(turnTime -> {
+            int time = 2;
+            try {
+                time = Integer.parseInt(turnTime);
+            } catch (NumberFormatException exception) {
+                exception.printStackTrace();
+            }
+            model.challengePlayer(username, gameType, time);
+        });
     }
 
     private Object getSelectedGameObject() {
@@ -113,6 +140,10 @@ public class LobbyController implements CommandListener {
         return model.getPlayerList().getItems();
     }
 
+    private String[] getAvailablePlayers(String serverGame) {
+        return main.getGamesWithPlayers().get(serverGame);
+    }
+
     /**
      * Create dialog for incoming challenge.
      */
@@ -122,7 +153,8 @@ public class LobbyController implements CommandListener {
         alert.setTitle("Incomming Match");
         alert.setHeaderText("We have an incomming match from " + challenge.getChallenger());
         alert.setContentText("Match from " + challenge.getChallenger()
-                + " for the gametype: " + challenge.getGameType());
+                + " for the gametype: " + challenge.getGameType()
+                + " with a turntime of " + challenge.getTurntime() + " seconds.");
 
         ButtonType accept = new ButtonType("Accept");
         ButtonType decline = new ButtonType("Decline");
@@ -161,8 +193,8 @@ public class LobbyController implements CommandListener {
                 model.setServerAddress(data[1]);
                 model.setServerPort(data[2]);
                 try {
-                    Connection.getInstance().startConnection(model.getServerAddress(),
-                            model.getServerPort());
+                    Connection.getInstance().startConnection(
+                            model.getServerAddress(), model.getServerPort());
                     model.sendStartupCommands();
                 } catch (IOException exception) {
                     exception.printStackTrace();

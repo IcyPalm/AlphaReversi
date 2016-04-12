@@ -1,6 +1,5 @@
 package alphareversi.lobby;
 
-
 import alphareversi.Connection;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.send.SendChallengeAcceptCommand;
@@ -26,26 +25,10 @@ import java.util.ArrayList;
 public class LobbyModel {
 
 
+    private final ChoiceBox playAs;
+    private final SimpleStringProperty serverAddress;
+    private final SimpleStringProperty username;
     private TableView playerList;
-
-    public String getServerAddress() {
-        return serverAddress.get();
-    }
-
-    public SimpleStringProperty serverAddressProperty() {
-        return serverAddress;
-    }
-
-    public String getUsername() {
-        return username.get();
-    }
-
-    public SimpleStringProperty usernameProperty() {
-        return username;
-    }
-
-    private SimpleStringProperty serverAddress;
-    private SimpleStringProperty username;
     private ChoiceBox gameList;
     private Connection connection;
     private int serverPort;
@@ -55,11 +38,12 @@ public class LobbyModel {
      * Set the TableView playerList, ChoiceBox gameList, Connection. Create a new thread for
      * refreshing playerList
      */
-    LobbyModel(TableView playerList, ChoiceBox gameList) {
+    LobbyModel(TableView playerList, ChoiceBox gameList, ChoiceBox playAs) {
         serverAddress = new SimpleStringProperty();
         username = new SimpleStringProperty();
         this.playerList = playerList;
         this.gameList = gameList;
+        this.playAs = playAs;
         this.connection = Connection.getInstance();
         oldPlayerList = new ArrayList();
         new Thread(new RequestPlayerList()).start();
@@ -142,8 +126,8 @@ public class LobbyModel {
     /**
      * send the challenge player command for a gametype.
      */
-    public void challengePlayer(String username, String gameType) {
-        SendChallengeCommand challenge = new SendChallengeCommand(username, gameType);
+    public void challengePlayer(String username, String gameType, int turnTime) {
+        SendChallengeCommand challenge = new SendChallengeCommand(username, gameType, turnTime);
         connection.sendMessage(challenge);
     }
 
@@ -171,9 +155,23 @@ public class LobbyModel {
         return this.serverPort;
     }
 
-    public void unsubscirbe() {
+    public void unsubscribe() {
         SendUnsubscribeCommand command = new SendUnsubscribeCommand();
         connection.sendMessage(command);
+    }
+
+    /**
+     * Set the game players.
+     * @param gamePlayers Players from games
+     */
+    public void setGamePlayers(String[] gamePlayers) {
+        ObservableList<String> data = FXCollections.observableArrayList();
+        playAs.getItems().clear();
+        for (int i = 0; i < gamePlayers.length; i++) {
+            data.add(gamePlayers[i]);
+        }
+        playAs.getItems().setAll(data);
+        playAs.getSelectionModel().select(1);
     }
 
     /**
@@ -190,11 +188,27 @@ public class LobbyModel {
                     connection.sendMessage(getPlayerList);
                 }
                 try {
-                    Thread.sleep(500000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }
             }
         }
+    }
+
+    public String getServerAddress() {
+        return serverAddress.get();
+    }
+
+    public SimpleStringProperty serverAddressProperty() {
+        return serverAddress;
+    }
+
+    public String getUsername() {
+        return username.get();
+    }
+
+    public SimpleStringProperty usernameProperty() {
+        return username;
     }
 }
