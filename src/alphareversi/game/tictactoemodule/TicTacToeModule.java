@@ -30,16 +30,23 @@ public class TicTacToeModule extends GameModule {
     public TicTacToeModule(String playerType, String opponent, String playerToMove)
             throws Exception {
         model = new TicTacToeModel();
+
         if (!opponent.equals(playerToMove)) {
             model.setSelfPlays();
         } else {
             model.setOpponentPlays();
         }
+
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
             System.out.println("Wrong Command");
         }
+
+        Connection connection = Connection.getInstance();
+        connection.commandDispatcher.addListener(this);
+
         ticTacToeView = setTicTacToeView();
+
         decideWhoBegins(playerToMove);
     }
 
@@ -57,6 +64,7 @@ public class TicTacToeModule extends GameModule {
      * @param command the command to receive
      */
     public void commandReceived(RecvCommand command) {
+        System.out.println("GameModule received a command " + command.getClass());
         if (command instanceof RecvGameMoveCommand) {
             RecvGameMoveCommand com = (RecvGameMoveCommand) command;
             System.out.println(com.getPlayer() + " : made move : " + com.getMove().toString());
