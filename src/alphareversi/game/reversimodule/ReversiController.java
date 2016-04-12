@@ -133,6 +133,17 @@ public class ReversiController {
                 }
             }
         }
+
+        Platform.runLater(() -> {
+            String turn = "";
+            if (reversiModel.getPlayerOnTurn() != reversiModel.getMySide()) {
+                turn = "My turn!";
+            } else {
+                turn = "Opponents turn";
+            }
+                this.turn.setText(turn);
+        });
+
     }
 
     private Canvas getCanvasFromGridPane(int col, int row) {

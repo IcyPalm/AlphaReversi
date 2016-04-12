@@ -27,7 +27,7 @@ public class TicTacToeModule extends GameModule {
      * Constructor Module.
      */
     public TicTacToeModule(String playerType, String opponent,
-                           String playerToMove) throws Exception {
+                           String playerToMove, String ourUsername, int turnTime) throws Exception {
         model = new TicTacToeModel();
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
