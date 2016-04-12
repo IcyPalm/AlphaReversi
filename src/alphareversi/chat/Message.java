@@ -7,8 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Message {
 
-    SimpleStringProperty from;
-    SimpleStringProperty messageText;
+    final SimpleStringProperty from;
+    final SimpleStringProperty messageText;
 
     /**
      * Set the message from and text.

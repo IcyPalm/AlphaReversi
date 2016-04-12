@@ -1,6 +1,5 @@
 package alphareversi.lobby;
 
-
 import alphareversi.Connection;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.send.SendChallengeAcceptCommand;
@@ -9,7 +8,6 @@ import alphareversi.commands.send.SendGetGamelistCommand;
 import alphareversi.commands.send.SendGetPlayerlistCommand;
 import alphareversi.commands.send.SendLoginCommand;
 import alphareversi.commands.send.SendSubscribeCommand;
-
 import alphareversi.commands.send.SendUnsubscribeCommand;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -18,7 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
-
+import java.util.Iterator;
 
 /**
  * Created by wouter on 24-3-2016.
@@ -26,42 +24,27 @@ import java.util.ArrayList;
 public class LobbyModel {
 
 
+    private final ChoiceBox playAs;
+    private final SimpleStringProperty serverAddress;
+    private final SimpleStringProperty username;
     private TableView playerList;
-
-    public String getServerAddress() {
-        return serverAddress.get();
-    }
-
-    public SimpleStringProperty serverAddressProperty() {
-        return serverAddress;
-    }
-
-    public String getUsername() {
-        return username.get();
-    }
-
-    public SimpleStringProperty usernameProperty() {
-        return username;
-    }
-
-    private SimpleStringProperty serverAddress;
-    private SimpleStringProperty username;
     private ChoiceBox gameList;
     private Connection connection;
     private int serverPort;
-    private ArrayList oldPlayerList;
+    private String challengePlayWithResult;
 
     /**
      * Set the TableView playerList, ChoiceBox gameList, Connection. Create a new thread for
      * refreshing playerList
      */
-    LobbyModel(TableView playerList, ChoiceBox gameList) {
+    LobbyModel(TableView playerList, ChoiceBox gameList, ChoiceBox playAs) {
+        challengePlayWithResult = null;
         serverAddress = new SimpleStringProperty();
         username = new SimpleStringProperty();
         this.playerList = playerList;
         this.gameList = gameList;
+        this.playAs = playAs;
         this.connection = Connection.getInstance();
-        oldPlayerList = new ArrayList();
         new Thread(new RequestPlayerList()).start();
     }
 
@@ -104,31 +87,32 @@ public class LobbyModel {
     }
 
     /**
-     * Set the new playerList, but only if there is a difference with the old playerList.
+     * Check the old playerList and compare with to new one.
+     * This only makes new players when necessary;
      *
-     * @param playerList array with usernames
+     * @param playerList array with userNames
      */
     public void setPlayerList(ArrayList<String> playerList) {
-        if (!playerList.equals(oldPlayerList)) {
-            oldPlayerList = playerList;
-            ObservableList newList = FXCollections.observableArrayList();
-            ObservableList list = this.playerList.getItems();
-            for (int i = 0; i < playerList.size(); i++) {
-                for (Object object: list) {
-                    Player player = (Player) object;
-                    if (player.getUsername().equals(playerList.get(i))) {
-                        newList.add(player);
-                        playerList.remove(i);
-                    }
+        ObservableList newList = FXCollections.observableArrayList();
+        ObservableList list = this.playerList.getItems();
+        Iterator<String> iterator = playerList.iterator();
+        while (iterator.hasNext() && list.size() != 0) {
+            String name = iterator.next();
+            for (Object object : list) {
+                Player player = (Player) object;
+                if (player.getUsername().equals(name)) {
+                    newList.add(player);
+                    iterator.remove();
+                    break;
                 }
             }
-            for (int i = 0; i < playerList.size(); i++) {
-                Player player = new Player(playerList.get(i));
-                newList.add(player);
-            }
-            list.setAll(newList);
 
         }
+        while (iterator.hasNext()) {
+            Player player = new Player(iterator.next());
+            newList.add(player);
+        }
+        list.setAll(newList);
     }
 
     /**
@@ -142,8 +126,8 @@ public class LobbyModel {
     /**
      * send the challenge player command for a gametype.
      */
-    public void challengePlayer(String username, String gameType) {
-        SendChallengeCommand challenge = new SendChallengeCommand(username, gameType);
+    public void challengePlayer(String username, String gameType, int turnTime) {
+        SendChallengeCommand challenge = new SendChallengeCommand(username, gameType, turnTime);
         connection.sendMessage(challenge);
     }
 
@@ -152,7 +136,7 @@ public class LobbyModel {
      * Send the accept challenge command.
      */
     public void acceptMatch(RecvGameChallengeCommand challenge) {
-        SendChallengeAcceptCommand acceptChallenge 
+        SendChallengeAcceptCommand acceptChallenge
                 = new SendChallengeAcceptCommand(challenge.getChallengeNumber());
         connection.sendMessage(acceptChallenge);
         System.out.println(acceptChallenge.toString());
@@ -171,9 +155,32 @@ public class LobbyModel {
         return this.serverPort;
     }
 
-    public void unsubscirbe() {
+    public void unsubscribe() {
         SendUnsubscribeCommand command = new SendUnsubscribeCommand();
         connection.sendMessage(command);
+    }
+
+    /**
+     * Set the game players.
+     *
+     * @param gamePlayers Players from games
+     */
+    public void setGamePlayers(String[] gamePlayers) {
+        ObservableList<String> data = FXCollections.observableArrayList();
+        playAs.getItems().clear();
+        for (int i = 0; i < gamePlayers.length; i++) {
+            data.add(gamePlayers[i]);
+        }
+        playAs.getItems().setAll(data);
+        playAs.getSelectionModel().select(1);
+    }
+
+    public String getChallengePlayWithResult() {
+        return challengePlayWithResult;
+    }
+
+    public void setChallengePlayWithResult(String challengePlayWithResult) {
+        this.challengePlayWithResult = challengePlayWithResult;
     }
 
     /**
@@ -190,11 +197,27 @@ public class LobbyModel {
                     connection.sendMessage(getPlayerList);
                 }
                 try {
-                    Thread.sleep(500000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }
             }
         }
+    }
+
+    public String getServerAddress() {
+        return serverAddress.get();
+    }
+
+    public SimpleStringProperty serverAddressProperty() {
+        return serverAddress;
+    }
+
+    public String getUsername() {
+        return username.get();
+    }
+
+    public SimpleStringProperty usernameProperty() {
+        return username;
     }
 }

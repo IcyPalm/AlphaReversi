@@ -7,6 +7,7 @@ import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGameResultCommand;
 import alphareversi.commands.receive.RecvStatusErrCommand;
 import alphareversi.game.GameModule;
+import alphareversi.game.reversimodule.ReversiModule;
 import alphareversi.game.tictactoemodule.TicTacToeModule;
 import alphareversi.lobby.LobbyController;
 
@@ -21,6 +22,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main extends Application implements CommandListener {
 
@@ -30,6 +34,9 @@ public class Main extends Application implements CommandListener {
     private LobbyController lobbyController;
     private GameModule gameModule;
     private Stage chatStage;
+    private ArrayList availableGames;
+    private HashMap<String, Class> gameNameWithClass;
+    private HashMap<String, String[]> gamesWithPlayers;
 
     public Main() {
     }
@@ -45,13 +52,20 @@ public class Main extends Application implements CommandListener {
             Connection connection = Connection.getInstance();
             connection.commandDispatcher.addListener(this);
             this.primaryStage = primaryStage;
-            this.primaryStage.setTitle("Tic Tac Toe");
+            this.primaryStage.setTitle("Lobby");
             initRootLayout();
             initLobby();
             showLobby();
         } catch (Exception error) {
             error.printStackTrace();
         }
+        gamesWithPlayers = new HashMap<>();
+        gamesWithPlayers.put(TicTacToeModule.getGameName(), TicTacToeModule.getPlayerTypes());
+        gamesWithPlayers.put(ReversiModule.getGameName(), ReversiModule.getPlayerTypes());
+
+        gameNameWithClass = new HashMap<>();
+        gameNameWithClass.put(TicTacToeModule.getGameName(), TicTacToeModule.class);
+        gameNameWithClass.put(ReversiModule.getGameName(), ReversiModule.class);
     }
 
     private void initRootLayout() throws Exception {
@@ -62,6 +76,10 @@ public class Main extends Application implements CommandListener {
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public HashMap<String, String[]> getGamesWithPlayers() {
+        return gamesWithPlayers;
     }
 
     private void initLobby() throws Exception {
@@ -97,9 +115,6 @@ public class Main extends Application implements CommandListener {
 
                 chatController.setPlayerList(lobbyController.getPlayerList());
 
-/*            //hide this current window (if this is whant you want
-            ((Node)(event.getSource())).getScene().getWindow().hide();*/
-
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
@@ -116,7 +131,13 @@ public class Main extends Application implements CommandListener {
      */
     public void startGame(RecvGameMatchCommand command) throws Exception {
         Connection connection = Connection.getInstance();
-        gameModule = new TicTacToeModule("AI",command.getOpponent(),command.getPlayerToMove());
+        Class game = gameNameWithClass.get(command.getGametype());
+        Constructor<?> cons = game.getConstructor(String.class,String.class,String.class);
+        gameModule = (GameModule) cons.newInstance(
+                lobbyController.getSelectedPlayerToPlay(),
+                command.getOpponent(),
+                command.getPlayerToMove());
+
 
         rootLayout.setCenter(gameModule.getView());
 

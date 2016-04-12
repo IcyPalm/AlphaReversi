@@ -36,9 +36,9 @@ public class LobbyTextInputDialog extends Dialog<String[]> {
     private final String defaultServerValue;
     private final String defaultUsernameValue;
     private final String defaultPortValue;
-    private SimpleStringProperty serverText;
-    private SimpleStringProperty portText;
-    private SimpleStringProperty errorMessage;
+    private final SimpleStringProperty serverText;
+    private final SimpleStringProperty portText;
+    private final SimpleStringProperty errorMessage;
 
 
 

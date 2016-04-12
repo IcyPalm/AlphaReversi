@@ -23,6 +23,8 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     private int playerOnTurn;
 
+    private ReversiController viewController;
+
     private final HashMap<Integer, ArrayList<ArrayList<Integer>>> toFlip = new HashMap<>();
 
     private int[][] gameBoard;
@@ -51,9 +53,12 @@ public class ReversiModel extends GameBasicSquareBasedModel {
      * are determined in an earlier stage of the program.
      */
     public void placePiece(int move, int side) {
+        System.out.println("I should have set a move in the Model before getValidMoves check");
         if ( getValidMoves(side, gameBoard).contains(move) ) {
             gameBoard[move / 8][move % 8] = side;
             flipper(move, gameBoard, side);
+            viewController.updateBoard(gameBoard);
+            System.out.println("I should have set a move in the Model");
             playerOnTurn = getOpponent(playerOnTurn);
             if (getValidMoves(playerOnTurn,gameBoard).size() == 0) {
                 playerOnTurn = getOpponent(playerOnTurn);
@@ -808,9 +813,9 @@ public class ReversiModel extends GameBasicSquareBasedModel {
      * A simple method that indicates if the game is over or not.
      * @return return if the game is over or not.
      */
-    public boolean gameOver(int[][] board) {
-        if (getValidMoves(playerOne, board).size() == 0
-                && getValidMoves(playerTwo, board).size() == 0) {
+    public boolean gameOver() {
+        if (getValidMoves(playerOne, gameBoard).size() == 0
+                && getValidMoves(playerTwo, gameBoard).size() == 0) {
             return true;
         }
         return false;
@@ -855,5 +860,9 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         } else {
             return black;
         }
+    }
+
+    public void setViewController(ReversiController viewController) {
+        this.viewController = viewController;
     }
 }
