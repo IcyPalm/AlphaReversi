@@ -8,7 +8,6 @@ import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
 import alphareversi.commands.receive.RecvPlayerlistCommand;
-
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,12 +24,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
-
 /**
  * Created by wouter on 24-3-2016. Controller for handling the Lobby input from the user
  */
-public class LobbyController implements CommandListener {
 
+public class LobbyController implements CommandListener {
 
     private Stage primaryStage;
     private Main main;
@@ -112,14 +110,21 @@ public class LobbyController implements CommandListener {
     }
 
     private void createOutgoingChallengeDialog(String username, String gameType) {
-        TextInputDialog dialog = new TextInputDialog("challenge player");
+        TextInputDialog dialog = new TextInputDialog("4");
         dialog.setTitle("Challenge " + username);
         dialog.setHeaderText("Challenge the player " + username + " for the game " + gameType);
         dialog.setContentText("Please enter the turn time:");
         Optional<String> result = dialog.showAndWait();
 
-        result.ifPresent(turnTime ->
-                model.challengePlayer(username, gameType, Integer.parseInt(turnTime)));
+        result.ifPresent(turnTime -> {
+            int time = 2;
+            try {
+                time = Integer.parseInt(turnTime);
+            } catch (NumberFormatException exception) {
+                exception.printStackTrace();
+            }
+            model.challengePlayer(username, gameType, time);
+        });
     }
 
     private Object getSelectedGameObject() {
@@ -188,8 +193,8 @@ public class LobbyController implements CommandListener {
                 model.setServerAddress(data[1]);
                 model.setServerPort(data[2]);
                 try {
-                    Connection.getInstance().startConnection(model.getServerAddress(),
-                            model.getServerPort());
+                    Connection.getInstance().startConnection(
+                            model.getServerAddress(), model.getServerPort());
                     model.sendStartupCommands();
                 } catch (IOException exception) {
                     exception.printStackTrace();

@@ -1,7 +1,6 @@
 package alphareversi.game;
 
 import alphareversi.commands.CommandListener;
-import alphareversi.commands.RecvCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import javafx.scene.layout.BorderPane;
 

@@ -1,6 +1,5 @@
 package alphareversi.lobby;
 
-
 import alphareversi.Connection;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.send.SendChallengeAcceptCommand;
@@ -30,22 +29,6 @@ public class LobbyModel {
     private final SimpleStringProperty serverAddress;
     private final SimpleStringProperty username;
     private TableView playerList;
-
-    public String getServerAddress() {
-        return serverAddress.get();
-    }
-
-    public SimpleStringProperty serverAddressProperty() {
-        return serverAddress;
-    }
-
-    public String getUsername() {
-        return username.get();
-    }
-
-    public SimpleStringProperty usernameProperty() {
-        return username;
-    }
     private ChoiceBox gameList;
     private Connection connection;
     private int serverPort;
@@ -177,6 +160,10 @@ public class LobbyModel {
         connection.sendMessage(command);
     }
 
+    /**
+     * Set the game players.
+     * @param gamePlayers Players from games
+     */
     public void setGamePlayers(String[] gamePlayers) {
         ObservableList<String> data = FXCollections.observableArrayList();
         playAs.getItems().clear();
@@ -207,5 +194,21 @@ public class LobbyModel {
                 }
             }
         }
+    }
+
+    public String getServerAddress() {
+        return serverAddress.get();
+    }
+
+    public SimpleStringProperty serverAddressProperty() {
+        return serverAddress;
+    }
+
+    public String getUsername() {
+        return username.get();
+    }
+
+    public SimpleStringProperty usernameProperty() {
+        return username;
     }
 }

@@ -19,6 +19,7 @@ public class ReversiModule extends GameModule {
     private SendMoveCommand lastCommand;
     private int[][] board;
     private static final String gameName = "Reversi";
+
     /**
      * Reversi module for sever communication.
      * @param reversiModel The model that is based to the Module.

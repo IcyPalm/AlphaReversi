@@ -133,10 +133,11 @@ public class Main extends Application implements CommandListener {
         Connection connection = Connection.getInstance();
         Class game = gameNameWithClass.get(command.getGametype());
         Constructor<?> cons = game.getConstructor(String.class,String.class,String.class);
-        gameModule = (GameModule) cons.newInstance(lobbyController.getSelectedPlayerToPlay(),command.getOpponent(),command.getPlayerToMove());
-        /*
-        gameModule = new TicTacToeModule(lobbyController.getSelectedPlayerToPlay(),command.getOpponent(),command.getPlayerToMove());
-*/
+        gameModule = (GameModule) cons.newInstance(
+                lobbyController.getSelectedPlayerToPlay(),
+                command.getOpponent(),
+                command.getPlayerToMove());
+
         rootLayout.setCenter(gameModule.getView());
 
         connection.commandDispatcher.addListener(gameModule);
