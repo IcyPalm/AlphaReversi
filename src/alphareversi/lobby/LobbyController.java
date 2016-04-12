@@ -15,9 +15,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -63,8 +67,20 @@ public class LobbyController implements CommandListener {
         });
     }
 
+    /**
+     * If you had an incoming challenge you use that result and if you created one. You get that
+     * result of the selectionBox.
+     *
+     * @return String result of the SelectionBox
+     */
     public String getSelectedPlayerToPlay() {
-        return playAs.getSelectionModel().getSelectedItem().toString();
+        String result = model.getChallengePlayWithResult();
+        if (result != null) {
+            model.setChallengePlayWithResult(null);
+        } else {
+            result = playAs.getSelectionModel().getSelectedItem().toString();
+        }
+        return result;
     }
 
     private Stage getPrimaryStage() {
@@ -156,13 +172,29 @@ public class LobbyController implements CommandListener {
                 + " for the gametype: " + challenge.getGameType()
                 + " with a turntime of " + challenge.getTurntime() + " seconds.");
 
+        String[] choices = main.getGamesWithPlayers().get(challenge.getGameType());
+        ChoiceBox playAs = new ChoiceBox();
+        playAs.getItems().addAll(choices);
+        playAs.getSelectionModel().select(1);
+        Label playAsText = new Label("Select the player to play");
+        playAsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+
+        VBox vbox = new VBox();
+        vbox.getChildren().add(playAsText);
+        vbox.getChildren().add(playAs);
+        vbox.setSpacing(5);
+
         ButtonType accept = new ButtonType("Accept");
         ButtonType decline = new ButtonType("Decline");
-
         alert.getButtonTypes().setAll(accept, decline);
+        DialogPane dialog = alert.getDialogPane();
+        dialog.setExpandableContent(vbox);
+        dialog.expandedProperty().set(true);
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional result = alert.showAndWait();
         if (result.get() == accept) {
+            model.setChallengePlayWithResult(
+                    playAs.getSelectionModel().getSelectedItem().toString());
             model.acceptMatch(challenge);
         } else if (result.get() == decline) {
             //Do nothing
