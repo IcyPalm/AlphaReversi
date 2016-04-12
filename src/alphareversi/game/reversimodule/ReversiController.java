@@ -30,9 +30,6 @@ public class ReversiController {
     public ReversiController() {
     }
 
-
-
-
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
@@ -49,17 +46,16 @@ public class ReversiController {
                 canvas.addEventFilter(MouseEvent.MOUSE_PRESSED,
                         new EventHandler<MouseEvent>() {
                             @Override
-                            public void handle(MouseEvent event ) {
-                                int row = GridPane.getRowIndex( canvas ) ;
-                                int col = GridPane.getColumnIndex( canvas ) ;
+                            public void handle(MouseEvent event) {
+                                int row = GridPane.getRowIndex(canvas);
+                                int col = GridPane.getColumnIndex(canvas);
                                 int move = convertMove(row, col);
                                 if (player instanceof Human
                                         && !reversiModel.gameOver()
                                         && ((Human) player).allowedToPlay()
-                                        && reversiModel.moveOk(move,((Human) player).getSide())) {
-                                    reversiModel.placePiece(move, ((Human) player).getSide());
-                                    updateMoveCommand(move);
-                                    ((Human) player).setAllowedToPlayFalse();
+                                        && reversiModel.moveOk(move, reversiModel.getMySide())) {
+                                    reversiModel.placePiece(move, reversiModel.getMySide());
+                                    ((Human) player).playMove(move);
                                 }
                             }
                         });
@@ -79,11 +75,11 @@ public class ReversiController {
         SendMoveCommand command = new SendMoveCommand(move);
         connection.sendMessage(command);
     }
-    
+
     private int convertMove(int row, int col) {
         return (row * 8) + col;
     }
-    
+
     public void setReversiModel(ReversiModel reversiModel) {
         this.reversiModel = reversiModel;
     }
@@ -107,10 +103,7 @@ public class ReversiController {
                 if (piece == reversiModel.getEmpty() ) {
                     canvas.setId("blank");
                 } else {
-                    if ((piece == 1)) {
-
-                        //gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
-                        //gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
+                    if (piece == 1) {
                         gc.setFill((Color.WHITE));
                         gc.fillOval(10, 20, canvas.getWidth() - 40, canvas.getHeight() - 40);
 

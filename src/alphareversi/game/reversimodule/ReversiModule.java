@@ -32,26 +32,29 @@ public class ReversiModule extends GameModule {
      * @param opponent The opponent's name.
      * @param playerToMove The player that should move first
      */
-    public ReversiModule(String playerType, String opponent,
-                         String playerToMove) throws Exception {
+    public ReversiModule(String playerType, String opponent, String playerToMove)
+            throws Exception {
 
         this.opponent = opponent;
-        if (!decidePlayer(playerType)) {
+
+        this.decideWhoBegins(playerToMove);
+
+        this.model = new ReversiModel(selfSide);
+
+        if (!this.decidePlayer(playerType)) {
             System.out.println("Wrong Command");
         }
-        decideWhoBegins(playerToMove);
-        this.model = new ReversiModel(selfSide);
         reversiView = setReversiView();
         if (selfSide == 2) {
-            if (player instanceof Human) {
-                player.chooseMove();
-            }
-            //if (player instanceof artificialIntelligence) {
-            //    int move = player.chooseMove();
-            //    model.placePiece(move, selfSide);
-            //    updateMoveCommand(move);
-            //}
+            this.player.startTurn();
         }
+
+        this.player.addActionListener(event -> {
+            int move = event.getID();
+            if (move >= 0) {
+                this.updateMoveCommand(move);
+            }
+        });
     }
 
     @Override
@@ -78,16 +81,9 @@ public class ReversiModule extends GameModule {
         if (!opponent.equals(playerToMove)) {
             selfSide = 2;
             opponentSide = 1;
-            if (player instanceof Human) {
-                ((Human) player).setSide(selfSide);
-            }
         } else {
             selfSide = 1;
             opponentSide = 2;
-            if (player instanceof Human) {
-                ((Human) player).setSide(selfSide);
-            }
-
         }
     }
 
@@ -97,11 +93,17 @@ public class ReversiModule extends GameModule {
      */
     private boolean decidePlayer(String playerType) {
         if (playerType.equals("HUMAN")) {
-            this.player = new Human();
-            this.playerType = playerType;
-            return true;
+            this.player = new Human(this.model);
+        } else if (playerType.equals("AI")) {
+            this.player = new ReversiMinimaxPlayer(this.model);
         }
-        return false;
+
+        if (this.player == null) {
+            return false;
+        }
+
+        this.playerType = playerType;
+        return true;
     }
 
     private int processMove(RecvGameMoveCommand command) {
@@ -125,15 +127,13 @@ public class ReversiModule extends GameModule {
         if (command instanceof RecvGameMoveCommand) {
             RecvGameMoveCommand com = (RecvGameMoveCommand) command;
             System.out.println(com.getPlayer() + " : made move : " + com.getMove().toString());
-            if (this.opponent.equals(((RecvGameMoveCommand) command).getPlayer())) {
-                model.placePiece(processMove((RecvGameMoveCommand) command), opponentSide);
+            if (this.opponent.equals(com.getPlayer())) {
+                model.placePiece(processMove(com), opponentSide);
             }
         } else if (command instanceof RecvGameYourturnCommand) {
             RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
             System.out.println("it is now my turn");
-            if (player instanceof Human) {
-                this.player.chooseMove();
-            }
+            this.player.startTurn();
             //            if (player instanceof artificialIntelligence) {
             //                int move = player.chooseMove();
             //                model.placePiece(move, selfSide);

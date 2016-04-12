@@ -19,7 +19,6 @@ public class ReversiMinimaxGetBestMoveTest extends TestCase {
 
     @Test
     public void testBestMove() throws InterruptedException {
-
         // Create a test board
         int[][] testBoard = testBoardOne();
 
