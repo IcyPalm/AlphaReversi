@@ -92,7 +92,23 @@ public class Board {
     }
 
     public void place(int player, int position) {
-        ;
+        int row = position / 8;
+        int col = position % 8;
+        this.place(player, row, col);
+    }
+
+    public void place(int player, int row, int col) {
+        this.board[row][col] = player;
+        for (Direction d : DIRECTIONS) {
+            int flip = this.attackablePiecesInDirection(row, col, d, player);
+            int flipRow = row + d.y;
+            int flipCol = col + d.x;
+            for (int i = 0; i < flip; i++) {
+                this.board[flipRow][flipCol] = player;
+                flipRow += d.y;
+                flipCol += d.x;
+            }
+        }
     }
 
     private static class Direction {
