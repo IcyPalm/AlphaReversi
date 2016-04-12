@@ -20,7 +20,7 @@ public class ReversiMinimaxGetBestMoveTest extends TestCase {
     }
 
     @Test
-    public void testBestMove() throws InterruptedException {
+    public void testBestMove() throws InterruptedException, InvalidMoveException {
 
         // Test started and minimax is computing a tree
         System.out.println("Waiting 5 seconds . . .");
@@ -36,8 +36,10 @@ public class ReversiMinimaxGetBestMoveTest extends TestCase {
             System.out.println("Found a move: " + move);
         }
 
+        Board newBoard = model.getBoardInstance();
+        newBoard.place(1, move);
         // Print the board after the found move
-        model.printBoard(model.afterMove(move, 1, model.getBoard()));
+        System.out.println(newBoard + "");
     }
 
 
