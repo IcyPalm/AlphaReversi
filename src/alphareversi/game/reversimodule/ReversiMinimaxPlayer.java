@@ -205,13 +205,14 @@ public class ReversiMinimaxPlayer {
          */
         public void run() {
             while (this.running) {
-                lock.lock();
                 LinkedList<Node> temp = new LinkedList<Node>(leaves);
                 for (Node leaf : temp) {
+                    // The lock is INSIDE the loop so the thread can be interrupted in
+                    // an interval equal to the step() burst time
+                    lock.lock();
                     this.step(leaf);
+                    lock.unlock();
                 }
-                // Give the parent thread a chance to access/mutate leaves.
-                lock.unlock();
             }
         }
 
@@ -251,9 +252,12 @@ public class ReversiMinimaxPlayer {
             }
         }
 
+        /*
+         * Flips the side the the next player
+         * 
+         * @return side The side of the next player
+         */
         private int flipSide(int side) {
-            // TODO Do not flip if the other player does not have any moves
-            // available.
             if (side == 1) {
                 return 2;
             } else {
