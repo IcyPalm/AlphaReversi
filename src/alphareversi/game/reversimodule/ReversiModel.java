@@ -44,6 +44,9 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     }
 
     public int getMostRecentMove() {
+        if (this.moveHistory.isEmpty()) {
+            return -1;
+        }
         return this.moveHistory.getFirst();
     }
 
