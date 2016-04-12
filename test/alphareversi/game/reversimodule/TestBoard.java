@@ -1,9 +1,12 @@
 package alphareversi.game.reversimodule;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 import junit.framework.TestCase;
 import org.junit.Test;
+
+import java.util.Collection;
 
 public class TestBoard extends TestCase {
     private static final int O = Board.EMPTY;
@@ -36,12 +39,18 @@ public class TestBoard extends TestCase {
     @Test
     public void testAvailableMoves() {
         Board b = new Board();
-        assertEquals(b.getAvailableMoves(W), new int[] {
+        Collection<Integer> available = b.getAvailableMoves(W);
+        int[] expected = new int[] {
             2 * 8 + 4,
             3 * 8 + 5,
             4 * 8 + 2,
             5 * 8 + 3,
-        });
+        };
+
+        assertEquals(available.size(), expected.length);
+        for (int move : expected) {
+            assertTrue(available.contains(move));
+        }
     }
 
     @Test
