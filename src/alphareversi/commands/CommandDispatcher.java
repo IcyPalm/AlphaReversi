@@ -23,6 +23,7 @@ public class CommandDispatcher {
      */
     public void addListener(CommandListener listener) {
 
+        System.out.println("[Dispatcher] + New listener: " + listener.getClass());
         if (!this.commandListeners.contains(listener)) {
             this.commandListeners.add(listener);
         }
@@ -38,6 +39,7 @@ public class CommandDispatcher {
         for (Iterator<CommandListener> iter = commandListeners.listIterator(); iter.hasNext(); ) {
             CommandListener listeners = iter.next();
             if (listeners == listener) {
+                System.out.println("[Dispatcher] - Remove listener: " + listener.getClass());
                 iter.remove();
             }
         }

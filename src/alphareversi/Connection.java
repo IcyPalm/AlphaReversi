@@ -71,7 +71,7 @@ public class Connection {
             while (true) {
                 try {
                     String line = input.readLine();
-                    System.out.println(line);
+                    System.out.println("[Connection] | → " + line);
                     RecvCommand command = CommandParser.parseString(line);
                     this.commandDispatcher.sendCommand(command);
                 } catch (IOException exception) {
@@ -92,7 +92,7 @@ public class Connection {
      * @param command SendCommand send command to server
      */
     public void sendMessage(SendCommand command) {
-        System.out.println(command.toString());
+        System.out.println("[Connection] ← | " + command.toString());
         output.println(command.toString());
     }
 

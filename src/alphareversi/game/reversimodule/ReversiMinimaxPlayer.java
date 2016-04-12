@@ -149,6 +149,12 @@ public class ReversiMinimaxPlayer implements Player {
                 best = leaf;
             }
         }
+
+        System.out.println("[Reversi/AI] Desired state:");
+        System.out.println("--------");
+        System.out.println(best.getBoard() + "");
+        System.out.println("--------");
+
         this.lock.unlock();
 
         best = this.getNextMove(best);
@@ -279,7 +285,6 @@ public class ReversiMinimaxPlayer implements Player {
          */
         public void run() {
             while (this.running) {
-                System.out.println("AI: Deepening - " + this.leaves.size() + " leaves");
                 LinkedList<Node> temp = new LinkedList<Node>(leaves);
                 boolean didProcessLeaf = false;
                 for (Node leaf : temp) {
@@ -302,9 +307,7 @@ public class ReversiMinimaxPlayer implements Player {
 
                 if (this.leaves.size() > 10000) {
                     lock.lock();
-                    System.out.println("AI: Pruning at " + this.leaves.size());
                     this.prune();
-                    System.out.println("AI: Pruned to " + this.leaves.size());
                     lock.unlock();
                 }
             }
