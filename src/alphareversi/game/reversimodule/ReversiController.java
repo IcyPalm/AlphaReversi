@@ -2,6 +2,7 @@ package alphareversi.game.reversimodule;
 
 import alphareversi.Connection;
 import alphareversi.commands.send.SendMoveCommand;
+import alphareversi.game.Player;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

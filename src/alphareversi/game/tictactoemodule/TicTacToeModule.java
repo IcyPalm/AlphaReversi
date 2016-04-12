@@ -6,6 +6,7 @@ import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.GameModule;
+import alphareversi.game.Player;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 
@@ -26,8 +27,8 @@ public class TicTacToeModule extends GameModule {
     /**
      * Constructor Module.
      */
-    public TicTacToeModule(String playerType, String opponent,
-                           String playerToMove) throws Exception {
+    public TicTacToeModule(String playerType, String opponent, String playerToMove)
+            throws Exception {
         model = new TicTacToeModel();
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
@@ -35,6 +36,14 @@ public class TicTacToeModule extends GameModule {
         }
         ticTacToeView = setTicTacToeView();
         decideWhoBegins(playerToMove);
+    }
+
+    public static String[] getPlayerTypes() {
+        return playerTypes;
+    }
+
+    public static String getGameName() {
+        return gameName;
     }
 
     /**
@@ -75,7 +84,6 @@ public class TicTacToeModule extends GameModule {
         return lastCommand;
     }
 
-
     private int processMove(RecvGameMoveCommand command) {
         return Integer.parseInt(command.getMove());
     }
@@ -103,12 +111,14 @@ public class TicTacToeModule extends GameModule {
      */
     private void decideWhoBegins(String playerToMove) {
         if (!opponent.equals(playerToMove)) {
+            model.setSelfPlays();
             int move = this.player.chooseMove();
             model.playMove(move);
             updateMoveCommand(move);
+        } else {
+            model.setOpponentPlays();
         }
     }
-
 
     /**
      * checks if the game is over.
@@ -117,14 +127,6 @@ public class TicTacToeModule extends GameModule {
      */
     public boolean gameOver() {
         return model.gameOver();
-    }
-
-    public static String[] getPlayerTypes() {
-        return playerTypes;
-    }
-
-    public static String getGameName() {
-        return gameName;
     }
 
     private BorderPane setTicTacToeView() throws Exception {

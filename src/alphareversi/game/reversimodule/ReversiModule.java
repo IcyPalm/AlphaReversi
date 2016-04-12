@@ -8,6 +8,7 @@ import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.GameModule;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import alphareversi.game.Player;
 import javafx.scene.layout.BorderPane;
 
 /**

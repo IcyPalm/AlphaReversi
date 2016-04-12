@@ -177,10 +177,6 @@ public class TicTacToeModel {
         initSide();
     }
 
-    public boolean opponentPlays() {
-        return side == opponent;
-    }
-
     public void setViewController(TicTacToeViewController viewController) {
         this.viewController = viewController;
     }

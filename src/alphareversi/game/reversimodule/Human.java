@@ -1,6 +1,6 @@
 package alphareversi.game.reversimodule;
 
-import alphareversi.game.reversimodule.Player;
+import alphareversi.game.Player;
 
 import java.util.Scanner;
 
