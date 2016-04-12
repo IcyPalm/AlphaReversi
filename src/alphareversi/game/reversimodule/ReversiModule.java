@@ -43,6 +43,8 @@ public class ReversiModule extends GameModule {
         decideWhoBegins(playerToMove);
         this.model = new ReversiModel(selfSide);
         reversiView = setReversiView();
+        Connection connection = Connection.getInstance();
+        connection.commandDispatcher.addListener(this);
         if (selfSide == 2) {
             if (player instanceof Human) {
                 player.chooseMove();
