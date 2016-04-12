@@ -39,6 +39,18 @@ public class ReversiModule extends GameModule {
             System.out.println("Wrong Command");
         }
         decideWhoBegins(playerToMove);
+        this.model = new ReversiModel(selfSide);
+        reversiView = setReversiView();
+        if (selfSide == 2) {
+            if (player instanceof Human) {
+                player.chooseMove();
+            }
+//            if (player instanceof artificialIntelligence) {
+//                int move = player.chooseMove();
+//                model.placePiece(move, selfSide);
+//                updateMoveCommand(move);
+//            }
+        }
     }
 
     @Override
@@ -68,17 +80,13 @@ public class ReversiModule extends GameModule {
             if (player instanceof Human) {
                 ((Human) player).setSide(selfSide);
             }
-            this.model = new ReversiModel(selfSide);
-            reversiView = setReversiView();
-            this.player.chooseMove();
         } else {
             selfSide = 1;
             opponentSide = 2;
             if (player instanceof Human) {
                 ((Human) player).setSide(selfSide);
             }
-            this.model = new ReversiModel(selfSide);
-            reversiView = setReversiView();
+
         }
     }
 
@@ -122,7 +130,14 @@ public class ReversiModule extends GameModule {
         } else if (command instanceof RecvGameYourturnCommand) {
             RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
             System.out.println("it is now my turn");
-            this.player.chooseMove();
+            if (player instanceof Human) {
+                this.player.chooseMove();
+            }
+//            if (player instanceof artificialIntelligence) {
+//                int move = player.chooseMove();
+//                model.placePiece(move, selfSide);
+//                updateMoveCommand(move);
+//            }
         }
     }
 
