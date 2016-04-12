@@ -16,7 +16,7 @@ public class ArtificialIntelligence implements Player {
     @Override
     public int chooseMove() {
         board = model.getBoard();
-        Best best = chooseMove(model.opponent);
+        Best best = chooseMove(model.getSide());
         return best.row * 3 + best.column;
     }
 
