@@ -48,7 +48,7 @@ public class CommandDispatcher {
      * Send a command to all subscribed listeners.
      * @param command send to all subscribers
      */
-    public void sendCommand(RecvCommand command) {
+    public synchronized void sendCommand(RecvCommand command) {
 
         for (CommandListener listener : this.commandListeners) {
             listener.commandReceived(command);

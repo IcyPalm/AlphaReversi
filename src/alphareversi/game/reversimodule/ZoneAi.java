@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Created by daant on 25-Mar-16.
  */
-public class RandomAi implements Player {
+public class ZoneAi implements Player {
     private ReversiModel model;
 
     private final Integer[] zone1 = {0,7,56,63};
@@ -23,7 +23,7 @@ public class RandomAi implements Player {
 
     private List<ActionListener> actionListeners = new LinkedList<>();
 
-    public RandomAi(ReversiModel model) {
+    public ZoneAi(ReversiModel model) {
         this.model = model;
     }
 
@@ -52,8 +52,22 @@ public class RandomAi implements Player {
     public void startTurn() {
         HashSet<Integer> movesSet = model.getValidMoves(model.getMySide(),model.getBoard());
         Integer[] moves = movesSet.toArray(new Integer[movesSet.size()]);
-        int random = randInt(0,movesSet.size() - 1);
-        notifyActionListeners(moves[random]);
+
+        Integer[][] zones = {zone1,zone2,zone3,zone4,zone5};
+
+        for (int i = 0; i < zones.length; i++) {
+            ArrayList<Integer> topMoves = new ArrayList<>();
+            for (int j = 0; j < moves.length; j++) {
+                if (Arrays.asList(zones[i]).contains(moves[j])) {
+                    topMoves.add(moves[j]);
+                }
+            }
+            if (topMoves.size() > 0) {
+                int random = randInt(0,topMoves.size() - 1);
+                notifyActionListeners(topMoves.get(random));
+                return;
+            }
+        }
     }
 
     private int randInt(int min, int max) {

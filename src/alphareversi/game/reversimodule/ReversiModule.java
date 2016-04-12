@@ -18,7 +18,7 @@ public class ReversiModule extends GameModule {
     private ReversiModel model;
     private String opponent;
     private String playerType;
-    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI"};
+    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI", "ZONE-AI"};
 
     private int selfSide;
     private int opponentSide;
@@ -45,9 +45,6 @@ public class ReversiModule extends GameModule {
             System.out.println("Wrong Command");
         }
         reversiView = setReversiView();
-        if (selfSide == 2) {
-            this.player.startTurn();
-        }
 
         this.player.addActionListener(event -> {
             int move = event.getID();
@@ -55,6 +52,10 @@ public class ReversiModule extends GameModule {
                 this.updateMoveCommand(move);
             }
         });
+
+        if (selfSide == 2) {
+            this.player.startTurn();
+        }
     }
 
     @Override
@@ -69,6 +70,9 @@ public class ReversiModule extends GameModule {
      */
     public void updateMoveCommand(int move) {
         System.out.println("send command");
+
+        model.placePiece(move,selfSide);
+
         Connection connection = Connection.getInstance();
         SendMoveCommand command = new SendMoveCommand(move);
         connection.sendMessage(command);
@@ -98,6 +102,8 @@ public class ReversiModule extends GameModule {
             this.player = new ReversiMinimaxPlayer(this.model);
         } else if (playerType.equals("RANDOM-AI")) {
             this.player = new RandomAi(this.model);
+        } else if (playerType.equals("ZONE-AI")) {
+            this.player = new ZoneAi(this.model);
         }
 
         if (this.player == null) {
@@ -136,11 +142,11 @@ public class ReversiModule extends GameModule {
             RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
             System.out.println("it is now my turn");
             this.player.startTurn();
-            //            if (player instanceof artificialIntelligence) {
-            //                int move = player.chooseMove();
-            //                model.placePiece(move, selfSide);
-            //                updateMoveCommand(move);
-            //            }
+//                        if (player instanceof artificialIntelligence) {
+//                            int move = player.chooseMove();
+//                            model.placePiece(move, selfSide);
+//                            updateMoveCommand(move);
+//                        }
         }
     }
 
