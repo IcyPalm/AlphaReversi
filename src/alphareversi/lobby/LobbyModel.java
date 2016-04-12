@@ -8,7 +8,6 @@ import alphareversi.commands.send.SendGetGamelistCommand;
 import alphareversi.commands.send.SendGetPlayerlistCommand;
 import alphareversi.commands.send.SendLoginCommand;
 import alphareversi.commands.send.SendSubscribeCommand;
-
 import alphareversi.commands.send.SendUnsubscribeCommand;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,7 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
-
+import java.util.Iterator;
 
 /**
  * Created by wouter on 24-3-2016.
@@ -32,7 +31,6 @@ public class LobbyModel {
     private ChoiceBox gameList;
     private Connection connection;
     private int serverPort;
-    private ArrayList oldPlayerList;
     private String challengePlayWithResult;
 
     /**
@@ -47,7 +45,6 @@ public class LobbyModel {
         this.gameList = gameList;
         this.playAs = playAs;
         this.connection = Connection.getInstance();
-        oldPlayerList = new ArrayList();
         new Thread(new RequestPlayerList()).start();
     }
 
@@ -90,30 +87,32 @@ public class LobbyModel {
     }
 
     /**
-     * Set the new playerList, but only if there is a difference with the old playerList.
+     * Check the old playerList and compare with to new one.
+     * This only makes new players when necessary;
      *
-     * @param playerList array with usernames
+     * @param playerList array with userNames
      */
     public void setPlayerList(ArrayList<String> playerList) {
-        if (!playerList.equals(oldPlayerList)) {
-            oldPlayerList = playerList;
-            ObservableList newList = FXCollections.observableArrayList();
-            ObservableList list = this.playerList.getItems();
-            for (int i = 0; i < playerList.size() && list.size() != 0; i++) {
-                for (Object object: list) {
-                    Player player = (Player) object;
-                    if (player.getUsername().equals(playerList.get(i))) {
-                        newList.add(player);
-                        playerList.remove(i);
-                    }
+        ObservableList newList = FXCollections.observableArrayList();
+        ObservableList list = this.playerList.getItems();
+        Iterator<String> iterator = playerList.iterator();
+        while (iterator.hasNext() && list.size() != 0) {
+            String name = iterator.next();
+            for (Object object : list) {
+                Player player = (Player) object;
+                if (player.getUsername().equals(name)) {
+                    newList.add(player);
+                    iterator.remove();
+                    break;
                 }
             }
-            for (int i = 0; i < playerList.size(); i++) {
-                Player player = new Player(playerList.get(i));
-                newList.add(player);
-            }
-            list.setAll(newList);
+
         }
+        while (iterator.hasNext()) {
+            Player player = new Player(iterator.next());
+            newList.add(player);
+        }
+        list.setAll(newList);
     }
 
     /**
@@ -137,7 +136,7 @@ public class LobbyModel {
      * Send the accept challenge command.
      */
     public void acceptMatch(RecvGameChallengeCommand challenge) {
-        SendChallengeAcceptCommand acceptChallenge 
+        SendChallengeAcceptCommand acceptChallenge
                 = new SendChallengeAcceptCommand(challenge.getChallengeNumber());
         connection.sendMessage(acceptChallenge);
         System.out.println(acceptChallenge.toString());
@@ -163,6 +162,7 @@ public class LobbyModel {
 
     /**
      * Set the game players.
+     *
      * @param gamePlayers Players from games
      */
     public void setGamePlayers(String[] gamePlayers) {
