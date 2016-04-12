@@ -74,9 +74,13 @@ public class TicTacToeModule extends GameModule {
         } else if (command instanceof RecvGameYourturnCommand) {
             RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
             System.out.println("it is now my turn");
-            int move = this.player.chooseMove();
-            model.playMove(move);
-            updateMoveCommand(move);
+            if (player instanceof Human) {
+                this.player.chooseMove();
+            } else if (player instanceof ArtificialIntelligence) {
+                int move = this.player.chooseMove();
+                model.playMove(move);
+                updateMoveCommand(move);
+            }
         }
     }
 
@@ -124,9 +128,13 @@ public class TicTacToeModule extends GameModule {
      */
     private void decideWhoBegins(String playerToMove) {
         if (!opponent.equals(playerToMove)) {
-            int move = this.player.chooseMove();
-            model.playMove(move);
-            updateMoveCommand(move);
+            if (player instanceof Human) {
+                this.player.chooseMove();
+            } else if (player instanceof ArtificialIntelligence) {
+                int move = this.player.chooseMove();
+                model.playMove(move);
+                updateMoveCommand(move);
+            }
         }
     }
 
@@ -145,10 +153,15 @@ public class TicTacToeModule extends GameModule {
         BorderPane ticTacToeView = (BorderPane) loader.load();
 
         TicTacToeViewController controller = loader.getController();
-        model.setViewController(controller);
-        controller.setTicTacToeModel(model, this.playerType, this.opponent);
+        setControllers(controller);
 
         return ticTacToeView;
+    }
+
+    private void setControllers(TicTacToeViewController controller) {
+        model.setViewController(controller);
+        controller.setTicTacToeModel(model, this.playerType, this.opponent);
+        controller.setPlayer(player);
     }
 
     public String getPlayerType() {
