@@ -12,6 +12,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.tree.TreeNode;
 
+import alphareversi.Logger;
+
 /*
  * MiniMax AI test
  * BASIC IDEA, uses only heat from the heatMap
@@ -20,6 +22,8 @@ import javax.swing.tree.TreeNode;
 public class ReversiMinimaxPlayer implements Player {
     public static final int MAX_DEPTH = 2;
     public static final int THINK_TIME = 600;
+
+    private Logger logger = new Logger("Reversi/AI");
 
     private List<ActionListener> actionListeners = new LinkedList<>();
 
@@ -88,7 +92,7 @@ public class ReversiMinimaxPlayer implements Player {
      *
      */
     private void startTimerThread() {
-        System.out.println("[Reversi/AI] Starting Turn");
+        this.logger.log("Starting Turn");
         new Thread(() -> {
             try {
                 Thread.sleep(THINK_TIME - 200);
@@ -113,12 +117,13 @@ public class ReversiMinimaxPlayer implements Player {
     public void incomingNewMove(int move) {
         Node[] children = this.root.getChildren();
 
-        System.out.print("[Reversi/AI] Incoming move: " + move + ", previous = " + this.root.getMove());
-        System.out.print(", possible = [");
+        String text = "Incoming move: " + move
+                    + ", previous = " + this.root.getMove()
+                    + ", possible = [";
         for (Node child : children) {
-            System.out.print(child.getMove() + ", ");
+            text += child.getMove() + ", ";
         }
-        System.out.println("]");
+        this.logger.log(text + "]");
 
         for (Node child : children) {
             if (child.getMove() == move) {
@@ -127,7 +132,7 @@ public class ReversiMinimaxPlayer implements Player {
             }
         }
 
-        System.out.println("[Reversi/AI] Did not predict move");
+        this.logger.log("Did not predict move");
 
         this.setRoot(new Node(
             this.model.getBoardInstance(),
@@ -144,7 +149,7 @@ public class ReversiMinimaxPlayer implements Player {
      */
     public int getBestMove() {
         this.lock.lock();
-        System.out.println("[Reversi/AI] Retrieving best move");
+        this.logger.log("Retrieving best move");
         List<Node> leaves = this.minimaxer.getLeaves();
         Node best = leaves.get(0);
         for (Node leaf : leaves) {
@@ -153,10 +158,10 @@ public class ReversiMinimaxPlayer implements Player {
             }
         }
 
-        System.out.println("[Reversi/AI] Desired state:");
-        System.out.println("--------");
-        System.out.println(best.getBoard() + "");
-        System.out.println("--------");
+        this.logger.log("[Reversi/AI] Desired state:");
+        this.logger.log("--------");
+        this.logger.log(best.getBoard() + "");
+        this.logger.log("--------");
 
         this.lock.unlock();
 
@@ -227,7 +232,7 @@ public class ReversiMinimaxPlayer implements Player {
     public void setRoot(Node root) {
         this.lock.lock();
 
-        System.out.println("[Reversi/AI] Setting root");
+        this.logger.log("Setting root");
 
         this.root = root;
         // Discard the rest of the tree
@@ -345,7 +350,7 @@ public class ReversiMinimaxPlayer implements Player {
                     // Ignore this!
                     // Because these are all valid…
                     // TODO add `placeUnsafe()` method that does not throw.
-                    System.err.println("[Reversi/AI] Attempted invalid move: " + move);
+                    ReversiMinimaxPlayer.this.logger.err("Attempted invalid move: " + move);
                     continue;
                 }
 

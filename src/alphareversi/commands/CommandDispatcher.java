@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import alphareversi.Logger;
+
 /**
  * Created by timmein on 24/03/16.
  *
  * <p>Dispatcher that handles commands comming from the server.
  */
 public class CommandDispatcher {
+    private Logger logger = new Logger("Dispatcher");
 
     public List<CommandListener> commandListeners;
 
@@ -23,7 +26,7 @@ public class CommandDispatcher {
      */
     public void addListener(CommandListener listener) {
 
-        System.out.println("[Dispatcher] + New listener: " + listener.getClass());
+        this.logger.log("+ New listener: " + listener.getClass());
         if (!this.commandListeners.contains(listener)) {
             this.commandListeners.add(listener);
         }
@@ -39,7 +42,7 @@ public class CommandDispatcher {
         for (Iterator<CommandListener> iter = commandListeners.listIterator(); iter.hasNext(); ) {
             CommandListener listeners = iter.next();
             if (listeners == listener) {
-                System.out.println("[Dispatcher] - Remove listener: " + listener.getClass());
+                this.logger.log("- Remove listener: " + listener.getClass());
                 iter.remove();
             }
         }

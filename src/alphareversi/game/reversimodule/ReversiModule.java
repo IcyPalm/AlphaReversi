@@ -1,6 +1,7 @@
 package alphareversi.game.reversimodule;
 
 import alphareversi.Connection;
+import alphareversi.Logger;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.SendCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
@@ -9,6 +10,7 @@ import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.commands.send.SendMessageCommand;
 import alphareversi.game.GameModule;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +27,7 @@ public class ReversiModule extends GameModule {
 
     private static final String gameName = "Reversi";
     private BorderPane reversiView;
-
+    private Logger logger = new Logger("Reversi");
 
     /**
      * Reversi module for sever communication.
@@ -42,7 +44,7 @@ public class ReversiModule extends GameModule {
         );
 
         if (!this.decidePlayer(playerType)) {
-            System.out.println("Wrong Command");
+            this.logger.err("Wrong Command");
         }
 
         Connection connection = Connection.getInstance();
@@ -73,7 +75,7 @@ public class ReversiModule extends GameModule {
      * @param move the move to set the command to
      */
     public void updateMoveCommand(int move) {
-        System.out.println("send command");
+        this.logger.log("Send command");
         this.send(new SendMoveCommand(move));
     }
 
@@ -117,22 +119,23 @@ public class ReversiModule extends GameModule {
 
     @Override
     public void commandReceived(RecvCommand command) {
-        System.out.println(
-            "[Reversi] Receiving: " + command.getType() + " " + command.getMethod() +
-            "  " + command.getClass());
+        this.logger.log(
+            "Receiving: " + command.getType() + " " + command.getMethod() +
+            "  " + command.getClass()
+        );
         if (command instanceof RecvGameMoveCommand) {
             RecvGameMoveCommand com = (RecvGameMoveCommand) command;
 
-            System.out.println("Old board:");
-            System.out.println("--------");
-            System.out.println(this.model.getBoardInstance() + "");
-            System.out.println("--------");
+            this.logger.log("Old board:");
+            this.logger.log("--------");
+            this.logger.log(this.model.getBoardInstance() + "");
+            this.logger.log("--------");
 
             int position = processMove(com);
             int player = this.opponent.equals(com.getPlayer()) ? Board.OPPONENT : Board.SELF;
 
-            System.out.println(
-                "[Reversi] " + com.getPlayer() + " (" + (player == Board.SELF ? "X" : "O") + ") " +
+            this.logger.log(
+                com.getPlayer() + " (" + (player == Board.SELF ? "X" : "O") + ") " +
                 "made move: " + com.getMove() + " [" + (position / 8) + ", " + (position % 8) + "]"
             );
 
@@ -140,19 +143,19 @@ public class ReversiModule extends GameModule {
                 model.placePiece(position, player);
             } catch (InvalidMoveException ime) {
                 this.send(new SendMessageCommand(this.opponent, "Cheater!"));
-                System.err.println("Unsupported move!");
+                this.logger.err("Unsupported move!");
             }
 
-            System.out.println("New board:");
-            System.out.println("--------");
-            System.out.println(this.model.getBoardInstance() + "");
-            System.out.println("--------");
+            this.logger.log("New board:");
+            this.logger.log("--------");
+            this.logger.log(this.model.getBoardInstance() + "");
+            this.logger.log("--------");
         } else if (command instanceof RecvGameYourturnCommand) {
             RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
-            System.out.println("it is now my turn");
+            this.logger.log("it is now my turn");
             this.player.startTurn();
         } else if (command instanceof RecvGameResultCommand) {
-            System.out.println("Game over");
+            this.logger.log("Game over");
             this.model.setGameOver();
         }
     }
