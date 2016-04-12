@@ -18,7 +18,7 @@ public class ReversiModule extends GameModule {
     private ReversiModel model;
     private String opponent;
     private String playerType;
-    private static final String[] playerTypes = {"HUMAN", "AI"};
+    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI"};
 
     private int selfSide;
     private int opponentSide;
@@ -96,6 +96,8 @@ public class ReversiModule extends GameModule {
             this.player = new Human(this.model);
         } else if (playerType.equals("AI")) {
             this.player = new ReversiMinimaxPlayer(this.model);
+        } else if (playerType.equals("RANDOM-AI")) {
+            this.player = new RandomAi(this.model);
         }
 
         if (this.player == null) {
