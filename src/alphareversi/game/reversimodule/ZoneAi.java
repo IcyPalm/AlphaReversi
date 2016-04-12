@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -50,7 +50,7 @@ public class ZoneAi implements Player {
     }
 
     public void startTurn() {
-        HashSet<Integer> movesSet = model.getValidMoves(model.getMySide(),model.getBoard());
+        Collection<Integer> movesSet = model.getValidMoves(model.getMySide(),model.getBoard());
         Integer[] moves = movesSet.toArray(new Integer[movesSet.size()]);
 
         Integer[][] zones = {zone1,zone2,zone3,zone4,zone5};

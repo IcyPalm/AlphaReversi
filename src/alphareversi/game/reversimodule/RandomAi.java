@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -50,7 +50,7 @@ public class RandomAi implements Player {
     }
 
     public void startTurn() {
-        HashSet<Integer> movesSet = model.getValidMoves(model.getMySide(),model.getBoard());
+        Collection<Integer> movesSet = model.getValidMoves(model.getMySide(), model.getBoard());
         Integer[] moves = movesSet.toArray(new Integer[movesSet.size()]);
         int random = randInt(0,movesSet.size() - 1);
         notifyActionListeners(moves[random]);

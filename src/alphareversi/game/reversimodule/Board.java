@@ -24,17 +24,23 @@ public class Board {
     };
 
     public Board() {
-        this(new int[][] {
-            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            new int[] { 0, 0, 0, OPPONENT, SELF, 0, 0, 0 },
-            new int[] { 0, 0, 0, SELF, OPPONENT, 0, 0, 0 },
-            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-        });
+        this(SELF);
     }
+
+    public Board(int self) {
+        int opponent = self == SELF ? OPPONENT : SELF;
+        this.board = new int[][] {
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+            new int[] { 0, 0, 0, opponent, self, 0, 0, 0 },
+            new int[] { 0, 0, 0, self, opponent, 0, 0, 0 },
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+        };
+    }
+
     public Board(int[][] board) {
         this.board = board;
     }

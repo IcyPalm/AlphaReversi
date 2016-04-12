@@ -2,9 +2,12 @@ package alphareversi.game.reversimodule;
 
 import alphareversi.Connection;
 import alphareversi.commands.RecvCommand;
+import alphareversi.commands.SendCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
+import alphareversi.commands.receive.RecvGameResultCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
+import alphareversi.commands.send.SendMessageCommand;
 import alphareversi.game.GameModule;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,8 +23,6 @@ public class ReversiModule extends GameModule {
     private String playerType;
     private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI", "ZONE-AI"};
 
-    private int selfSide;
-    private int opponentSide;
     private static final String gameName = "Reversi";
     private BorderPane reversiView;
 
@@ -34,16 +35,19 @@ public class ReversiModule extends GameModule {
      */
     public ReversiModule(String playerType, String opponent, String playerToMove)
             throws Exception {
-
         this.opponent = opponent;
 
-        this.decideWhoBegins(playerToMove);
-
-        this.model = new ReversiModel(selfSide);
+        this.model = new ReversiModel(
+            opponent.equals(playerToMove) ? Board.OPPONENT : Board.SELF
+        );
 
         if (!this.decidePlayer(playerType)) {
             System.out.println("Wrong Command");
         }
+
+        Connection connection = Connection.getInstance();
+        connection.commandDispatcher.addListener(this);
+
         reversiView = setReversiView();
 
         this.player.addActionListener(event -> {
@@ -53,7 +57,7 @@ public class ReversiModule extends GameModule {
             }
         });
 
-        if (selfSide == 2) {
+        if (this.model.getPlayerOnTurn() == Board.SELF) {
             this.player.startTurn();
         }
     }
@@ -70,25 +74,7 @@ public class ReversiModule extends GameModule {
      */
     public void updateMoveCommand(int move) {
         System.out.println("send command");
-
-        model.placePiece(move,selfSide);
-
-        Connection connection = Connection.getInstance();
-        SendMoveCommand command = new SendMoveCommand(move);
-        connection.sendMessage(command);
-    }
-
-    /**
-     * Checks who should begin.
-     */
-    private void decideWhoBegins(String playerToMove) throws Exception {
-        if (!opponent.equals(playerToMove)) {
-            selfSide = 2;
-            opponentSide = 1;
-        } else {
-            selfSide = 1;
-            opponentSide = 2;
-        }
+        this.send(new SendMoveCommand(move));
     }
 
     /**
@@ -119,10 +105,9 @@ public class ReversiModule extends GameModule {
     }
 
     @Override
-    public SendMoveCommand send(SendMoveCommand command) {
-        //TODO: yeah, this is fucked
-        // the implementation of this is in another method. This is also fucked on TicTacToe
-        return null;
+    public void send(SendCommand command) {
+        Connection connection = Connection.getInstance();
+        connection.sendMessage(command);
     }
 
     @Override
@@ -132,21 +117,43 @@ public class ReversiModule extends GameModule {
 
     @Override
     public void commandReceived(RecvCommand command) {
+        System.out.println(
+            "[Reversi] Receiving: " + command.getType() + " " + command.getMethod() +
+            "  " + command.getClass());
         if (command instanceof RecvGameMoveCommand) {
             RecvGameMoveCommand com = (RecvGameMoveCommand) command;
-            System.out.println(com.getPlayer() + " : made move : " + com.getMove());
-            if (this.opponent.equals(com.getPlayer())) {
-                model.placePiece(processMove(com), opponentSide);
+
+            System.out.println("Old board:");
+            System.out.println("--------");
+            System.out.println(this.model.getBoardInstance() + "");
+            System.out.println("--------");
+
+            int position = processMove(com);
+            int player = this.opponent.equals(com.getPlayer()) ? Board.OPPONENT : Board.SELF;
+
+            System.out.println(
+                "[Reversi] " + com.getPlayer() + " (" + (player == Board.SELF ? "X" : "O") + ") " +
+                "made move: " + com.getMove() + " [" + (position / 8) + ", " + (position % 8) + "]"
+            );
+
+            try {
+                model.placePiece(position, player);
+            } catch (InvalidMoveException ime) {
+                this.send(new SendMessageCommand(this.opponent, "Cheater!"));
+                System.err.println("Unsupported move!");
             }
+
+            System.out.println("New board:");
+            System.out.println("--------");
+            System.out.println(this.model.getBoardInstance() + "");
+            System.out.println("--------");
         } else if (command instanceof RecvGameYourturnCommand) {
             RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
             System.out.println("it is now my turn");
             this.player.startTurn();
-//                        if (player instanceof artificialIntelligence) {
-//                            int move = player.chooseMove();
-//                            model.placePiece(move, selfSide);
-//                            updateMoveCommand(move);
-//                        }
+        } else if (command instanceof RecvGameResultCommand) {
+            System.out.println("Game over");
+            this.model.setGameOver();
         }
     }
 

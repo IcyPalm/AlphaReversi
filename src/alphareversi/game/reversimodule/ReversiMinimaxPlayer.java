@@ -3,7 +3,7 @@ package alphareversi.game.reversimodule;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -302,7 +302,7 @@ public class ReversiMinimaxPlayer implements Player {
         private void step(Node parent) {
             int newSide = this.flipSide(parent.getSide());
 
-            HashSet validMoves = model.getValidMoves(parent.getSide(), parent.getBoard());
+            Collection<Integer> validMoves = model.getValidMoves(parent.getSide(), parent.getBoard());
 
             if (validMoves.size() == 0) {
                 int winState = model.getWinner(parent.getBoard());
@@ -311,7 +311,7 @@ public class ReversiMinimaxPlayer implements Player {
             }
 
             leaves.remove(parent);
-            Iterator it = validMoves.iterator();
+            Iterator<Integer> it = validMoves.iterator();
             while (it.hasNext()) {
                 int move2 = (int) it.next();
 

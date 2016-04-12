@@ -54,7 +54,6 @@ public class ReversiController {
                                         && !reversiModel.gameOver()
                                         && ((Human) player).allowedToPlay()
                                         && reversiModel.moveOk(move, reversiModel.getMySide())) {
-                                    reversiModel.placePiece(move, reversiModel.getMySide());
                                     ((Human) player).playMove(move);
                                 }
                             }

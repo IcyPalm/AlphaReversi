@@ -15,10 +15,9 @@ public class ReversiMinimaxGetBestMoveTest extends TestCase {
         model = new ReversiModel(1);
         // Create a test board
         int[][] testBoard = testBoardThree();
-        model.setBoard(testBoard);
+        model.setBoard(new Board(testBoard));
         minimax = new ReversiMinimaxPlayer(model);
     }
-
 
     @Test
     public void testBestMove() throws InterruptedException {

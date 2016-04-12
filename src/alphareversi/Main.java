@@ -140,8 +140,6 @@ public class Main extends Application implements CommandListener {
         );
 
         rootLayout.setCenter(gameModule.getView());
-
-        connection.commandDispatcher.addListener(gameModule);
     }
 
     private void stopGame(RecvGameResultCommand command) throws Exception {
