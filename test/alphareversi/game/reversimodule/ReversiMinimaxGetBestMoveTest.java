@@ -13,37 +13,32 @@ public class ReversiMinimaxGetBestMoveTest extends TestCase {
 
     public ReversiMinimaxGetBestMoveTest() {
         model = new ReversiModel(1);
+        // Create a test board
+        int[][] testBoard = testBoardTwo();
+        model.setBoard(testBoard);
         minimax = new ReversiMinimaxPlayer(model);
     }
 
 
     @Test
     public void testBestMove() throws InterruptedException {
-        // Create a test board
-        int[][] testBoard = testBoardOne();
 
-        // Print the test board
-        //model.printBoard(testBoard);
-        System.out.println("");
-
+        // Test started and minimax is computing a tree
         System.out.println("Waiting 5 seconds . . .");
-        System.out.println("");
-        // Wait 5 seconds
-        Thread.sleep(1000);
 
+        // Wait 5 seconds
+        Thread.sleep(2000);
         System.out.println("Finished waiting 5 seconds . . .");
 
         // Fetch the best move from the minimax player.
-        // This interrupt its local thread
         int move = minimax.getBestMove();
 
-        if(move > 0) {
+        if(move >= 0) {
             System.out.println("Found a move: " + move);
         }
 
         // Print the board after the found move
-        model.printBoard(model.afterMove(move, 1, testBoard));
-
+        model.printBoard(model.afterMove(move, 1, model.getBoard()));
     }
 
 
@@ -53,6 +48,28 @@ public class ReversiMinimaxGetBestMoveTest extends TestCase {
         board[3][4] = 2;
         board[4][3] = 2;
         board[4][4] = 1;
+        return board;
+    }
+    
+    public int[][] testBoardTwo() {
+        int[][] board = new int[8][8];
+        board[1][3] = 2;
+        board[1][5] = 2;
+        board[2][2] = 1;
+        board[2][3] = 2;
+        board[2][4] = 2;
+        board[2][5] = 1;
+        board[3][2] = 1;
+        board[3][3] = 2;
+        board[3][4] = 1;
+        board[4][2] = 1;
+        board[4][3] = 2;
+        board[4][4] = 1;
+        board[5][1] = 2;
+        board[5][2] = 2;
+        board[5][3] = 1;
+        board[6][1] = 2;
+        board[6][2] = 1;
         return board;
     }
 
