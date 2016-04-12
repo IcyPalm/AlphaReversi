@@ -13,7 +13,7 @@ import alphareversi.commands.SendCommand;
 public class SendChallengeCommand extends SendCommand {
     private String player;
     private String gameType;
-    private int turntime = 2;
+    private int turntime = 2000;
 
     /**
      * Constructor SendChallengeCommand.
