@@ -11,6 +11,8 @@ public class Node extends DefaultMutableTreeNode {
     private int side;
     private int heat;
     private int move;
+    private boolean endState = false;
+    private int type = 0;
 
     /**
      * Create a new Node.
@@ -84,5 +86,31 @@ public class Node extends DefaultMutableTreeNode {
 
     public int getHeat() {
         return this.heat;
+    }
+    
+    /*
+     * Sets the endstate variable and the type of the endstate to
+     * 1: white wins, 2: black wins, 3: draw
+     * 
+     * @param type The type of the endstate, white wins, black wins or draw
+     */
+    public void markEndState(int type) {
+        this.endState = true;
+        this.type = type;
+    }
+    
+    /*
+     * Returns true if this board is an endstate
+     */
+    public boolean isEndState() {
+        return this.endState;
+    }
+    
+    /*
+     * Returns the type of the endstate
+     * 1: white wins, 2: black wins, 3: draw
+     */
+    public int getEndType() {
+        return this.getEndType();
     }
 }
