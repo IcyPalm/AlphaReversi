@@ -21,7 +21,6 @@ public class ReversiMinimaxPlayer {
     private ReversiHeatmap heatMap = new ReversiHeatmap();
 
     private int currentSide = 0;
-    private int[][] currentBoard = new int[8][8];
 
     private Node root;
 
@@ -39,11 +38,11 @@ public class ReversiMinimaxPlayer {
         this.model = model;
         int side;
         if (model.amIOnTurn()) {
-            side = 1;
+            this.currentSide = 1;
         } else {
-            side = 2;
+            this.currentSide = 2;
         }
-        this.root = new Node(currentBoard, side, 0, 0);
+        this.root = new Node(model.getBoard(), this.currentSide, 0, 0);
 
         this.startMinimax();
     }
@@ -118,7 +117,7 @@ public class ReversiMinimaxPlayer {
      * Start computing the moves tree.
      */
     public void startMinimax() {
-        this.lock = new ReentrantLock();
+        this.lock = new ReentrantLock(true);
         this.minimaxer = new Minimax(this.lock, this.root);
         new Thread(this.minimaxer).start();
     }
@@ -189,7 +188,8 @@ public class ReversiMinimaxPlayer {
         public void run() {
             while (this.running) {
                 lock.lock();
-                for (Node leaf : this.leaves) {
+                LinkedList<Node> temp = new LinkedList<Node>(leaves);
+                for (Node leaf : temp) {
                     this.step(leaf);
                 }
                 // Give the parent thread a chance to access/mutate leaves.
@@ -205,19 +205,22 @@ public class ReversiMinimaxPlayer {
          * @return heat The heat of a move
          */
         private void step(Node parent) {
-            // Recursive MiniMax
+
             int newSide = this.flipSide(parent.getSide());
-            HashSet validMoves = model.getValidMoves(newSide, parent.getBoard());
+            
+            HashSet validMoves = model.getValidMoves(parent.getSide(), parent.getBoard());
             Iterator it = validMoves.iterator();
 
-            leaves.remove(parent);
+            leaves.remove(parent); 
             while (it.hasNext()) {
+                
                 int move2 = (int) it.next();
 
-                int[][] newBoard = model.afterMove(move2, newSide, parent.getBoard());
+                int[][] newBoard = model.afterMove(move2, parent.getSide(), parent.getBoard());
+                
 
                 int heat;
-                if (newSide == currentSide) {
+                if (parent.getSide() == model.getMySide()) {
                     heat = parent.getHeat() + heatMap.getHeat(move2);
                 } else {
                     // Subtract the heat if the heat is meant for your opponent.

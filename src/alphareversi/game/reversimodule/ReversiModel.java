@@ -813,7 +813,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
                 } else if (board[i][j] == playerTwo) {
                     System.out.print(black);
                 } else {
-                    System.out.println("0");
+                    System.out.print("0");
                 }
 
             }
