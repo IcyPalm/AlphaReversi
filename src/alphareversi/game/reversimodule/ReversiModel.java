@@ -5,8 +5,7 @@ import alphareversi.game.GameBasicSquareBasedModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-
-
+import java.util.LinkedList;
 
 /**
  * Created by Robert on 27-3-2016. This class houses all the logic for the square based game
@@ -17,6 +16,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     private char black = 'B';
     private final HashSet<Integer> potentialMoves;
     private final ArrayList<Integer> locations;
+    private final LinkedList<Integer> moveHistory = new LinkedList<>();
 
     private int playerOneScore;
     private int playerTwoScore;
@@ -54,7 +54,10 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     public void setBoard(int[][] board) {
         this.gameBoard = board;
     }
-    
+
+    public int getMostRecentMove() {
+        return this.moveHistory.getFirst();
+    }
 
     /**
      * This method places the actual pieces onto the gameBoard. The coordinates it can place pieces
@@ -63,6 +66,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     public void placePiece(int move, int side) {
         System.out.println("I should have set a move in the Model before getValidMoves check");
         if ( getValidMoves(side, gameBoard).contains(move) ) {
+            this.moveHistory.addFirst(move);
             gameBoard[move / 8][move % 8] = side;
             flipper(move, gameBoard, side);
             viewController.updateBoard(gameBoard);

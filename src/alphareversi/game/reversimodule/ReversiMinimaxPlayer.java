@@ -1,5 +1,8 @@
 package alphareversi.game.reversimodule;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,9 +16,11 @@ import javax.swing.tree.TreeNode;
  * BASIC IDEA, uses only heat from the heatMap
  * @author Maarten le Clercq
  */
-public class ReversiMinimaxPlayer {
+public class ReversiMinimaxPlayer implements Player {
     public static final int MAX_DEPTH = 2;
-    public static final int THINK_TIME = 2000;
+    public static final int THINK_TIME = 600;
+
+    private List<ActionListener> actionListeners = new LinkedList<>();
 
     private ReversiModel model;
     private ReversiHeatmap heatMap = new ReversiHeatmap();
@@ -45,6 +50,54 @@ public class ReversiMinimaxPlayer {
         this.root = new Node(model.getBoard(), this.currentSide, 0, 0);
 
         this.startMinimax();
+    }
+
+    /**
+     *
+     */
+    public void startTurn() {
+        this.starttime = System.currentTimeMillis();
+        this.startTimerThread();
+        this.incomingNewMove(this.model.getMostRecentMove());
+    }
+
+    /**
+     * Add an action listener.
+     */
+    public void addActionListener(ActionListener listener) {
+        this.actionListeners.add(listener);
+    }
+
+    /**
+     * Remove an action listener.
+     */
+    public void removeActionListener(ActionListener listener) {
+        this.actionListeners.remove(listener);
+    }
+
+    private void notifyActionListeners(int move) {
+        for (ActionListener listener : this.actionListeners) {
+            listener.actionPerformed(
+                new ActionEvent(this, move, "")
+            );
+        }
+    }
+
+    /**
+     *
+     */
+    private void startTimerThread() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(THINK_TIME - 200);
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            } finally {
+                // Attempt to play the best move, even if the thread was
+                // interrupted.
+                this.notifyActionListeners(this.getBestMove());
+            }
+        }).start();
     }
 
     /**
@@ -146,6 +199,8 @@ public class ReversiMinimaxPlayer {
     public void setRoot(Node root) {
         this.lock.lock();
 
+        System.out.println("AI: Setting root");
+
         this.root = root;
         // Discard the rest of the tree
         root.removeFromParent();
@@ -205,6 +260,7 @@ public class ReversiMinimaxPlayer {
          */
         public void run() {
             while (this.running) {
+                System.out.println("AI: Deepening - " + leaves.size() + " leaves");
                 LinkedList<Node> temp = new LinkedList<Node>(leaves);
                 for (Node leaf : temp) {
                     // The lock is INSIDE the loop so the thread can be interrupted in
@@ -224,19 +280,16 @@ public class ReversiMinimaxPlayer {
          * @return heat The heat of a move
          */
         private void step(Node parent) {
-
             int newSide = this.flipSide(parent.getSide());
-            
+
             HashSet validMoves = model.getValidMoves(parent.getSide(), parent.getBoard());
             Iterator it = validMoves.iterator();
 
-            leaves.remove(parent); 
+            leaves.remove(parent);
             while (it.hasNext()) {
-                
                 int move2 = (int) it.next();
 
                 int[][] newBoard = model.afterMove(move2, parent.getSide(), parent.getBoard());
-                
 
                 int heat;
                 if (parent.getSide() == model.getMySide()) {
@@ -254,7 +307,7 @@ public class ReversiMinimaxPlayer {
 
         /*
          * Flips the side the the next player
-         * 
+         *
          * @return side The side of the next player
          */
         private int flipSide(int side) {

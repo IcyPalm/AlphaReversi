@@ -18,7 +18,7 @@ public class ReversiModule extends GameModule {
     private ReversiModel model;
     private String opponent;
     private String playerType;
-    private static final String[] playerTypes = {"HUMAN"};
+    private static final String[] playerTypes = {"HUMAN", "AI"};
 
     private int selfSide;
     private int opponentSide;
