@@ -151,7 +151,7 @@ public class Main extends Application implements CommandListener {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle("Game Over");
-        alert.setHeaderText("The game has ended. You have " + command.getType());
+        alert.setHeaderText("The game has ended. You have " + command.getPlayerResult());
         alert.setContentText(command.getComment());
         alert.showAndWait();
 

@@ -30,6 +30,11 @@ public class TicTacToeModule extends GameModule {
     public TicTacToeModule(String playerType, String opponent, String playerToMove)
             throws Exception {
         model = new TicTacToeModel();
+        if (!opponent.equals(playerToMove)) {
+            model.setSelfPlays();
+        } else {
+            model.setOpponentPlays();
+        }
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
             System.out.println("Wrong Command");
@@ -111,12 +116,9 @@ public class TicTacToeModule extends GameModule {
      */
     private void decideWhoBegins(String playerToMove) {
         if (!opponent.equals(playerToMove)) {
-            model.setSelfPlays();
             int move = this.player.chooseMove();
             model.playMove(move);
             updateMoveCommand(move);
-        } else {
-            model.setOpponentPlays();
         }
     }
 
