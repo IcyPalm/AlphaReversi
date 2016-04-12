@@ -70,13 +70,15 @@ public class ReversiMinimaxPlayer {
      * @return The best move according to the current move tree.
      */
     public int getBestMove() {
-        List<Node> leaves = this.getKnownLeaves();
+        this.lock.lock();
+        List<Node> leaves = this.minimaxer.getLeaves();
         Node best = leaves.get(0);
         for (Node leaf : leaves) {
             if (leaf.getHeat() > best.getHeat()) {
                 best = leaf;
             }
         }
+        this.lock.unlock();
         return best.getMove();
     }
 
@@ -119,18 +121,6 @@ public class ReversiMinimaxPlayer {
         this.lock = new ReentrantLock();
         this.minimaxer = new Minimax(this.lock, this.root);
         new Thread(this.minimaxer).start();
-    }
-
-    /**
-     * Get the current known computed "end" states (leaves).
-     *
-     * @return A list of current "end" states.
-     */
-    public List<Node> getKnownLeaves() {
-        this.lock.lock();
-        List<Node> leaves = this.minimaxer.getLeaves();
-        this.lock.unlock();
-        return leaves;
     }
 
     /**
