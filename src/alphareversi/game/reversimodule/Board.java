@@ -4,14 +4,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Board {
+    /**
+     * Piece/Player types.
+     */
     final public static int EMPTY = 0;
     final public static int SELF = 1;
     final public static int OPPONENT = 2;
 
+    /**
+     * The size of the board (amount of rows = amount of columns).
+     */
     final private static int SIZE = 8;
 
-    private int[][] board;
-
+    /**
+     * All directions in which pieces might be vulnerable.
+     */
     final private static Direction[] DIRECTIONS = new Direction[] {
         new Direction(0, -1),
         new Direction(-1, -1),
@@ -23,10 +30,23 @@ public class Board {
         new Direction(1, -1),
     };
 
+    /**
+     * The board storage.
+     */
+    private int[][] board;
+
+    /**
+     * Create a default board.
+     */
     public Board() {
         this(SELF);
     }
 
+    /**
+     * Create a board from the viewpoint of the given player.
+     *
+     * @param self POV.
+     */
     public Board(int self) {
         int opponent = self == SELF ? OPPONENT : SELF;
         this.board = new int[][] {
@@ -41,14 +61,30 @@ public class Board {
         };
     }
 
+    /**
+     * Create a board with the given pieces.
+     */
     public Board(int[][] board) {
         this.board = board;
     }
 
+    /**
+     * Retrieve the raw board layout.
+     *
+     * @return Two-dimensional array containing pieces, indexed first by row and
+     *         second by column: `board[row][column]`.
+     */
     public int[][] get() {
         return this.board;
     }
 
+    /**
+     * Find available moves for a player. A move is available when it's in an
+     * empty spot, and if it will attack at least one opposing piece.
+     *
+     * @param player Player to check for.
+     * @return A list of possible moves.
+     */
     public Collection<Integer> getAvailableMoves(int player) {
         Collection<Integer> available = new ArrayList<>(60);
         for (int row = 0; row < SIZE; row++) {
@@ -64,12 +100,26 @@ public class Board {
     }
 
     /**
+     * Check if a certain move is possible on the current board.
      *
+     * @param player Mover.
+     * @param move   Position to attempt to place a piece.
+     * @return True if the piece can be placed in the given position, False otherwise.
      */
     public boolean isValidMove(int player, int move) {
         return this.canAttack(player, move / 8, move % 8);
     }
 
+    /**
+     * Checks if a piece placed at a given position attacks at least one
+     * opposing piece.
+     *
+     * @param player Piece owner.
+     * @param row    Row position.
+     * @param col    Column position.
+     * @return True if a piece placed in the given position would attack other
+     *         pieces, false otherwise.
+     */
     private boolean canAttack(int player, int row, int col) {
         for (Direction d : DIRECTIONS) {
             if (this.attackablePiecesInDirection(player, row, col, d) > 0) {
@@ -79,6 +129,10 @@ public class Board {
         return false;
     }
 
+    /**
+     * Check whether a piece placed at a given position would attack at least
+     * one opposing piece in a single direction.
+     */
     private int attackablePiecesInDirection(int player, int row, int col, Direction d) {
         int opponent = player == SELF ? OPPONENT : SELF;
         int hitting = 0;
@@ -101,7 +155,10 @@ public class Board {
     }
 
     /**
+     * Get the current amount of pieces for a player.
      *
+     * @param player The player.
+     * @return The amount of pieces the player owns.
      */
     public int getScore(int player) {
         int score = 0;
@@ -115,13 +172,22 @@ public class Board {
         return score;
     }
 
+    /**
+     * Place a piece on the board.
+     *
+     * @param player   Piece owner.
+     * @param position Position to place the piece at.
+     */
     public void place(int player, int position) throws InvalidMoveException {
         int row = position / 8;
         int col = position % 8;
         this.place(player, row, col);
     }
 
-    public void place(int player, int row, int col) throws InvalidMoveException {
+    /**
+     * Internal piece-placing with row & column goodness.
+     */
+    private void place(int player, int row, int col) throws InvalidMoveException {
         int totalFlipped = 0;
         for (Direction d : DIRECTIONS) {
             int flip = this.attackablePiecesInDirection(player, row, col, d);
@@ -151,6 +217,11 @@ public class Board {
         this.board[row][col] = player;
     }
 
+    /**
+     * Get a fairly readable version of the current board state as text.
+     *
+     * @return A string with 8 lines.
+     */
     public String toString() {
         StringBuilder builder = new StringBuilder(SIZE * SIZE + SIZE);
         for (int row = 0; row < SIZE; row++) {
@@ -173,6 +244,10 @@ public class Board {
         return builder.toString();
     }
 
+    /**
+     * Internal class for representing directions that pieces can threaten other
+     * pieces in.
+     */
     private static class Direction {
         public int x;
         public int y;
