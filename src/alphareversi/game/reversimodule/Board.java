@@ -145,6 +145,28 @@ public class Board {
         this.board[row][col] = player;
     }
 
+    public String toString() {
+        StringBuilder builder = new StringBuilder(SIZE * SIZE + SIZE);
+        for (int row = 0; row < SIZE; row++) {
+            // Only add newlines in between lines, not at the end, for more
+            // intuitive `.println()`ing.
+            if (row > 0) {
+                builder.append("\n");
+            }
+
+            for (int col = 0; col < SIZE; col++) {
+                if (this.board[row][col] == SELF) {
+                    builder.append("X");
+                } else if (this.board[row][col] == OPPONENT) {
+                    builder.append("O");
+                } else {
+                    builder.append("·");
+                }
+            }
+        }
+        return builder.toString();
+    }
+
     private static class Direction {
         public int x;
         public int y;
