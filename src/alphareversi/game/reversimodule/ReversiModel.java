@@ -96,7 +96,11 @@ public class ReversiModel extends GameBasicSquareBasedModel {
      * @return The board after the all the flipping has been done.
      */
     public int[][] afterMove(int move, int side, int[][] board) {
-        int[][] newBoard = board.clone();
+        int[][] newBoard = new int[8][8];
+        for (int row = 0; row < 8; row++) {
+          newBoard[row] = board[row].clone();
+        }
+
         newBoard[move / 8][move % 8] = side;
         flipper(move, newBoard, side);
         return newBoard;
