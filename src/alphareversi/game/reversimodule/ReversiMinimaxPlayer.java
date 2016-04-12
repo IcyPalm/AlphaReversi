@@ -42,13 +42,8 @@ public class ReversiMinimaxPlayer implements Player {
      */
     public ReversiMinimaxPlayer(ReversiModel model) {
         this.model = model;
-        int side;
-        if (model.amIOnTurn()) {
-            this.currentSide = 1;
-        } else {
-            this.currentSide = 2;
-        }
-        this.root = new Node(model.getBoard(), this.currentSide, 0, 0);
+        this.currentSide = this.model.getPlayerOnTurn();
+        this.root = new Node(model.getBoardInstance(), this.currentSide, 0, 0);
 
         this.startMinimax();
     }
@@ -58,8 +53,13 @@ public class ReversiMinimaxPlayer implements Player {
      */
     public void startTurn() {
         this.starttime = System.currentTimeMillis();
+
+        int move = this.model.getMostRecentMove();
+        if (move >= 0) {
+            this.incomingNewMove(move);
+        }
+
         this.startTimerThread();
-        this.incomingNewMove(this.model.getMostRecentMove());
     }
 
     /**
@@ -88,16 +88,16 @@ public class ReversiMinimaxPlayer implements Player {
      *
      */
     private void startTimerThread() {
+        System.out.println("[Reversi/AI] Starting Turn");
         new Thread(() -> {
             try {
                 Thread.sleep(THINK_TIME - 200);
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
-            } finally {
-                // Attempt to play the best move, even if the thread was
-                // interrupted.
-                this.notifyActionListeners(this.getBestMove());
             }
+            // Attempt to play the best move, even if the thread was
+            // interrupted.
+            this.notifyActionListeners(this.getBestMove());
         }).start();
     }
 
@@ -109,12 +109,29 @@ public class ReversiMinimaxPlayer implements Player {
      */
     public void incomingNewMove(int move) {
         Node[] children = this.root.getChildren();
+
+        System.out.print("[Reversi/AI] Incoming move: " + move + ", previous = " + this.root.getMove());
+        System.out.print(", possible = [");
+        for (Node child : children) {
+            System.out.print(child.getMove() + ", ");
+        }
+        System.out.println("]");
+
         for (Node child : children) {
             if (child.getMove() == move) {
                 this.setRoot(child);
                 return;
             }
         }
+
+        System.out.println("[Reversi/AI] Did not predict move");
+
+        this.setRoot(new Node(
+            this.model.getBoardInstance(),
+            this.model.getPlayerOnTurn() == 1 ? 2 : 1,
+            0,
+            0
+        ));
     }
 
     /**
@@ -124,6 +141,7 @@ public class ReversiMinimaxPlayer implements Player {
      */
     public int getBestMove() {
         this.lock.lock();
+        System.out.println("[Reversi/AI] Retrieving best move");
         List<Node> leaves = this.minimaxer.getLeaves();
         Node best = leaves.get(0);
         for (Node leaf : leaves) {
@@ -133,7 +151,7 @@ public class ReversiMinimaxPlayer implements Player {
         }
         this.lock.unlock();
 
-        best = getNextMove(best);
+        best = this.getNextMove(best);
         return best == null ? -1 : best.getMove();
     }
 
@@ -200,7 +218,7 @@ public class ReversiMinimaxPlayer implements Player {
     public void setRoot(Node root) {
         this.lock.lock();
 
-        System.out.println("AI: Setting root");
+        System.out.println("[Reversi/AI] Setting root");
 
         this.root = root;
         // Discard the rest of the tree
@@ -302,30 +320,38 @@ public class ReversiMinimaxPlayer implements Player {
         private void step(Node parent) {
             int newSide = this.flipSide(parent.getSide());
 
-            Collection<Integer> validMoves = model.getValidMoves(parent.getSide(), parent.getBoard());
+            Collection<Integer> validMoves = parent.getBoard().getAvailableMoves(parent.getSide());
 
             if (validMoves.size() == 0) {
-                int winState = model.getWinner(parent.getBoard());
-                parent.markEndState(winState);
+                parent.markEndState(parent.getBoard().getWinState());
                 return;
             }
 
             leaves.remove(parent);
             Iterator<Integer> it = validMoves.iterator();
             while (it.hasNext()) {
-                int move2 = (int) it.next();
+                int move = (int) it.next();
 
-                int[][] newBoard = model.afterMove(move2, parent.getSide(), parent.getBoard());
+                Board newBoard = parent.getBoard().clone();
+                try {
+                    newBoard.place(parent.getSide(), move);
+                } catch (InvalidMoveException ime) {
+                    // Ignore this!
+                    // Because these are all valid…
+                    // TODO add `placeUnsafe()` method that does not throw.
+                    System.err.println("[Reversi/AI] Attempted invalid move: " + move);
+                    continue;
+                }
 
                 int heat;
                 if (parent.getSide() == model.getMySide()) {
-                    heat = parent.getHeat() + heatMap.getHeat(move2);
+                    heat = parent.getHeat() + heatMap.getHeat(move);
                 } else {
                     // Subtract the heat if the heat is meant for your opponent.
-                    heat = parent.getHeat() - heatMap.getHeat(move2);
+                    heat = parent.getHeat() - heatMap.getHeat(move);
                 }
 
-                Node child = new Node(newBoard, newSide, move2, heat);
+                Node child = new Node(newBoard, newSide, move, heat);
                 parent.add(child);
                 leaves.add(child);
             }

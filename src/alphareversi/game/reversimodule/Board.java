@@ -11,6 +11,8 @@ public class Board {
     final public static int SELF = 1;
     final public static int OPPONENT = 2;
 
+    final public static int DRAW = 3;
+
     /**
      * The size of the board (amount of rows = amount of columns).
      */
@@ -173,6 +175,20 @@ public class Board {
     }
 
     /**
+     *
+     */
+    public int getWinState() {
+        int selfScore = this.getScore(Board.SELF);
+        int opponentScore = this.getScore(Board.OPPONENT);
+        if (selfScore > opponentScore) {
+            return SELF;
+        } else if (opponentScore > selfScore) {
+            return OPPONENT;
+        }
+        return DRAW; //draw
+    }
+
+    /**
      * Place a piece on the board.
      *
      * @param player   Piece owner.
@@ -215,6 +231,20 @@ public class Board {
         }
 
         this.board[row][col] = player;
+    }
+
+    /**
+     * Create a full clone of this board. Altering either one of the current or
+     * the cloned board will not affect the other board.
+     *
+     * @return A clone of the current board.
+     */
+    public Board clone() {
+        int[][] clone = new int[SIZE][];
+        for (int row = 0; row < SIZE; row++) {
+            clone[row] = this.board[row].clone();
+        }
+        return new Board(clone);
     }
 
     /**
