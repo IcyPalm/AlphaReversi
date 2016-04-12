@@ -97,7 +97,10 @@ public class ReversiMinimaxPlayer implements Player {
             }
             // Attempt to play the best move, even if the thread was
             // interrupted.
-            this.notifyActionListeners(this.getBestMove());
+            int bestMove = this.getBestMove();
+            this.notifyActionListeners(bestMove);
+            // Also parse this move locally.
+            this.incomingNewMove(bestMove);
         }).start();
     }
 
