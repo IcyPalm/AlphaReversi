@@ -132,11 +132,13 @@ public class Main extends Application implements CommandListener {
     public void startGame(RecvGameMatchCommand command) throws Exception {
         Connection connection = Connection.getInstance();
         Class game = gameNameWithClass.get(command.getGametype());
-        Constructor<?> cons = game.getConstructor(String.class,String.class,String.class);
+        Constructor<?> cons = game.getConstructor(String.class,String.class,String.class,String.class,int.class);
         gameModule = (GameModule) cons.newInstance(
                 lobbyController.getSelectedPlayerToPlay(),
                 command.getOpponent(),
-                command.getPlayerToMove());
+                command.getPlayerToMove(),
+                lobbyController.getUsername(),
+                lobbyController.getTurnTime());
 
 
         rootLayout.setCenter(gameModule.getView());

@@ -48,6 +48,7 @@ public class LobbyController implements CommandListener {
     private ChoiceBox gameList;
     @FXML
     private ChoiceBox playAs;
+    private int turnTime = 2;
 
     public void setMainApp(Main main) {
         this.main = main;
@@ -139,6 +140,7 @@ public class LobbyController implements CommandListener {
             } catch (NumberFormatException exception) {
                 exception.printStackTrace();
             }
+            this.turnTime = time;
             model.challengePlayer(username, gameType, time);
         });
     }
@@ -193,6 +195,7 @@ public class LobbyController implements CommandListener {
 
         Optional result = alert.showAndWait();
         if (result.get() == accept) {
+            this.turnTime = challenge.getTurntime();
             model.setChallengePlayWithResult(
                     playAs.getSelectionModel().getSelectedItem().toString());
             model.acceptMatch(challenge);
@@ -262,4 +265,11 @@ public class LobbyController implements CommandListener {
         this.main.createChatWindow();
     }
 
+    public String getUsername() {
+        return model.getUsername();
+    }
+
+    public int getTurnTime() {
+        return turnTime;
+    }
 }

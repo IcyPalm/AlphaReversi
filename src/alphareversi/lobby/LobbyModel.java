@@ -108,8 +108,8 @@ public class LobbyModel {
             }
 
         }
-        while (iterator.hasNext()) {
-            Player player = new Player(iterator.next());
+        for (int i = 0; i < playerList.size(); i++) {
+            Player player = new Player(playerList.get(i));
             newList.add(player);
         }
         list.setAll(newList);

@@ -3,11 +3,14 @@ package alphareversi.game.reversimodule;
 import alphareversi.Connection;
 import alphareversi.commands.RecvCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
+import alphareversi.commands.receive.RecvGameResultCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.GameModule;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -19,6 +22,8 @@ public class ReversiModule extends GameModule {
     private String opponent;
     private String playerType;
     private static final String[] playerTypes = {"HUMAN"};
+    private String ourUsername;
+    private int turnTime;
 
     private int selfSide;
     private int opponentSide;
@@ -31,16 +36,18 @@ public class ReversiModule extends GameModule {
      * @param playerType The kind of player we want to play with (ex. AI or Human).
      * @param opponent The opponent's name.
      * @param playerToMove The player that should move first
+     * @param ourUsername Our username
+     * @param turnTime time to play a move
      */
     public ReversiModule(String playerType, String opponent,
-                         String playerToMove) throws Exception {
+                         String playerToMove, String ourUsername, int turnTime) throws Exception {
 
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
             System.out.println("Wrong Command");
         }
         decideWhoBegins(playerToMove);
-        this.model = new ReversiModel(selfSide);
+        this.model = new ReversiModel(selfSide, turnTime, ourUsername, opponent);
         reversiView = setReversiView();
         if (selfSide == 2) {
             if (player instanceof Human) {
@@ -139,6 +146,8 @@ public class ReversiModule extends GameModule {
             //                model.placePiece(move, selfSide);
             //                updateMoveCommand(move);
             //            }
+        } else if (command instanceof RecvGameResultCommand) {
+            model.setGameOver(true);
         }
     }
 

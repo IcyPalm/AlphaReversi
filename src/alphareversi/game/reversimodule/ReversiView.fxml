@@ -4,29 +4,30 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="640.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alphareversi.game.reversimodule.ReversiController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="640.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alphareversi.game.reversimodule.ReversiController">
    <left>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints prefWidth="150.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints prefHeight="166.0" />
-          <RowConstraints minHeight="30.0" prefHeight="70.0" />
-          <RowConstraints prefHeight="96.0" />
+            <RowConstraints maxHeight="226.0" minHeight="171.0" prefHeight="224.0" />
+          <RowConstraints maxHeight="132.0" minHeight="30.0" prefHeight="72.0" />
+          <RowConstraints maxHeight="103.0" minHeight="34.0" prefHeight="36.0" />
             <RowConstraints prefHeight="164.0" />
         </rowConstraints>
          <children>
-            <GridPane GridPane.rowIndex="2">
+            <GridPane prefHeight="73.0" prefWidth="150.0" GridPane.rowIndex="2">
               <columnConstraints>
-                <ColumnConstraints maxWidth="61.0" minWidth="10.0" prefWidth="57.0" />
-                <ColumnConstraints maxWidth="98.0" minWidth="10.0" prefWidth="93.0" />
+                <ColumnConstraints maxWidth="70.0" minWidth="10.0" prefWidth="55.0" />
+                <ColumnConstraints maxWidth="98.0" minWidth="10.0" prefWidth="95.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="20.0" prefHeight="30.0" />
@@ -42,47 +43,43 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Wins:" GridPane.rowIndex="1">
+                  <Label fx:id="opponentName" text="opponent" GridPane.columnIndex="1">
                      <font>
-                        <Font name="Tahoma Bold" size="14.0" />
+                        <Font name="Tahoma" size="14.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="5.0" />
+                        <Insets left="10.0" />
                      </GridPane.margin>
-                  </Label>
-                  <Label text="Loses:" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Tahoma Bold" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label fx:id="opponent" GridPane.columnIndex="1">
-                     <font>
-                        <Font name="Tahoma" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="opponentWins" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Tahoma" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="opponentLosses" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Tahoma" size="14.0" />
-                     </font>
                   </Label>
                </children>
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
             </GridPane>
-            <Label text="Opponent" underline="true" GridPane.rowIndex="1">
+            <Label alignment="TOP_LEFT" text="Opponent" underline="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="enemyStones" alignment="CENTER" contentDisplay="CENTER" text="2" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+               <font>
+                  <Font name="Tahoma Bold" size="64.0" />
                </font>
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
             </Label>
+            <ProgressBar prefWidth="200.0" progress="0.0" fx:id="opponentTime" GridPane.rowIndex="3">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </ProgressBar>
          </children>
       </GridPane>
    </left>
@@ -92,16 +89,16 @@
           <ColumnConstraints hgrow="SOMETIMES" prefWidth="150.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints prefHeight="166.0" />
-          <RowConstraints minHeight="30.0" prefHeight="70.0" />
-          <RowConstraints prefHeight="96.0" />
+            <RowConstraints maxHeight="246.0" minHeight="172.0" prefHeight="223.0" />
+          <RowConstraints maxHeight="120.0" minHeight="30.0" prefHeight="75.0" />
+          <RowConstraints maxHeight="91.0" minHeight="24.0" prefHeight="34.0" />
             <RowConstraints prefHeight="164.0" />
         </rowConstraints>
          <children>
             <GridPane GridPane.rowIndex="2">
               <columnConstraints>
-                <ColumnConstraints maxWidth="61.0" minWidth="10.0" prefWidth="57.0" />
-                <ColumnConstraints maxWidth="95.0" minWidth="10.0" prefWidth="93.0" />
+                <ColumnConstraints maxWidth="67.0" minWidth="10.0" prefWidth="64.0" />
+                <ColumnConstraints maxWidth="95.0" minWidth="10.0" prefWidth="86.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="20.0" prefHeight="30.0" />
@@ -117,62 +114,40 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Wins:" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Tahoma Bold" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="Loses:" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Tahoma Bold" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="AlphaReversi" GridPane.columnIndex="1">
-                     <font>
-                        <Font name="Tahoma" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="playerWins" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Tahoma" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="playerLosses" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label fx:id="ourName" text="AlphaReversi" GridPane.columnIndex="1">
                      <font>
                         <Font name="Tahoma" size="14.0" />
                      </font>
                   </Label>
                </children>
             </GridPane>
-            <Label text="Player" underline="true" GridPane.rowIndex="1">
+            <Label text="Player" underline="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="5.0" />
+                  <Insets />
                </GridPane.margin>
             </Label>
+            <Label fx:id="playerStones" text="2" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="Tahoma Bold" size="64.0" />
+               </font>
+            </Label>
+            <ProgressBar prefWidth="200.0" fx:id="ourTime" progress="0.0" GridPane.rowIndex="3">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </ProgressBar>
          </children>
       </GridPane>
    </right>
    <top>
-       <Label fx:id="blackScore" text="2" BorderPane.alignment="CENTER_LEFT">
-           <font>
-               <Font name="Tahoma" size="36.0" />
-           </font>
-       </Label>
-       <Label fx:id="whiteScore" text="2" BorderPane.alignment="CENTER_RIGHT">
-           <font>
-               <Font name="Tahoma" size="36.0" />
-           </font>
-       </Label>
-      <Label fx:id="serverMessage" text="Your turn!" BorderPane.alignment="CENTER">
+
+      <Label fx:id="turn" text="Your turn!" BorderPane.alignment="CENTER">
          <font>
             <Font name="Tahoma" size="36.0" />
          </font>

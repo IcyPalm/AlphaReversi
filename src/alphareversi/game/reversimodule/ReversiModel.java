@@ -1,11 +1,10 @@
 package alphareversi.game.reversimodule;
 
-import alphareversi.game.GameBasicSquareBasedModel;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import alphareversi.game.GameBasicSquareBasedModel;
 
 
 /**
@@ -18,10 +17,14 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     private final HashSet<Integer> potentialMoves;
     private final ArrayList<Integer> locations;
 
+    private boolean gameOver = false;
     private int playerOneScore;
     private int playerTwoScore;
 
     private int playerOnTurn;
+    private int turnTime;
+    private String ourUsername;
+    private String opponentUsername;
 
     private ReversiController viewController;
 
@@ -34,7 +37,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
      *
      * @param mySide this indicates what is my side of the gameBoard.
      */
-    public ReversiModel(int mySide) {
+    public ReversiModel(int mySide, int turnTime, String ourUsername, String opponent) {
         super(mySide);
         gameBoard = new int[8][8];
         gameBoard[3][3] = 1;
@@ -46,6 +49,9 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         playerOneScore = 2;
         playerTwoScore = 2;
         playerOnTurn = playerOne;
+        this.turnTime = turnTime;
+        this.ourUsername = ourUsername;
+        this.opponentUsername = opponent;
     }
 
     /**
@@ -54,26 +60,48 @@ public class ReversiModel extends GameBasicSquareBasedModel {
      */
     public void placePiece(int move, int side) {
         System.out.println("I should have set a move in the Model before getValidMoves check");
-        if ( getValidMoves(side, gameBoard).contains(move) ) {
+        if (getValidMoves(side, gameBoard).contains(move)) {
             gameBoard[move / 8][move % 8] = side;
             flipper(move, gameBoard, side);
             viewController.updateBoard(gameBoard);
             System.out.println("I should have set a move in the Model");
             playerOnTurn = getOpponent(playerOnTurn);
-            if (getValidMoves(playerOnTurn,gameBoard).size() == 0) {
+            if (getValidMoves(playerOnTurn, gameBoard).size() == 0) {
                 playerOnTurn = getOpponent(playerOnTurn);
             }
         }
+        viewController.setStonesOnGui(countStones());
+    }
+
+
+    public int[] countStones() {
+        int player1 = 0;
+        int player2 = 0;
+        int[] result = new int[2];
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int y = 0; y < gameBoard.length; y++) {
+                if (gameBoard[i][y] == 1) {
+                    player1++;
+                } else if (gameBoard[i][y] == 2) {
+                    player2++;
+                }
+            }
+            result[0] = player1;
+            result[1] = player2;
+
+        }
+        return result;
     }
 
     /**
      * This method is purely used for placePiece since it looks @ the current gameboard.
+     *
      * @param move The move you want to do.
      * @param side The side wanting to do the move.
      * @return Indicates if the move is oké.
      */
-    public boolean moveOk( int move, int side) {
-        if (getValidMoves(side, gameBoard).contains(move) ) {
+    public boolean moveOk(int move, int side) {
+        if (getValidMoves(side, gameBoard).contains(move)) {
             return true;
         }
         return false;
@@ -811,6 +839,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * A simple method that indicates if the game is over or not.
+     *
      * @return return if the game is over or not.
      */
     public boolean gameOver() {
@@ -821,8 +850,13 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         return false;
     }
 
+    public boolean getGameOverServerStatus() {
+        return gameOver;
+    }
+
     /**
      * Retrieves the player with the highest score, return 3 if it's a draw.
+     *
      * @param board The board on which we have to determine if we have a winner.
      * @return return the winner or return that we have a draw.
      */
@@ -831,7 +865,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         int playerTwoScore = getScore(playerTwo, board);
         if (playerOneScore > playerTwoScore) {
             return playerOne;
-        } else if ( playerTwoScore > playerOneScore) {
+        } else if (playerTwoScore > playerOneScore) {
             return playerTwoScore;
         } else {
             return 3; //draw
@@ -840,6 +874,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * Get the character associated with my side.
+     *
      * @return The character that is returned.
      */
     public char getMyCharacter() {
@@ -852,6 +887,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * Get the character associated with my opponent's side.
+     *
      * @return The character that is returned.
      */
     public char getOpponentCharacter() {
@@ -864,5 +900,21 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     public void setViewController(ReversiController viewController) {
         this.viewController = viewController;
+    }
+
+    public int getTurnTime() {
+        return turnTime;
+    }
+
+    public String getOurUsername() {
+        return ourUsername;
+    }
+
+    public String getOpponentUsername() {
+        return opponentUsername;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }

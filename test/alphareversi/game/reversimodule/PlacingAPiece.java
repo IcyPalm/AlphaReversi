@@ -20,7 +20,7 @@ public class PlacingAPiece  {
      */
     @Test
     public void createLeftTopCornerTestCase() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = reversiModel.getBoard();
         clearBoard(board);
         int row = 0;
@@ -58,7 +58,7 @@ public class PlacingAPiece  {
      */
     @Test
     public void createRightDownCornerTestCase() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = reversiModel.getBoard();
         clearBoard(board);
         int row = 7;

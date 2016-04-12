@@ -31,7 +31,8 @@ public class PossibleMoves {
      */
     @Test
     public void rightTest() {
-        ReversiModel reversiModel = new ReversiModel(1);
+
+        ReversiModel reversiModel = new ReversiModel(1, 2, "alphaReversi", "henk");
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
         clearBoard(board);
@@ -50,7 +51,7 @@ public class PossibleMoves {
      */
     @Test
     public void leftTest() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
         clearBoard(board);
@@ -79,7 +80,7 @@ public class PossibleMoves {
      */
     @Test
     public void downTest() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
         clearBoard(board);
@@ -98,7 +99,7 @@ public class PossibleMoves {
      */
     @Test
     public void topTest() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
         clearBoard(board);
@@ -129,7 +130,7 @@ public class PossibleMoves {
      */
     @Test
     public void leftUpTest() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
         clearBoard(board);
@@ -149,7 +150,7 @@ public class PossibleMoves {
      */
     @Test
     public void rightUpTest() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
         clearBoard(board);
@@ -169,7 +170,7 @@ public class PossibleMoves {
      */
     @Test
     public void rightDownTest() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
         clearBoard(board);
@@ -189,7 +190,7 @@ public class PossibleMoves {
      */
     @Test
     public void leftDownTest() {
-        ReversiModel reversiModel = new ReversiModel(1);
+        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();
         clearBoard(board);
