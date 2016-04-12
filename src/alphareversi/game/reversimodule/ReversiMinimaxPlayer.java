@@ -287,7 +287,7 @@ public class ReversiMinimaxPlayer implements Player {
          * Calculate the moves tree.
          */
         public void run() {
-            while (this.running) {
+            while (this.running && !model.gameOver()) {
                 LinkedList<Node> temp = new LinkedList<Node>(leaves);
                 boolean didProcessLeaf = false;
                 for (Node leaf : temp) {
