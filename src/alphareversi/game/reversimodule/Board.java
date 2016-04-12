@@ -48,7 +48,7 @@ public class Board {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 if (this.board[row][col] == EMPTY) {
-                    if (this.canAttack(row, col, player)) {
+                    if (this.canAttack(player, row, col)) {
                         available.add(row * 8 + col);
                     }
                 }
@@ -57,16 +57,23 @@ public class Board {
         return available;
     }
 
-    private boolean canAttack(int row, int col, int player) {
+    /**
+     *
+     */
+    public boolean isValidMove(int player, int move) {
+        return this.canAttack(player, move / 8, move % 8);
+    }
+
+    private boolean canAttack(int player, int row, int col) {
         for (Direction d : DIRECTIONS) {
-            if (this.attackablePiecesInDirection(row, col, d, player) > 0) {
+            if (this.attackablePiecesInDirection(player, row, col, d) > 0) {
                 return true;
             }
         }
         return false;
     }
 
-    private int attackablePiecesInDirection(int row, int col, Direction d, int player) {
+    private int attackablePiecesInDirection(int player, int row, int col, Direction d) {
         int opponent = player == SELF ? OPPONENT : SELF;
         int hitting = 0;
         row += d.y;
@@ -111,7 +118,7 @@ public class Board {
     public void place(int player, int row, int col) throws InvalidMoveException {
         int totalFlipped = 0;
         for (Direction d : DIRECTIONS) {
-            int flip = this.attackablePiecesInDirection(row, col, d, player);
+            int flip = this.attackablePiecesInDirection(player, row, col, d);
 
             // No attackable pieces found.
             if (flip == 0) {
