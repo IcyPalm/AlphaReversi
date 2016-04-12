@@ -87,8 +87,19 @@ public class Board {
         return 0;
     }
 
+    /**
+     *
+     */
     public int getScore(int player) {
-        return 0;
+        int score = 0;
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (this.board[row][col] == player) {
+                    score++;
+                }
+            }
+        }
+        return score;
     }
 
     public void place(int player, int position) throws InvalidMoveException {
