@@ -43,7 +43,7 @@ public class ReversiController {
                 canvas.setId("blank");
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 gc.setFill(Color.GREEN);
-                gc.fillRect(10, 10, canvas.getWidth(), canvas.getHeight());
+                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 canvas.addEventFilter(MouseEvent.MOUSE_PRESSED,
                         new EventHandler<MouseEvent>() {
                             @Override
