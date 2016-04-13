@@ -144,11 +144,15 @@ public class TicTacToeModule extends GameModule {
         return playerType;
     }
 
+    /**
+     * initiate and create the view.
+     * @return view
+     */
     public BorderPane getView() {
         try {
             ticTacToeView = setTicTacToeView();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         return ticTacToeView;
     }
