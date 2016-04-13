@@ -58,10 +58,6 @@ public class ReversiModule extends GameModule {
                 this.updateMoveCommand(move);
             }
         });
-
-/*        if (this.model.getPlayerOnTurn() == Board.SELF) {
-            this.player.startTurn();
-        }*/
     }
 
     public static String[] getPlayerTypes() {
@@ -137,11 +133,6 @@ public class ReversiModule extends GameModule {
         );
         if (command instanceof RecvGameMoveCommand) {
             RecvGameMoveCommand com = (RecvGameMoveCommand) command;
-
-            this.logger.log("Old board:");
-            this.logger.log("--------");
-            this.logger.log(this.model.getBoardInstance() + "");
-            this.logger.log("--------");
 
             int position = processMove(com);
             int player = this.opponent.equals(com.getPlayer()) ? Board.OPPONENT : Board.SELF;

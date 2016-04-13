@@ -21,12 +21,16 @@ public class Logger {
     }
 
     public Logger err(String text) {
-        System.out.println(this.message(text));
+        synchronized (System.err) {
+            System.err.println(this.message(text));
+        }
         return this;
     }
 
     public Logger log(String text) {
-        System.out.println(this.message(text));
+        synchronized (System.out) {
+            System.out.println(this.message(text));
+        }
         return this;
     }
 }

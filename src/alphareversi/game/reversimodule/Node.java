@@ -147,4 +147,8 @@ public class Node extends DefaultMutableTreeNode {
     public int getWinHeat() {
         return this.winHeat;
     }
+
+    public String toString() {
+        return (this.side == Board.SELF ? "O" : "X") + " " + this.move;
+    }
 }
