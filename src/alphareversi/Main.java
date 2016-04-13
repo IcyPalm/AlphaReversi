@@ -37,6 +37,7 @@ public class Main extends Application implements CommandListener {
     private ArrayList availableGames;
     private HashMap<String, Class> gameNameWithClass;
     private HashMap<String, String[]> gamesWithPlayers;
+    public static final int DEFAULT_TURN_TIME = 2;
 
     public Main() {
     }
@@ -145,6 +146,8 @@ public class Main extends Application implements CommandListener {
         Platform.runLater(() -> {
             rootLayout.setCenter(gameModule.getView());
         });
+
+        lobbyController.setInGame(true);
     }
 
     private void stopGame(RecvGameResultCommand command) throws Exception {
@@ -159,6 +162,8 @@ public class Main extends Application implements CommandListener {
         alert.showAndWait();
 
         gameModule = null;
+        lobbyController.setInGame(false);
+        lobbyController.setTurnTime(DEFAULT_TURN_TIME);
         showLobby();
     }
 
