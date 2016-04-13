@@ -112,7 +112,7 @@ public class Node extends DefaultMutableTreeNode {
      * 1: white wins, 2: black wins, 3: draw
      */
     public int getEndType() {
-        return this.getEndType();
+        return this.type;
     }
     
     /*
@@ -121,8 +121,27 @@ public class Node extends DefaultMutableTreeNode {
      * 
      * @see getSide()
      */
-    public void addWinHeat() {
-        this.winHeat++;
+    public void addWinHeat(int winHeat) {
+        if (!this.isRoot()) {
+            if (this.isEndState()) {
+                switch (this.type) {
+                case 0:
+                    break;
+                case 1:
+                    this.winHeat += 2;
+                    break;
+                case 2:
+                    this.winHeat -= 2;
+                    break;
+                case 3:
+                    this.winHeat--;
+                    break;   
+                }
+            }
+            this.winHeat += winHeat;
+        ((Node) this.getParent()).addWinHeat(this.winHeat);
+        } 
+        
     }
     
     public int getWinHeat() {

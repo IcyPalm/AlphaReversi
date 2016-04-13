@@ -148,23 +148,30 @@ public class ReversiMinimaxPlayer implements Player {
     public int getBestMove() {
         this.lock.lock();
         this.logger.log("Retrieving best move");
-        List<Node> leaves = this.minimaxer.getLeaves();
-        Node best = leaves.get(0);
-        for (Node leaf : leaves) {
-            if (leaf.getHeat() > best.getHeat()) {
-                best = leaf;
+        
+        // BASE CASE
+        if (minimaxer.getDoneCalculating()) {
+            this.root = minimaxer.getHighestHeatChild(this.root);
+            return this.root.getMove();
+        } else {
+            List<Node> leaves = this.minimaxer.getLeaves();
+            Node best = leaves.get(0);
+            for (Node leaf : leaves) {
+                if (leaf.getHeat() > best.getHeat()) {
+                    best = leaf;
+                }
             }
+    
+            this.logger.log("[Reversi/AI] Desired state:");
+            this.logger.log("--------");
+            this.logger.log(best.getBoard() + "");
+            this.logger.log("--------");
+    
+            this.lock.unlock();
+    
+            best = this.getNextMove(best);
+            return best == null ? -1 : best.getMove();
         }
-
-        this.logger.log("[Reversi/AI] Desired state:");
-        this.logger.log("--------");
-        this.logger.log(best.getBoard() + "");
-        this.logger.log("--------");
-
-        this.lock.unlock();
-
-        best = this.getNextMove(best);
-        return best == null ? -1 : best.getMove();
     }
 
     /**
@@ -245,6 +252,8 @@ public class ReversiMinimaxPlayer implements Player {
 
         private ReentrantLock lock;
         private List<Node> leaves;
+        
+        private boolean doneCalculating = false;
 
         /**
          * Create a new Minimax tree computation thread.
@@ -307,6 +316,7 @@ public class ReversiMinimaxPlayer implements Player {
 
                 if (!didProcessLeaf) {
                     this.running = false;
+                    processWinStates();
                 }
 
                 if (this.leaves.size() > 10000) {
@@ -393,6 +403,39 @@ public class ReversiMinimaxPlayer implements Player {
             } else {
                 return 1;
             }
+        }
+        
+        /*
+         * Bubble up the winHeat to the root from every leaf
+         */
+        private void processWinStates() {
+            List<Node> endLeaves = root.getLeaves();
+            for (Node endLeave : endLeaves) {
+                endLeave.addWinHeat(0);
+            }
+            this.doneCalculating = true;
+        }
+        
+        private boolean getDoneCalculating() {
+            return this.doneCalculating;
+        }
+        
+        /*
+         * Finds the child of the parameter Node parent with the highest winHeat
+         * 
+         * @return the child of the parameter Node with the highest winHeat
+         */
+        private Node getHighestHeatChild (Node parent) {
+            Node highest = parent;
+            int maxHeat = Integer.MIN_VALUE;
+            Node[] children = parent.getChildren();
+            for (Node child : children) {
+                if (child.getWinHeat() > maxHeat) {
+                    maxHeat = child.getHeat();
+                    highest = child;
+                }
+            }
+            return highest;
         }
     }
 }
