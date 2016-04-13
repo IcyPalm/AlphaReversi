@@ -1,5 +1,7 @@
 package alphareversi.game.reversimodule;
 
+import java.util.HashSet;
+
 import alphareversi.Connection;
 import alphareversi.commands.send.SendMoveCommand;
 import javafx.event.EventHandler;
@@ -8,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -44,8 +47,6 @@ public class ReversiController {
                 Canvas canvas = (Canvas) node;
                 canvas.setId("blank");
                 GraphicsContext gc = canvas.getGraphicsContext2D();
-                gc.setFill(Color.GREEN);
-                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 canvas.addEventFilter(MouseEvent.MOUSE_PRESSED,
                         new EventHandler<MouseEvent>() {
                             @Override
@@ -97,13 +98,21 @@ public class ReversiController {
      * @param board The board that needs to be updated.
      */
     public void updateBoard(int[][] board) {
-        System.out.println("I should have updated the board");
+       HashSet<Integer> possibleMoves = reversiModel.getValidMoves(reversiModel.getPlayerOnTurn(),
+               reversiModel.getBoard());
         for ( int col = 0; col < board.length; col++ ) {
             for ( int row = 0; row < board.length; row++ ) {
                 Canvas canvas = getCanvasFromGridPane(row,col);
+
                 GraphicsContext gc = canvas.getGraphicsContext2D();
+                gc.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
+
+                gc.setFill(Color.GREEN);
+
 
                 int piece = board[col][row];
+
+                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 if (piece == reversiModel.getEmpty() ) {
                     canvas.setId("blank");
                 } else {
@@ -113,7 +122,6 @@ public class ReversiController {
                         //gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
                         gc.setFill((Color.WHITE));
                         gc.fillOval(10, 20, canvas.getWidth() - 40, canvas.getHeight() - 40);
-
                         canvas.setId("filled");
                     } else {
                         gc.setFill((Color.BLACK));
