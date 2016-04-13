@@ -72,7 +72,6 @@ public class ReversiMinimaxPlayer implements Player {
         if (this.minimaxer.getDoneCalculating()) {
             this.playMove();
         }
-        // this.startTimerThread();
     }
 
     /**
@@ -120,9 +119,9 @@ public class ReversiMinimaxPlayer implements Player {
 
     private void playMove() {
         int bestMove = this.getBestMove();
-        this.notifyActionListeners(bestMove);
         // Also parse this move locally.
         this.incomingNewMove(bestMove);
+        this.notifyActionListeners(bestMove);
     }
 
     /**
@@ -131,7 +130,7 @@ public class ReversiMinimaxPlayer implements Player {
      *
      * @param move The new move.
      */
-    public void incomingNewMove(int move) {
+    public synchronized void incomingNewMove(int move) {
         Node[] children = this.root.getChildren();
 
         String text = "Incoming move: " + move
