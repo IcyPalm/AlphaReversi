@@ -78,8 +78,14 @@ public class Main extends Application implements CommandListener {
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> {
-            Platform.exit();
-            System.exit(0);
+            if (gameModule == null) {
+                Platform.exit();
+                System.exit(0);
+            } else {
+                showLobby();
+                gameModule = null;
+                event.consume();
+            }
         });
     }
 
