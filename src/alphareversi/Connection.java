@@ -23,6 +23,7 @@ public class Connection {
     private BufferedReader input;
     private PrintWriter output;
     private Thread serverListenerThread;
+    private Logger logger = new Logger("Connection");
 
     protected Connection() {
         this.commandDispatcher = new CommandDispatcher();
@@ -71,7 +72,7 @@ public class Connection {
             while (true) {
                 try {
                     String line = input.readLine();
-                    System.out.println(line);
+                    this.logger.log("| → " + line);
                     RecvCommand command = CommandParser.parseString(line);
                     this.commandDispatcher.sendCommand(command);
                 } catch (IOException exception) {
@@ -92,7 +93,7 @@ public class Connection {
      * @param command SendCommand send command to server
      */
     public void sendMessage(SendCommand command) {
-        System.out.println(command.toString());
+        this.logger.log("← | " + command.toString());
         output.println(command.toString());
     }
 

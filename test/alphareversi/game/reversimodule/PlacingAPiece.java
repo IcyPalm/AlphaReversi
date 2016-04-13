@@ -19,8 +19,8 @@ public class PlacingAPiece  {
      *
      */
     @Test
-    public void createLeftTopCornerTestCase() {
-        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
+    public void createLeftTopCornerTestCase() throws InvalidMoveException{
+        ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = reversiModel.getBoard();
         clearBoard(board);
         int row = 0;
@@ -57,8 +57,8 @@ public class PlacingAPiece  {
      * Test case for placing pieces.
      */
     @Test
-    public void createRightDownCornerTestCase() {
-        ReversiModel reversiModel = new ReversiModel(1, 2, "AlphaReversi", "henk");
+    public void createRightDownCornerTestCase() throws InvalidMoveException{
+        ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = reversiModel.getBoard();
         clearBoard(board);
         int row = 7;

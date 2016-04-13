@@ -70,11 +70,6 @@ public class TicTacToeModule extends GameModule {
         connection.sendMessage(command);
     }
 
-    @Override
-    public SendMoveCommand send(SendMoveCommand command) {
-        return lastCommand;
-    }
-
 
     private int processMove(RecvGameMoveCommand command) {
         return Integer.parseInt(command.getMove());

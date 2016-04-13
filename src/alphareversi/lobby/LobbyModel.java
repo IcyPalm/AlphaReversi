@@ -33,6 +33,8 @@ public class LobbyModel {
     private int serverPort;
     private String challengePlayWithResult;
 
+    private boolean inGame;
+
     /**
      * Set the TableView playerList, ChoiceBox gameList, Connection. Create a new thread for
      * refreshing playerList
@@ -219,5 +221,13 @@ public class LobbyModel {
 
     public SimpleStringProperty usernameProperty() {
         return username;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
     }
 }

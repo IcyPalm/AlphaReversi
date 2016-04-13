@@ -38,7 +38,6 @@ public class ReversiController {
     public ReversiController() {
     }
 
-
     /**
      * Initializes the controller class. This method is automatically called after the fxml file has
      * been loaded.
@@ -62,10 +61,8 @@ public class ReversiController {
                                 if (player instanceof Human
                                         && !reversiModel.gameOver()
                                         && ((Human) player).allowedToPlay()
-                                        && reversiModel.moveOk(move, ((Human) player).getSide())) {
-                                    reversiModel.placePiece(move, ((Human) player).getSide());
-                                    updateMoveCommand(move);
-                                    ((Human) player).setAllowedToPlayFalse();
+                                        && reversiModel.moveOk(move, reversiModel.getMySide())) {
+                                    ((Human) player).playMove(move);
                                 }
                             }
                         });
@@ -117,10 +114,7 @@ public class ReversiController {
                 if (piece == reversiModel.getEmpty()) {
                     canvas.setId("blank");
                 } else {
-                    if ((piece == 1)) {
-
-                        //gc.strokeLine(20, 20, canvas.getWidth() - 20, canvas.getHeight() - 20);
-                        //gc.strokeLine(canvas.getWidth() - 20, 20, 20, canvas.getHeight() - 20);
+                    if (piece == 1) {
                         gc.setFill((Color.WHITE));
                         gc.fillOval(10, 20, canvas.getWidth() - 40, canvas.getHeight() - 40);
 
@@ -136,13 +130,15 @@ public class ReversiController {
 
         Platform.runLater(() -> {
             String turn = "";
-            if (reversiModel.getPlayerOnTurn() != reversiModel.getMySide()) {
+            if (reversiModel.getPlayerOnTurn() == reversiModel.getMySide()) {
                 turn = "My turn!";
             } else {
                 turn = "Opponents turn";
             }
-                this.turn.setText(turn);
+            this.turn.setText(turn);
         });
+
+        setStonesOnGui();
 
     }
 
@@ -155,15 +151,11 @@ public class ReversiController {
         return null;
     }
 
-    public void setStonesOnGui(int[] stones) {
+    public void setStonesOnGui() {
         Platform.runLater(() -> {
-            if (reversiModel.getMySide() == 1) {
-                playerStones.setText(String.valueOf(stones[0]));
-                enemyStones.setText(String.valueOf(stones[1]));
-            } else {
-                playerStones.setText(String.valueOf(stones[1]));
-                enemyStones.setText(String.valueOf(stones[0]));
-            }
+            int mySide = reversiModel.getMySide();
+            playerStones.setText(String.valueOf(reversiModel.getBoardInstance().getScore(mySide)));
+            enemyStones.setText(String.valueOf(reversiModel.getBoardInstance().getScore(reversiModel.getOpponent(mySide))));
         });
     }
 
@@ -188,7 +180,7 @@ public class ReversiController {
             boolean lastPlayerSelf = reversiModel.getMySide() == reversiModel.getPlayerOnTurn();
             while (gameBusy) {
                 ProgressBar progressBar = null;
-                if (reversiModel.getMySide() != reversiModel.getPlayerOnTurn()) {
+                if (reversiModel.getMySide() == reversiModel.getPlayerOnTurn()) {
                     if (lastPlayerSelf == false) {
                         currentProgress = 0.00;
                     }
@@ -212,7 +204,7 @@ public class ReversiController {
 
                 currentProgress = currentProgress + timeDivider;
                 progressBar.setProgress(currentProgress);
-                gameBusy = !reversiModel.getGameOverServerStatus();
+                gameBusy = !reversiModel.gameOver();
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException exception) {

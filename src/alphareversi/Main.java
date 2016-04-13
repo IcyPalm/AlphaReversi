@@ -130,7 +130,6 @@ public class Main extends Application implements CommandListener {
      * @throws Exception A regular exception.
      */
     public void startGame(RecvGameMatchCommand command) throws Exception {
-        Connection connection = Connection.getInstance();
         Class game = gameNameWithClass.get(command.getGametype());
         Constructor<?> cons = game.getConstructor(String.class,String.class,String.class,String.class,int.class);
         gameModule = (GameModule) cons.newInstance(
@@ -140,10 +139,7 @@ public class Main extends Application implements CommandListener {
                 lobbyController.getUsername(),
                 lobbyController.getTurnTime());
 
-
         rootLayout.setCenter(gameModule.getView());
-
-        connection.commandDispatcher.addListener(gameModule);
     }
 
     private void stopGame(RecvGameResultCommand command) throws Exception {
