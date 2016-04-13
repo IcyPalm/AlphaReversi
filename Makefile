@@ -3,6 +3,9 @@ build: src build.xml
 
 run: build
 	java \
+		-verbose:gc \
+		-XX:+UseConcMarkSweepGC \
+		-XX:+CMSIncrementalMode \
 		-classpath bin \
 		alphareversi.Main
 
