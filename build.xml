@@ -15,7 +15,7 @@
                     maxWarnings="0">
             <formatter type="plain" />
             <fileset dir="src" includes="**/*.java" />
-       </checkstyle>
+        </checkstyle>
     </target>
 
     <target name="compile">
@@ -37,7 +37,19 @@
         </javac>
     </target>
 
-    <target name="test">
+    <target name="archive" depends="compile">
+        <jar destfile="bin/AlphaReversi.jar">
+            <fileset dir="bin"
+                     includes="alphareversi/**/*"
+                     excludes="alphareversi/game/*module/**/*" />
+            <manifest>
+                <attribute name="Main-Class"
+                           value="alphareversi.Main" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="test" depends="compile">
         <junit fork="yes" printsummary="yes" haltonfailure="yes">
             <classpath refid="test.class.path" />
 
