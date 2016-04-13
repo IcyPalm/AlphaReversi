@@ -29,7 +29,7 @@ public class Node extends DefaultMutableTreeNode {
         this.board = board;
         this.side = side;
         this.move = move;
-        this.heat = heat;
+        bubbleHeat(heat);
     }
 
     /**
@@ -150,5 +150,15 @@ public class Node extends DefaultMutableTreeNode {
 
     public String toString() {
         return (this.side == Board.SELF ? "O" : "X") + " " + this.move;
+    }
+    
+    /*
+     * Heat bubbles to the root's children
+     */
+    public void bubbleHeat(int heat) {
+        this.heat += heat;
+        if (!this.isRoot()) {
+            ((Node) this.getParent()).bubbleHeat(heat);
+        }
     }
 }

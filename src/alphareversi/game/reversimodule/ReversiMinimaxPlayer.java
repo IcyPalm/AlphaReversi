@@ -180,16 +180,20 @@ public class ReversiMinimaxPlayer implements Player {
             this.lock.lock();
 
             this.logger.log("Retrieving best move");
-            List<Node> leaves = this.minimaxer.getLeaves();
-
+            
+            // RENE: De zet wordt nu op de heat van de children van de root gebaseerd
+            // Oud: List<Node> leaves = this.minimaxer.getLeaves();
+            // Nieuw:
+            Node[] leaves = this.root.getChildren();
+            
             String text = "Available moves: [";
             for (Node child : this.root.getChildren()) {
                 text += child.getMove() + ", ";
             }
-            this.logger.log("Retrieving best move out of " + leaves.size());
+            this.logger.log("Retrieving best move out of " + leaves.length);
             this.logger.log(text + "]");
 
-            Node best = leaves.get(0);
+            Node best = leaves[1];
             for (Node leaf : leaves) {
                 if (leaf.getHeat() > best.getHeat()) {
                     best = leaf;
