@@ -74,7 +74,8 @@ public class Connection {
                     String line = input.readLine();
                     if (line == null) {
                         line = "DISCONNECT";
-                        connected = false;
+                        this.connected = false;
+                        closeConnection();
                     }
                     this.logger.log("| → " + line);
                     RecvCommand command = CommandParser.parseString(line);
@@ -99,6 +100,19 @@ public class Connection {
     public void sendMessage(SendCommand command) {
         this.logger.log("← | " + command.toString());
         output.println(command.toString());
+    }
+
+    /**
+     * Closing the socket connection.
+     */
+    public void closeConnection() {
+        try {
+            this.input.close();
+            this.output.close();
+            this.comms.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     /**
