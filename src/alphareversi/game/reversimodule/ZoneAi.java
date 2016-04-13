@@ -76,6 +76,8 @@ public class ZoneAi implements Player {
                 return;
             }
         }
+        int random = randInt(0,moves.length - 1);
+        notifyActionListeners(moves[random]);
     }
 
     private int randInt(int min, int max) {

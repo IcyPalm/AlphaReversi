@@ -17,13 +17,12 @@ import javafx.scene.layout.BorderPane;
  * Created by Robert on 7-4-2016.
  */
 public class ReversiModule extends GameModule {
+    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI", "ZONE-AI"};
+    private static final String gameName = "Reversi";
     private Player player;
     private ReversiModel model;
     private String opponent;
     private String playerType;
-    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI", "ZONE-AI"};
-
-    private static final String gameName = "Reversi";
     private BorderPane reversiView;
     private Logger logger = new Logger("Reversi");
 
@@ -53,8 +52,6 @@ public class ReversiModule extends GameModule {
         Connection connection = Connection.getInstance();
         connection.commandDispatcher.addListener(this);
 
-        reversiView = setReversiView();
-
         this.player.addActionListener(event -> {
             int move = event.getID();
             if (move >= 0) {
@@ -62,9 +59,17 @@ public class ReversiModule extends GameModule {
             }
         });
 
-        if (this.model.getPlayerOnTurn() == Board.SELF) {
+/*        if (this.model.getPlayerOnTurn() == Board.SELF) {
             this.player.startTurn();
-        }
+        }*/
+    }
+
+    public static String[] getPlayerTypes() {
+        return playerTypes;
+    }
+
+    public static String getGameName() {
+        return gameName;
     }
 
     @Override
@@ -116,6 +121,11 @@ public class ReversiModule extends GameModule {
 
     @Override
     public BorderPane getView() {
+        try {
+            reversiView = setReversiView();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return reversiView;
     }
 
@@ -179,13 +189,5 @@ public class ReversiModule extends GameModule {
         controller.setReversiModel(model);
         controller.setPlayer(player);
         controller.updateBoard(model.getBoard());
-    }
-
-    public static String[] getPlayerTypes() {
-        return playerTypes;
-    }
-
-    public static String getGameName() {
-        return gameName;
     }
 }

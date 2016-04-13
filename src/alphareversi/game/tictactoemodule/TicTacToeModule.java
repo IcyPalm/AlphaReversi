@@ -2,6 +2,7 @@ package alphareversi.game.tictactoemodule;
 
 import alphareversi.Connection;
 import alphareversi.commands.RecvCommand;
+import alphareversi.commands.SendCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
@@ -69,7 +70,6 @@ public class TicTacToeModule extends GameModule {
         SendMoveCommand command = new SendMoveCommand(move);
         connection.sendMessage(command);
     }
-
 
     private int processMove(RecvGameMoveCommand command) {
         return Integer.parseInt(command.getMove());
