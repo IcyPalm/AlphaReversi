@@ -4,6 +4,7 @@ import alphareversi.Connection;
 import alphareversi.Main;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
+import alphareversi.commands.receive.RecvDisconnectCommand;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
@@ -264,6 +265,11 @@ public class LobbyController implements CommandListener {
                 if (subscribeAlert != null) {
                     subscribeAlert.close();
                 }
+            } else if (command instanceof RecvDisconnectCommand) {
+                model.setInGame(false);
+                Platform.runLater(() -> {
+                    createConfigurationDialog();
+                });
             }
         });
     }
