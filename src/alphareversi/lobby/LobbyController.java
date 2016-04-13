@@ -223,7 +223,8 @@ public class LobbyController implements CommandListener {
         dialog.setServerText("Please enter server address:");
         dialog.setPortText("Please enter server port");
 
-        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(this.getPrimaryStage());
 
         Connection connection = Connection.getInstance();
 
