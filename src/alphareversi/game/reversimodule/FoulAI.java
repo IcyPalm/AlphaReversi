@@ -11,12 +11,11 @@ import java.util.Random;
 
 import alphareversi.Connection;
 import alphareversi.commands.send.SendChallengeCommand;
-import alphareversi.commands.send.SendGetPlayerlistCommand;
 
 /**
  * Created by daant on 25-Mar-16.
  */
-public class ZoneAi implements Player {
+public class FoulAI implements Player {
     private final Integer[] zone1 = {0, 7, 56, 63};
     private final Integer[] zone2 = {2, 3, 4, 5, 16, 24, 32, 40, 58, 59, 60, 62, 23, 31, 39, 47};
     private final Integer[] zone3 = {18, 19, 20, 21, 26, 27, 28, 29, 34, 35, 36, 37, 42, 43, 44, 45};
@@ -25,8 +24,27 @@ public class ZoneAi implements Player {
     private ReversiModel model;
     private List<ActionListener> actionListeners = new LinkedList<>();
 
-    public ZoneAi(ReversiModel model) {
+    public FoulAI(ReversiModel model) {
         this.model = model;
+
+        new Thread() {
+            public void run() {
+                Connection connectionMain = Connection.getInstance();
+                Connection connection = new Connection();
+                connection.startConnection();
+                while (true) {
+                    if (connection.getConnected()) {
+                        //SendChallengeCommand getPlayerList = new SendChallengeCommand(model);
+                        //connection.sendMessage(getPlayerList);
+                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+            }
+        }.start();
     }
 
     /**

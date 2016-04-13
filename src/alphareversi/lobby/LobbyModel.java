@@ -4,6 +4,7 @@ import alphareversi.Connection;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.send.SendChallengeAcceptCommand;
 import alphareversi.commands.send.SendChallengeCommand;
+import alphareversi.commands.send.SendCustomCommand;
 import alphareversi.commands.send.SendGetGamelistCommand;
 import alphareversi.commands.send.SendGetPlayerlistCommand;
 import alphareversi.commands.send.SendLoginCommand;
@@ -131,7 +132,6 @@ public class LobbyModel {
         SendChallengeCommand challenge = new SendChallengeCommand(username, gameType, turnTime);
         connection.sendMessage(challenge);
     }
-
 
     /**
      * Send the accept challenge command.

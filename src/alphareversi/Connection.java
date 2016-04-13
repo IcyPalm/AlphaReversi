@@ -25,7 +25,7 @@ public class Connection {
     private Thread serverListenerThread;
     private Logger logger = new Logger("Connection");
 
-    protected Connection() {
+    public Connection() {
         this.commandDispatcher = new CommandDispatcher();
     }
 
