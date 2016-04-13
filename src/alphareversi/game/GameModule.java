@@ -10,7 +10,5 @@ import javafx.scene.layout.BorderPane;
 public abstract class GameModule implements CommandListener {
     public abstract boolean gameOver();
 
-    public abstract void send(SendCommand command);
-
     public abstract BorderPane getView();
 }

@@ -1,5 +1,10 @@
 package alphareversi;
 
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import alphareversi.chat.ChatController;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
@@ -10,7 +15,6 @@ import alphareversi.game.GameModule;
 import alphareversi.game.reversimodule.ReversiModule;
 import alphareversi.game.tictactoemodule.TicTacToeModule;
 import alphareversi.lobby.LobbyController;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,11 +24,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main extends Application implements CommandListener {
 
@@ -126,6 +125,7 @@ public class Main extends Application implements CommandListener {
 
     /**
      * Method for starting a game.
+     *
      * @param command The command for starting a game.
      * @throws Exception A regular exception.
      */
@@ -134,12 +134,14 @@ public class Main extends Application implements CommandListener {
         Class game = gameNameWithClass.get(command.getGametype());
         Constructor<?> cons = game.getConstructor(String.class, String.class, String.class);
         gameModule = (GameModule) cons.newInstance(
-            lobbyController.getSelectedPlayerToPlay(),
-            command.getOpponent(),
-            command.getPlayerToMove()
+                lobbyController.getSelectedPlayerToPlay(),
+                command.getOpponent(),
+                command.getPlayerToMove()
         );
 
-        rootLayout.setCenter(gameModule.getView());
+        Platform.runLater(() -> {
+            rootLayout.setCenter(gameModule.getView());
+        });
     }
 
     private void stopGame(RecvGameResultCommand command) throws Exception {
@@ -149,7 +151,7 @@ public class Main extends Application implements CommandListener {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle("Game Over");
-        alert.setHeaderText("The game has ended. You have " + command.getType());
+        alert.setHeaderText("The game has ended. You have " + command.getPlayerResult());
         alert.setContentText(command.getComment());
         alert.showAndWait();
 
@@ -167,23 +169,26 @@ public class Main extends Application implements CommandListener {
 
     @Override
     public void commandReceived(RecvCommand command) {
-        Platform.runLater(() -> {
-            if (command instanceof RecvGameMatchCommand) {
-                try {
-                    startGame((RecvGameMatchCommand) command);
-                } catch (Exception error) {
-                    error.printStackTrace();
-                }
-            }  else if (command instanceof RecvGameResultCommand) {
+
+        if (command instanceof RecvGameMatchCommand) {
+            try {
+                startGame((RecvGameMatchCommand) command);
+            } catch (Exception error) {
+                error.printStackTrace();
+            }
+        } else if (command instanceof RecvGameResultCommand) {
+            Platform.runLater(() -> {
                 try {
                     stopGame((RecvGameResultCommand) command);
                 } catch (Exception error) {
                     error.printStackTrace();
                 }
-            } else if (command instanceof RecvStatusErrCommand) {
+            });
+        } else if (command instanceof RecvStatusErrCommand) {
+            Platform.runLater(() -> {
                 createErrorDialog((RecvStatusErrCommand) command);
-            }
-        });
+            });
+        }
     }
 //    private void showTicTacToeView() throws Exception{
 //        FXMLLoader loader = new FXMLLoader();

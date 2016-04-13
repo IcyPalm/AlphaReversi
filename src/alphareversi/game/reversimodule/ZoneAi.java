@@ -68,6 +68,7 @@ public class ZoneAi implements Player {
                 return;
             }
         }
+        System.out.println("test");
     }
 
     private int randInt(int min, int max) {

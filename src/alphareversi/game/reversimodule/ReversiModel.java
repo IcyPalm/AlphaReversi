@@ -61,8 +61,8 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         this.board.place(player, position);
         this.moveHistory.addFirst(position);
         this.flipTurn();
-
-        viewController.updateBoard(this.board.get());
+        if (viewController != null)
+            viewController.updateBoard(this.board.get());
     }
 
     /**
