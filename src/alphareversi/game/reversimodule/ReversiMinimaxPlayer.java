@@ -391,13 +391,12 @@ public class ReversiMinimaxPlayer implements Player {
 
                 if (!didProcessLeaf) {
                     logger.log("No known leaves");
-                    this.running = false;
                     processWinStates();
                     if (model.amIOnTurn()) {
                         playMove();
                     }
                     this.lock.unlock();
-                    return;
+                    break;
                 }
 
                 this.prune();
