@@ -17,7 +17,7 @@ import javafx.scene.layout.BorderPane;
  * Created by Robert on 7-4-2016.
  */
 public class ReversiModule extends GameModule {
-    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI", "ZONE-AI"};
+    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI", "ZONE-AI", "FOUL-AI"};
     private static final String gameName = "Reversi";
     private Player player;
     private ReversiModel model;
@@ -33,10 +33,10 @@ public class ReversiModule extends GameModule {
      * @param opponent     The opponent's name.
      * @param playerToMove The player that should move first
      */
-    public ReversiModule(String playerType, String opponent, String playerToMove)
+    public ReversiModule(String playerType, String opponent,
+                         String playerToMove, String ourUsername, int turnTime)
             throws Exception {
         this.opponent = opponent;
-
         this.model = new ReversiModel(
                 opponent.equals(playerToMove) ? Board.OPPONENT : Board.SELF
         );
@@ -44,6 +44,10 @@ public class ReversiModule extends GameModule {
         if (!this.decidePlayer(playerType)) {
             this.logger.err("Wrong Command");
         }
+
+        this.model.setOurUsername(ourUsername);
+        this.model.setTurnTime(turnTime);
+        this.model.setOpponentUsername(opponent);
 
         Connection connection = Connection.getInstance();
         connection.commandDispatcher.addListener(this);
@@ -96,6 +100,8 @@ public class ReversiModule extends GameModule {
             this.player = new RandomAi(this.model);
         } else if (playerType.equals("ZONE-AI")) {
             this.player = new ZoneAi(this.model);
+        } else if (playerType.equals("FOUL-AI")) {
+            this.player = new FoulAI(this.model);
         }
 
         if (this.player == null) {

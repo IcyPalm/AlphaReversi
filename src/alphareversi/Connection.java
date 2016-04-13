@@ -1,25 +1,25 @@
 package alphareversi;
 
-import alphareversi.commands.CommandDispatcher;
-import alphareversi.commands.CommandParser;
-import alphareversi.commands.RecvCommand;
-import alphareversi.commands.SendCommand;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import alphareversi.commands.CommandDispatcher;
+import alphareversi.commands.CommandParser;
+import alphareversi.commands.RecvCommand;
+import alphareversi.commands.SendCommand;
+
 /**
- * Created by timmein on 24/03/16.
- * Singleton implementation of the connection class. Holds connection with server and messaging.
+ * Created by timmein on 24/03/16. Singleton implementation of the connection class. Holds
+ * connection with server and messaging.
  */
 public class Connection {
     private static Connection instance = null;
     public CommandDispatcher commandDispatcher;
+    public Socket comms;
     private boolean connected = false;
-    private Socket comms;
     private BufferedReader input;
     private PrintWriter output;
     private Thread serverListenerThread;
@@ -31,6 +31,7 @@ public class Connection {
 
     /**
      * Singleton Implementation.
+     *
      * @return Connection instance
      */
     public static Connection getInstance() {
@@ -42,6 +43,7 @@ public class Connection {
 
     /**
      * Function to open a connection with a server and start listening.
+     *
      * @param host String server address
      * @param port int port number
      * @return boolean did the server start successfully
@@ -69,7 +71,7 @@ public class Connection {
     public void startServerResponseThread() {
         Runnable runnable = () -> {
 
-            while (true) {
+            while (connected) {
                 try {
                     String line = input.readLine();
                     this.logger.log("| → " + line);
@@ -89,7 +91,20 @@ public class Connection {
     }
 
     /**
+     * stop the connection
+     */
+    public void stopConnection() {
+        this.connected = false;
+        try {
+            comms.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Sends a command object to the server.
+     *
      * @param command SendCommand send command to server
      */
     public void sendMessage(SendCommand command) {
@@ -99,6 +114,7 @@ public class Connection {
 
     /**
      * return the state of the serverconnection.
+     *
      * @return state of the connection
      */
     public boolean getConnected() {

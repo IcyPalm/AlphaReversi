@@ -2,27 +2,35 @@ package alphareversi.game.reversimodule;
 
 import alphareversi.Connection;
 import alphareversi.commands.send.SendMoveCommand;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 public class ReversiController {
-    @FXML private GridPane gridPane;
-    @FXML private Label opponent;
-    @FXML private Label opponentWins;
-    @FXML private Label opponentLosses;
-    @FXML private Label playerWins;
-    @FXML private Label playerLosses;
-    @FXML private Label serverMessage;
-    @FXML private Label round;
-    @FXML private Label blackScore;
-    @FXML private Label whiteScore;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private Label ourName;
+    @FXML
+    private Label opponentName;
+    @FXML
+    private Label turn;
+    @FXML
+    private Label playerStones;
+    @FXML
+    private Label enemyStones;
+    @FXML
+    private ProgressBar ourTime;
+    @FXML
+    private ProgressBar opponentTime;
 
     private ReversiModel reversiModel;
     private Player player;
@@ -31,18 +39,18 @@ public class ReversiController {
     }
 
     /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
+     * Initializes the controller class. This method is automatically called after the fxml file has
+     * been loaded.
      */
     @FXML
     public void initialize() {
-        for (Node node: gridPane.getChildren()) {
-            if ( node instanceof Canvas ) {
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Canvas) {
                 Canvas canvas = (Canvas) node;
                 canvas.setId("blank");
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 gc.setFill(Color.GREEN);
-                gc.fillRect(10, 10, canvas.getWidth(), canvas.getHeight());
+                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 canvas.addEventFilter(MouseEvent.MOUSE_PRESSED,
                         new EventHandler<MouseEvent>() {
                             @Override
@@ -81,6 +89,9 @@ public class ReversiController {
 
     public void setReversiModel(ReversiModel reversiModel) {
         this.reversiModel = reversiModel;
+        this.opponentName.setText(reversiModel.getOpponentUsername());
+        this.ourName.setText(reversiModel.getOurUsername());
+        new Thread(new StartTimer(reversiModel.getTurnTime())).start();
     }
 
     public void setPlayer(Player player) {
@@ -89,17 +100,18 @@ public class ReversiController {
 
     /**
      * Update the GUI so that it represents the Board.
+     *
      * @param board The board that needs to be updated.
      */
     public void updateBoard(int[][] board) {
         System.out.println("I should have updated the board");
-        for ( int col = 0; col < board.length; col++ ) {
-            for ( int row = 0; row < board.length; row++ ) {
-                Canvas canvas = getCanvasFromGridPane(row,col);
+        for (int col = 0; col < board.length; col++) {
+            for (int row = 0; row < board.length; row++) {
+                Canvas canvas = getCanvasFromGridPane(row, col);
                 GraphicsContext gc = canvas.getGraphicsContext2D();
 
                 int piece = board[col][row];
-                if (piece == reversiModel.getEmpty() ) {
+                if (piece == reversiModel.getEmpty()) {
                     canvas.setId("blank");
                 } else {
                     if (piece == 1) {
@@ -115,6 +127,19 @@ public class ReversiController {
                 }
             }
         }
+
+        Platform.runLater(() -> {
+            String turn = "";
+            if (reversiModel.getPlayerOnTurn() == reversiModel.getMySide()) {
+                turn = "My turn!";
+            } else {
+                turn = "Opponents turn";
+            }
+            this.turn.setText(turn);
+        });
+
+        setStonesOnGui();
+
     }
 
     private Canvas getCanvasFromGridPane(int col, int row) {
@@ -124,5 +149,68 @@ public class ReversiController {
             }
         }
         return null;
+    }
+
+    public void setStonesOnGui() {
+        Platform.runLater(() -> {
+            int mySide = reversiModel.getMySide();
+            playerStones.setText(String.valueOf(reversiModel.getBoardInstance().getScore(mySide)));
+            enemyStones.setText(String.valueOf(reversiModel.getBoardInstance().getScore(reversiModel.getOpponent(mySide))));
+        });
+    }
+
+    /**
+     * Runnable inner Class that requests a new playerList every 5 seconds, if we are connected with
+     * the server.
+     */
+    private class StartTimer implements Runnable {
+
+        double time;
+        double timeDivider;
+        double currentProgress;
+        boolean gameBusy = true;
+
+        StartTimer(int time) {
+            this.time = time * 1000.0;
+            this.timeDivider = 100.0 / this.time;
+        }
+
+        @Override
+        public void run() {
+            boolean lastPlayerSelf = reversiModel.getMySide() == reversiModel.getPlayerOnTurn();
+            while (gameBusy) {
+                ProgressBar progressBar = null;
+                if (reversiModel.getMySide() == reversiModel.getPlayerOnTurn()) {
+                    if (lastPlayerSelf == false) {
+                        currentProgress = 0.00;
+                    }
+                    lastPlayerSelf = true;
+                    progressBar = ourTime;
+                    opponentTime.setProgress(0.0);
+                    if (currentProgress >= 1) {
+                        currentProgress = 0.00;
+                    }
+                } else {
+                    if (lastPlayerSelf == true) {
+                        currentProgress = 0.00;
+                    }
+                    lastPlayerSelf = false;
+                    progressBar = opponentTime;
+                    ourTime.setProgress(0.0);
+                    if (currentProgress >= 1) {
+                        currentProgress = 0.00;
+                    }
+                }
+
+                currentProgress = currentProgress + timeDivider;
+                progressBar.setProgress(currentProgress);
+                gameBusy = !reversiModel.gameOver();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }
     }
 }

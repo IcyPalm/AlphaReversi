@@ -31,6 +31,7 @@ public class PossibleMoves {
      */
     @Test
     public void rightTest() {
+
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = new int[8][8];
         board = reversiModel.getBoard();

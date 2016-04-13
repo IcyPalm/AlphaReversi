@@ -2,6 +2,7 @@ package alphareversi.game.reversimodule;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,6 +12,8 @@ import java.util.Random;
 
 import alphareversi.Connection;
 import alphareversi.commands.send.SendChallengeCommand;
+import alphareversi.commands.send.SendLoginCommand;
+import alphareversi.commands.send.SendMessageCommand;
 
 /**
  * Created by daant on 25-Mar-16.
@@ -27,24 +30,61 @@ public class FoulAI implements Player {
     public FoulAI(ReversiModel model) {
         this.model = model;
 
-        new Thread() {
-            public void run() {
-                Connection connectionMain = Connection.getInstance();
-                Connection connection = new Connection();
-                connection.startConnection();
-                while (true) {
-                    if (connection.getConnected()) {
-                        //SendChallengeCommand getPlayerList = new SendChallengeCommand(model);
-                        //connection.sendMessage(getPlayerList);
+
+        Connection connectionMain = Connection.getInstance();
+//        Connection connection = new Connection();
+//        try {
+//            connection.startConnection(connectionMain.comms.getInetAddress().getHostAddress(), connectionMain.comms.getPort());
+//            SendLoginCommand loginCommand = new SendLoginCommand("Henk de boze robot " + randInt(0, 9000));
+//            connection.sendMessage(loginCommand);
+//            new Thread() {
+//                public void run() {
+//                    while (true) {
+//                        if (connection.getConnected()) {
+//                            SendChallengeCommand challenge = new SendChallengeCommand(model.getOpponentUsername(), "Reversi");
+//                            connection.sendMessage(challenge);
+//                        }
+//                        try {
+//                            Thread.sleep(500);
+//                        } catch (InterruptedException exception) {
+//                            exception.printStackTrace();
+//                        }
+//                    }
+//                }
+//            }.start();
+//        } catch (IOException exception) {
+//            exception.printStackTrace();
+//        }
+        for (int i = 0; i < 5; i++) {
+            Connection connection = new Connection();
+            try {
+                connection.startConnection(connectionMain.comms.getInetAddress().getHostAddress(), connectionMain.comms.getPort());
+                SendLoginCommand loginCommand = new SendLoginCommand("Henk de boze ಠ‿ಠ robot (╯°□°）╯︵ ┻━┻ " + randInt(0, 9000) + i);
+                connection.sendMessage(loginCommand);
+                new Thread() {
+                    public void run() {
+                        int i = 0;
+                        while (i < 20) {
+                            if (connection.getConnected()) {
+                                SendMessageCommand message = new SendMessageCommand(model.getOpponentUsername(), "Ik ben henk de boze ಠ‿ಠ robot (╯°□°）╯︵ ┻━┻");
+                                connection.sendMessage(message);
+                                SendChallengeCommand challenge = new SendChallengeCommand(model.getOpponentUsername(), "Reversi");
+                                connection.sendMessage(challenge);
+                            }
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException exception) {
+                                exception.printStackTrace();
+                            }
+                            i++;
+                        }
+                        connection.stopConnection();
                     }
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException exception) {
-                        exception.printStackTrace();
-                    }
-                }
+                }.start();
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
-        }.start();
+        }
     }
 
     /**

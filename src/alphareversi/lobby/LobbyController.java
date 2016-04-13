@@ -48,6 +48,7 @@ public class LobbyController implements CommandListener {
     private ChoiceBox gameList;
     @FXML
     private ChoiceBox playAs;
+    private int turnTime = 2;
 
     public void setMainApp(Main main) {
         this.main = main;
@@ -139,6 +140,7 @@ public class LobbyController implements CommandListener {
             } catch (NumberFormatException exception) {
                 exception.printStackTrace();
             }
+            this.turnTime = time;
             model.challengePlayer(username, gameType, time);
         });
     }
@@ -163,41 +165,47 @@ public class LobbyController implements CommandListener {
     /**
      * Create dialog for incoming challenge.
      */
+    private Alert alert = null;
+
     private void createIncomingChallengeDialog(RecvGameChallengeCommand challenge) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setTitle("Incomming Match");
-        alert.setHeaderText("We have an incomming match from " + challenge.getChallenger());
-        alert.setContentText("Match from " + challenge.getChallenger()
-                + " for the gametype: " + challenge.getGameType()
-                + " with a turntime of " + challenge.getTurntime() + " seconds.");
+        if (alert == null) {
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setTitle("Incomming Match");
+            alert.setHeaderText("We have an incomming match from " + challenge.getChallenger());
+            alert.setContentText("Match from " + challenge.getChallenger()
+                    + " for the gametype: " + challenge.getGameType()
+                    + " with a turntime of " + challenge.getTurntime() + " seconds.");
 
-        String[] choices = main.getGamesWithPlayers().get(challenge.getGameType());
-        ChoiceBox playAs = new ChoiceBox();
-        playAs.getItems().addAll(choices);
-        playAs.getSelectionModel().select(1);
-        Label playAsText = new Label("Select the player to play");
-        playAsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+            String[] choices = main.getGamesWithPlayers().get(challenge.getGameType());
+            ChoiceBox playAs = new ChoiceBox();
+            playAs.getItems().addAll(choices);
+            playAs.getSelectionModel().select(1);
+            Label playAsText = new Label("Select the player to play");
+            playAsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
-        VBox vbox = new VBox();
-        vbox.getChildren().add(playAsText);
-        vbox.getChildren().add(playAs);
-        vbox.setSpacing(5);
+            VBox vbox = new VBox();
+            vbox.getChildren().add(playAsText);
+            vbox.getChildren().add(playAs);
+            vbox.setSpacing(5);
 
-        ButtonType accept = new ButtonType("Accept");
-        ButtonType decline = new ButtonType("Decline");
-        alert.getButtonTypes().setAll(accept, decline);
-        DialogPane dialog = alert.getDialogPane();
-        dialog.setExpandableContent(vbox);
-        dialog.expandedProperty().set(true);
+            ButtonType accept = new ButtonType("Accept");
+            ButtonType decline = new ButtonType("Decline");
+            alert.getButtonTypes().setAll(accept, decline);
+            DialogPane dialog = alert.getDialogPane();
+            dialog.setExpandableContent(vbox);
+            dialog.expandedProperty().set(true);
 
-        Optional result = alert.showAndWait();
-        if (result.get() == accept) {
-            model.setChallengePlayWithResult(
-                    playAs.getSelectionModel().getSelectedItem().toString());
-            model.acceptMatch(challenge);
-        } else if (result.get() == decline) {
-            //Do nothing
+            Optional result = alert.showAndWait();
+            if (result.get() == accept) {
+                this.turnTime = challenge.getTurntime();
+                model.setChallengePlayWithResult(
+                        playAs.getSelectionModel().getSelectedItem().toString());
+                model.acceptMatch(challenge);
+                alert = null;
+            } else if (result.get() == decline) {
+                alert = null;
+            }
         }
     }
 
@@ -249,7 +257,9 @@ public class LobbyController implements CommandListener {
                 model.setPlayerList(((RecvPlayerlistCommand) command).getPlayerList());
             } else if (command instanceof RecvGameChallengeCommand) {
                 //Create the dialog in the javaFX thread
-                createIncomingChallengeDialog((RecvGameChallengeCommand) command);
+                if (!this.model.isInGame()) {
+                    createIncomingChallengeDialog((RecvGameChallengeCommand) command);
+                }
             } else if (command instanceof RecvGameMatchCommand) {
                 if (subscribeAlert != null) {
                     subscribeAlert.close();
@@ -262,4 +272,11 @@ public class LobbyController implements CommandListener {
         this.main.createChatWindow();
     }
 
+    public String getUsername() {
+        return model.getUsername();
+    }
+
+    public int getTurnTime() {
+        return turnTime;
+    }
 }

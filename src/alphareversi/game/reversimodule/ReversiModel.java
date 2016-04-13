@@ -1,11 +1,11 @@
 package alphareversi.game.reversimodule;
 
-import alphareversi.game.GameBasicSquareBasedModel;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
+
+import alphareversi.game.GameBasicSquareBasedModel;
 
 /**
  * Created by Robert on 27-3-2016. This class houses all the logic for the square based game
@@ -28,7 +28,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     /**
      * Standard constructor for reversi. This also assings the my side variable
      *
-     * @param mySide this indicates what is my side of the gameBoard.
+     * @param firstTurn this indicates what is my side of the gameBoard.
      */
     public ReversiModel(int firstTurn) {
         super(Board.SELF);
@@ -51,8 +51,8 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     }
 
     /**
-     * This method places the actual pieces onto the board. The coordinates it can place pieces
-     * are determined in an earlier stage of the program.
+     * This method places the actual pieces onto the board. The coordinates it can place pieces are
+     * determined in an earlier stage of the program.
      *
      * @param position Where to place the piece.
      * @param player   The owner of this piece.
@@ -66,8 +66,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
     }
 
     /**
-     * Switch the current playing player. Skips a turn if one player has no
-     * available moves.
+     * Switch the current playing player. Skips a turn if one player has no available moves.
      */
     private void flipTurn() {
         System.out.println("[Reversi/Model] Flipping turns");
@@ -80,6 +79,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * This method is purely used for placePiece since it looks at the current board.
+     *
      * @param move The move you want to do.
      * @param side The side wanting to do the move.
      * @return Indicates if the move is oké.
@@ -169,12 +169,13 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * A simple method that indicates if the game is over or not.
+     *
      * @return return if the game is over or not.
      */
     public boolean gameOver() {
-        if (this.playing
-                && this.board.getAvailableMoves(Board.SELF).size() == 0
-                && this.board.getAvailableMoves(Board.OPPONENT).size() == 0) {
+        if (!this.playing
+                || (this.board.getAvailableMoves(Board.SELF).size() == 0
+                && this.board.getAvailableMoves(Board.OPPONENT).size() == 0)) {
             return true;
         }
         return false;
@@ -182,6 +183,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * Retrieves the player with the highest score, return 3 if it's a draw.
+     *
      * @param board The board on which we have to determine if we have a winner.
      * @return return the winner or return that we have a draw.
      */
@@ -199,6 +201,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * Get the character associated with my side.
+     *
      * @return The character that is returned.
      */
     public char getMyCharacter() {
@@ -211,6 +214,7 @@ public class ReversiModel extends GameBasicSquareBasedModel {
 
     /**
      * Get the character associated with my opponent's side.
+     *
      * @return The character that is returned.
      */
     public char getOpponentCharacter() {
