@@ -134,7 +134,7 @@ public class LobbyController implements CommandListener {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(turnTime -> {
-            int time = 2;
+            int time = Main.DEFAULT_TURN_TIME;
             try {
                 time = Integer.parseInt(turnTime);
             } catch (NumberFormatException exception) {
@@ -278,5 +278,17 @@ public class LobbyController implements CommandListener {
 
     public int getTurnTime() {
         return turnTime;
+    }
+
+    public void setTurnTime(int turnTime) {
+        this.turnTime = turnTime;
+    }
+
+    public void setInGame(boolean inGame) {
+        model.setInGame(inGame);
+    }
+
+    public boolean isInGame() {
+        return model.isInGame();
     }
 }

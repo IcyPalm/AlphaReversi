@@ -187,8 +187,8 @@ public class ReversiController {
         public void run() {
             boolean lastPlayerSelf = reversiModel.getMySide() == reversiModel.getPlayerOnTurn();
             while (gameBusy) {
-                ProgressBar progressBar = null;
-                if (reversiModel.getMySide() == reversiModel.getPlayerOnTurn()) {
+                ProgressBar progressBar;
+                if (reversiModel.getPlayerOnTurn() == reversiModel.getMySide()) {
                     if (lastPlayerSelf == false) {
                         currentProgress = 0.00;
                     }

@@ -90,7 +90,7 @@ public class CommandParser {
         ArrayList<String> arrayList = new ArrayList<>();
         if (!string.contains("[]")) {
             string = string.substring(1, string.length() - 1);
-            String[] parts = CommandParser.trimStringArray(string.split(","));
+            String[] parts = CommandParser.trimStringArray(string.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"));
             for (String part : parts) {
                 arrayList.add(part.substring(1, part.length() - 1));
             }
