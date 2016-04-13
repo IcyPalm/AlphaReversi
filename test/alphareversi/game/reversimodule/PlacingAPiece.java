@@ -16,10 +16,11 @@ public class PlacingAPiece  {
     /**
      * Test for placing a piece at the top left corner. The expected result is that all the pieces
      * will be turned.
+     * @throws InvalidMoveException 
      *
      */
     @Test
-    public void createLeftTopCornerTestCase() {
+    public void createLeftTopCornerTestCase() throws InvalidMoveException{
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = reversiModel.getBoard();
         clearBoard(board);
@@ -57,7 +58,7 @@ public class PlacingAPiece  {
      * Test case for placing pieces.
      */
     @Test
-    public void createRightDownCornerTestCase() {
+    public void createRightDownCornerTestCase() throws InvalidMoveException{
         ReversiModel reversiModel = new ReversiModel(1);
         int[][] board = reversiModel.getBoard();
         clearBoard(board);
@@ -84,7 +85,7 @@ public class PlacingAPiece  {
         }
         board[0][0] = 1;
         reversiModel.printBoard(board);
-        reversiModel.placePiece(63, 1);
+            reversiModel.placePiece(63, 1);
         System.out.println("Piece placed");
         reversiModel.printBoard(board);
         assertEquals(22, reversiModel.getScore(1, board));

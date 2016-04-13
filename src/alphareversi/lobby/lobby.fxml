@@ -7,15 +7,14 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" fx:controller="alphareversi.lobby.LobbyController" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alphareversi.lobby.LobbyController">
    <right>
       <VBox alignment="TOP_CENTER" maxHeight="600.0" maxWidth="400.0" prefHeight="700.0" prefWidth="350.0" BorderPane.alignment="CENTER">
          <children>
@@ -29,9 +28,9 @@
                   <Insets bottom="10.0" left="60.0" right="60.0" top="10.0" />
                </VBox.margin>
             </Separator>
-            <TableView fx:id="playerList"  maxHeight="700.0" prefHeight="450.0" prefWidth="350.0">
+            <TableView fx:id="playerList" maxHeight="700.0" prefHeight="450.0" prefWidth="350.0">
                <columns>
-               <TableColumn text="Username">
+               <TableColumn prefWidth="319.0" text="Username">
                   <cellValueFactory><PropertyValueFactory property="username" />
 
                </cellValueFactory>
@@ -72,12 +71,12 @@
                   <Insets bottom="10.0" left="60.0" right="60.0" top="10.0" />
                </VBox.margin>
             </Separator>
-            <ChoiceBox prefHeight="40.0" prefWidth="250.0" fx:id="gameList">
+            <ChoiceBox fx:id="gameList" prefHeight="40.0" prefWidth="250.0">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </ChoiceBox>
-            <Button onAction="#subscribe" mnemonicParsing="false" text="Subscribe">
+            <Button mnemonicParsing="false" onAction="#subscribe" text="Subscribe">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -103,7 +102,7 @@
                   <Insets bottom="10.0" left="60.0" right="60.0" top="15.0" />
                </VBox.margin>
             </Separator>
-            <ChoiceBox prefHeight="40.0" fx:id="playAs" prefWidth="250.0">
+            <ChoiceBox fx:id="playAs" prefHeight="40.0" prefWidth="250.0">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -113,7 +112,7 @@
                   <Insets bottom="10.0" left="60.0" right="60.0" top="15.0" />
                </VBox.margin>
             </Separator>
-            <Button onAction="#openChat" mnemonicParsing="false" text="Chat">
+            <Button mnemonicParsing="false" onAction="#openChat" text="Chat">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -135,7 +134,7 @@
                   <Image url="@../Pictures/alphareversi.jpg" />
                </image>
             </ImageView>
-            <Label text="AlphaReversi" fx:id="usernameLabel" textAlignment="CENTER">
+            <Label fx:id="usernameLabel" text="AlphaReversi" textAlignment="CENTER">
                <font>
                   <Font name="Tahoma" size="21.0" />
                </font>
@@ -143,7 +142,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Label text="AlphaReversi" fx:id="serverAddressLabel" textAlignment="CENTER">
+            <Label fx:id="serverAddressLabel" text="AlphaReversi" textAlignment="CENTER">
                <font>
                   <Font name="Tahoma" size="21.0" />
                </font>

@@ -41,7 +41,10 @@ public class TicTacToeModel {
         } else {
             this.side = self;
         }
-        viewController.updateBoard(board);
+
+        if (viewController != null) {
+            viewController.updateBoard(board);
+        }
     }
 
     /**

@@ -2,6 +2,7 @@ package alphareversi.game.tictactoemodule;
 
 import alphareversi.Connection;
 import alphareversi.commands.RecvCommand;
+import alphareversi.commands.SendCommand;
 import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
@@ -26,8 +27,8 @@ public class TicTacToeModule extends GameModule {
     /**
      * Constructor Module.
      */
-    public TicTacToeModule(String playerType, String opponent, String playerToMove)
-            throws Exception {
+    public TicTacToeModule(String playerType, String opponent,
+                           String playerToMove, String ourUsername, int turnTime) throws Exception {
         model = new TicTacToeModel();
 
         if (!opponent.equals(playerToMove)) {
@@ -43,10 +44,6 @@ public class TicTacToeModule extends GameModule {
 
         Connection connection = Connection.getInstance();
         connection.commandDispatcher.addListener(this);
-
-        ticTacToeView = setTicTacToeView();
-
-        decideWhoBegins(playerToMove);
     }
 
     public static String[] getPlayerTypes() {
@@ -95,11 +92,6 @@ public class TicTacToeModule extends GameModule {
         connection.sendMessage(command);
     }
 
-    @Override
-    public SendMoveCommand send(SendMoveCommand command) {
-        return lastCommand;
-    }
-
     private int processMove(RecvGameMoveCommand command) {
         return Integer.parseInt(command.getMove());
     }
@@ -120,21 +112,6 @@ public class TicTacToeModule extends GameModule {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Checks who should begin.
-     */
-    private void decideWhoBegins(String playerToMove) {
-        if (!opponent.equals(playerToMove)) {
-            if (player instanceof Human) {
-                this.player.chooseMove();
-            } else if (player instanceof ArtificialIntelligence) {
-                int move = this.player.chooseMove();
-                model.playMove(move);
-                updateMoveCommand(move);
-            }
-        }
     }
 
     /**
@@ -167,7 +144,16 @@ public class TicTacToeModule extends GameModule {
         return playerType;
     }
 
+    /**
+     * initiate and create the view.
+     * @return view
+     */
     public BorderPane getView() {
+        try {
+            ticTacToeView = setTicTacToeView();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return ticTacToeView;
     }
 

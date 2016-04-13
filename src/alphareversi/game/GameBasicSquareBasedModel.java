@@ -1,14 +1,18 @@
 package alphareversi.game;
 
 /**
- * created by Robert on 27-3-2016.
- * This class houses all basis logic for square based gameBoard game.
+ * created by Robert on 27-3-2016. This class houses all basis logic for square based gameBoard
+ * game.
  */
 public class GameBasicSquareBasedModel {
     protected final int empty = 0;
     protected final int playerOne = 1;
     protected final int playerTwo = 2;
     protected int mySide;
+
+    protected String ourUsername = "alphaReversi";
+    protected int turnTime = 2;
+    protected String opponentUsername = "";
 
     /**
      * Standard constructor for a gameModule. The super of the game modules contains all shared
@@ -65,9 +69,32 @@ public class GameBasicSquareBasedModel {
         return mySide;
     }
 
-    public  int getEmpty() {
-        return  empty;
+    public int getEmpty() {
+        return empty;
     }
 
 
+    public void setOurUsername(String ourUsername) {
+        this.ourUsername = ourUsername;
+    }
+
+    public void setTurnTime(int turnTime) {
+        this.turnTime = turnTime;
+    }
+
+    public String getOurUsername() {
+        return ourUsername;
+    }
+
+    public int getTurnTime() {
+        return turnTime;
+    }
+
+    public void setOpponentUsername(String opponentUsername) {
+        this.opponentUsername = opponentUsername;
+    }
+
+    public String getOpponentUsername() {
+        return opponentUsername;
+    }
 }

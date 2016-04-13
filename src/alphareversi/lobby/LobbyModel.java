@@ -33,6 +33,8 @@ public class LobbyModel {
     private int serverPort;
     private String challengePlayWithResult;
 
+    private boolean inGame;
+
     /**
      * Set the TableView playerList, ChoiceBox gameList, Connection. Create a new thread for
      * refreshing playerList
@@ -108,8 +110,8 @@ public class LobbyModel {
             }
 
         }
-        while (iterator.hasNext()) {
-            Player player = new Player(iterator.next());
+        for (int i = 0; i < playerList.size(); i++) {
+            Player player = new Player(playerList.get(i));
             newList.add(player);
         }
         list.setAll(newList);
@@ -219,5 +221,13 @@ public class LobbyModel {
 
     public SimpleStringProperty usernameProperty() {
         return username;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
     }
 }
