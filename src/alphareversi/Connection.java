@@ -69,9 +69,13 @@ public class Connection {
     public void startServerResponseThread() {
         Runnable runnable = () -> {
 
-            while (true) {
+            while (this.connected) {
                 try {
                     String line = input.readLine();
+                    if (line == null) {
+                        line = "DISCONNECT";
+                        connected = false;
+                    }
                     this.logger.log("| → " + line);
                     RecvCommand command = CommandParser.parseString(line);
                     this.commandDispatcher.sendCommand(command);

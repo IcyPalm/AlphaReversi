@@ -1,5 +1,6 @@
 package alphareversi.commands;
 
+import alphareversi.commands.receive.RecvDisconnectCommand;
 import alphareversi.commands.receive.RecvGameChallengeCanceledCommand;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
@@ -37,6 +38,7 @@ public class CommandParser {
             put("SVR HELP (.*?)+", RecvHelpCommand.class);
             put("ERR (.*?)+", RecvStatusErrCommand.class);
             put("OK", RecvStatusOkCommand.class);
+            put("DISCONNECT", RecvDisconnectCommand.class);
         }
     };
 
