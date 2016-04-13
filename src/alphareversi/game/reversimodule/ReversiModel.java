@@ -1,20 +1,20 @@
 package alphareversi.game.reversimodule;
 
+import alphareversi.game.GameBasicSquareBasedModel;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-
-import alphareversi.game.GameBasicSquareBasedModel;
 
 /**
  * Created by Robert on 27-3-2016. This class houses all the logic for the square based game
  * Reversi.
  */
 public class ReversiModel extends GameBasicSquareBasedModel {
-    final private static char WHITE = 'W';
-    final private static char BLACK = 'B';
-    final private LinkedList<Integer> moveHistory = new LinkedList<>();
+    private static final char WHITE = 'W';
+    private static final char BLACK = 'B';
+    private final LinkedList<Integer> moveHistory = new LinkedList<>();
 
     private int playerOnTurn;
     private boolean playing = true;
@@ -43,6 +43,10 @@ public class ReversiModel extends GameBasicSquareBasedModel {
         this.board = board;
     }
 
+    /**
+     * Check move history and get the latest move.
+     * @return latest move
+     */
     public int getMostRecentMove() {
         if (this.moveHistory.isEmpty()) {
             return -1;

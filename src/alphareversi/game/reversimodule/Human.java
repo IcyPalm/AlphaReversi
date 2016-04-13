@@ -1,9 +1,7 @@
 package alphareversi.game.reversimodule;
 
-import alphareversi.game.reversimodule.Player;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class Human implements Player {
     private void notifyActionListeners(int move) {
         for (ActionListener listener : this.actionListeners) {
             listener.actionPerformed(
-                new ActionEvent(this, move, "")
+                    new ActionEvent(this, move, "")
             );
         }
     }

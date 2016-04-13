@@ -1,10 +1,11 @@
 package alphareversi.commands;
 
+import alphareversi.Logger;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import alphareversi.Logger;
 
 /**
  * Created by timmein on 24/03/16.

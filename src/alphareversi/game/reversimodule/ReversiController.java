@@ -87,6 +87,10 @@ public class ReversiController {
         return (row * 8) + col;
     }
 
+    /**
+     * Set the reversi model with details of the match.
+     * @param reversiModel reversiModel instance
+     */
     public void setReversiModel(ReversiModel reversiModel) {
         this.reversiModel = reversiModel;
         this.opponentName.setText(reversiModel.getOpponentUsername());
@@ -151,11 +155,15 @@ public class ReversiController {
         return null;
     }
 
+    /**
+     * Get the stone count from model and update in GUI.
+     */
     public void setStonesOnGui() {
         Platform.runLater(() -> {
             int mySide = reversiModel.getMySide();
             playerStones.setText(String.valueOf(reversiModel.getBoardInstance().getScore(mySide)));
-            enemyStones.setText(String.valueOf(reversiModel.getBoardInstance().getScore(reversiModel.getOpponent(mySide))));
+            enemyStones.setText(String.valueOf(
+                    reversiModel.getBoardInstance().getScore(reversiModel.getOpponent(mySide))));
         });
     }
 

@@ -1,7 +1,7 @@
 package alphareversi;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Logger {
     private String name;
@@ -24,6 +24,7 @@ public class Logger {
         System.out.println(this.message(text));
         return this;
     }
+
     public Logger log(String text) {
         System.out.println(this.message(text));
         return this;

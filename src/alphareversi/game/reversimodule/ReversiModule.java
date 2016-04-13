@@ -122,8 +122,8 @@ public class ReversiModule extends GameModule {
     @Override
     public void commandReceived(RecvCommand command) {
         this.logger.log(
-                "Receiving: " + command.getType() + " " + command.getMethod() +
-                        "  " + command.getClass()
+                "Receiving: " + command.getType() + " " + command.getMethod()
+                        + "  " + command.getClass()
         );
         if (command instanceof RecvGameMoveCommand) {
             RecvGameMoveCommand com = (RecvGameMoveCommand) command;
@@ -137,8 +137,9 @@ public class ReversiModule extends GameModule {
             int player = this.opponent.equals(com.getPlayer()) ? Board.OPPONENT : Board.SELF;
 
             this.logger.log(
-                    com.getPlayer() + " (" + (player == Board.SELF ? "X" : "O") + ") " +
-                            "made move: " + com.getMove() + " [" + (position / 8) + ", " + (position % 8) + "]"
+                    com.getPlayer() + " (" + (player == Board.SELF ? "X" : "O") + ") "
+                            + "made move: " + com.getMove()
+                            + " [" + (position / 8) + ", " + (position % 8) + "]"
             );
 
             try {
