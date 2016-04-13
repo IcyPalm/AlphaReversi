@@ -55,9 +55,9 @@ public class ReversiModule extends GameModule {
             }
         });
 
-        if (this.model.getPlayerOnTurn() == Board.SELF) {
-            this.player.startTurn();
-        }
+//        if (this.model.getPlayerOnTurn() == Board.SELF) {
+//            this.player.startTurn();
+//        }
     }
 
     public static String[] getPlayerTypes() {
