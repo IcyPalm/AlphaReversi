@@ -6,8 +6,8 @@ import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.GameModule;
+import alphareversi.game.tictactoemodule.Player;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -42,6 +42,8 @@ public class ReversiModule extends GameModule {
         decideWhoBegins(playerToMove);
         this.model = new ReversiModel(selfSide);
         reversiView = setReversiView();
+        Connection connection = Connection.getInstance();
+        connection.commandDispatcher.addListener(this);
         if (selfSide == 2) {
             if (player instanceof Human) {
                 player.chooseMove();

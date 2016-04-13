@@ -1,5 +1,7 @@
 package alphareversi.game.tictactoemodule;
 
+import alphareversi.Connection;
+import alphareversi.commands.send.SendMoveCommand;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -26,6 +28,7 @@ public class TicTacToeViewController {
     @FXML
     private Label message;
     private TicTacToeModel ticTacToeModel;
+    private Player player;
 
     public TicTacToeViewController() {
     }
@@ -46,11 +49,13 @@ public class TicTacToeViewController {
                         int row = GridPane.getRowIndex(canvas).intValue();
                         int col = GridPane.getColumnIndex(canvas).intValue();
                         int move = convertMove(row, col);
-                        if (playerPlayerType.getText() == "HUMAN"
+                        if (player instanceof Human
                                 && !ticTacToeModel.gameOver()
-                                && ticTacToeModel.getSide() == ticTacToeModel.getSelf()
+                                && ((Human) player).allowedToPlay()
                                 && ticTacToeModel.moveOk(move)) {
                             ticTacToeModel.playMove(move);
+                            updateMoveCommand(move);
+                            ((Human) player).setAllowedToPlayFalse();
                         }
                     }
                 });
@@ -104,6 +109,22 @@ public class TicTacToeViewController {
                 }
             }
         }
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    /**
+     * Updates the current SendMoveCommand with the latest move.
+     *
+     * @param move the move to set the command to
+     */
+    public void updateMoveCommand(int move) {
+        System.out.println("send command");
+        Connection connection = Connection.getInstance();
+        SendMoveCommand command = new SendMoveCommand(move);
+        connection.sendMessage(command);
     }
 
     private Canvas getCanvasFromGridPane(int col, int row) {

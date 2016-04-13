@@ -17,7 +17,7 @@
    <center>
       <AnchorPane prefHeight="600.0" prefWidth="800.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+            <VBox layoutX="42.0" layoutY="60.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Opponent">
                      <font>
@@ -145,7 +145,7 @@
                   </Label>
                </children>
             </VBox>
-            <GridPane fx:id="gridPane" gridLinesVisible="true" style="-fx-background-color: white;" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+            <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="268.0" layoutY="60.0" style="-fx-background-color: white;">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="160.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="160.0" />

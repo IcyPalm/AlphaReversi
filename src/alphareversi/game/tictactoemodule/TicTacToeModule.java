@@ -26,15 +26,35 @@ public class TicTacToeModule extends GameModule {
     /**
      * Constructor Module.
      */
-    public TicTacToeModule(String playerType, String opponent,
-                           String playerToMove) throws Exception {
+    public TicTacToeModule(String playerType, String opponent, String playerToMove)
+            throws Exception {
         model = new TicTacToeModel();
+
+        if (!opponent.equals(playerToMove)) {
+            model.setSelfPlays();
+        } else {
+            model.setOpponentPlays();
+        }
+
         this.opponent = opponent;
         if (!decidePlayer(playerType)) {
             System.out.println("Wrong Command");
         }
+
+        Connection connection = Connection.getInstance();
+        connection.commandDispatcher.addListener(this);
+
         ticTacToeView = setTicTacToeView();
+
         decideWhoBegins(playerToMove);
+    }
+
+    public static String[] getPlayerTypes() {
+        return playerTypes;
+    }
+
+    public static String getGameName() {
+        return gameName;
     }
 
     /**
@@ -43,6 +63,7 @@ public class TicTacToeModule extends GameModule {
      * @param command the command to receive
      */
     public void commandReceived(RecvCommand command) {
+        System.out.println("GameModule received a command " + command.getClass());
         if (command instanceof RecvGameMoveCommand) {
             RecvGameMoveCommand com = (RecvGameMoveCommand) command;
             System.out.println(com.getPlayer() + " : made move : " + com.getMove().toString());
@@ -52,9 +73,13 @@ public class TicTacToeModule extends GameModule {
         } else if (command instanceof RecvGameYourturnCommand) {
             RecvGameYourturnCommand com = (RecvGameYourturnCommand) command;
             System.out.println("it is now my turn");
-            int move = this.player.chooseMove();
-            model.playMove(move);
-            updateMoveCommand(move);
+            if (player instanceof Human) {
+                this.player.chooseMove();
+            } else if (player instanceof ArtificialIntelligence) {
+                int move = this.player.chooseMove();
+                model.playMove(move);
+                updateMoveCommand(move);
+            }
         }
     }
 
@@ -74,7 +99,6 @@ public class TicTacToeModule extends GameModule {
     public SendMoveCommand send(SendMoveCommand command) {
         return lastCommand;
     }
-
 
     private int processMove(RecvGameMoveCommand command) {
         return Integer.parseInt(command.getMove());
@@ -103,12 +127,15 @@ public class TicTacToeModule extends GameModule {
      */
     private void decideWhoBegins(String playerToMove) {
         if (!opponent.equals(playerToMove)) {
-            int move = this.player.chooseMove();
-            model.playMove(move);
-            updateMoveCommand(move);
+            if (player instanceof Human) {
+                this.player.chooseMove();
+            } else if (player instanceof ArtificialIntelligence) {
+                int move = this.player.chooseMove();
+                model.playMove(move);
+                updateMoveCommand(move);
+            }
         }
     }
-
 
     /**
      * checks if the game is over.
@@ -119,24 +146,21 @@ public class TicTacToeModule extends GameModule {
         return model.gameOver();
     }
 
-    public static String[] getPlayerTypes() {
-        return playerTypes;
-    }
-
-    public static String getGameName() {
-        return gameName;
-    }
-
     private BorderPane setTicTacToeView() throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(TicTacToeModule.class.getResource("ticTacToeView.fxml"));
         BorderPane ticTacToeView = (BorderPane) loader.load();
 
         TicTacToeViewController controller = loader.getController();
-        model.setViewController(controller);
-        controller.setTicTacToeModel(model, this.playerType, this.opponent);
+        setControllers(controller);
 
         return ticTacToeView;
+    }
+
+    private void setControllers(TicTacToeViewController controller) {
+        model.setViewController(controller);
+        controller.setTicTacToeModel(model, this.playerType, this.opponent);
+        controller.setPlayer(player);
     }
 
     public String getPlayerType() {
