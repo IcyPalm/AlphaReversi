@@ -6,7 +6,6 @@ import alphareversi.commands.receive.RecvGameMoveCommand;
 import alphareversi.commands.receive.RecvGameYourturnCommand;
 import alphareversi.commands.send.SendMoveCommand;
 import alphareversi.game.GameModule;
-import alphareversi.game.Player;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 

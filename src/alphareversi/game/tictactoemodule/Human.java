@@ -1,7 +1,5 @@
 package alphareversi.game.tictactoemodule;
 
-import alphareversi.game.Player;
-
 /**
  * Created by daant on 25-Mar-16.
  */

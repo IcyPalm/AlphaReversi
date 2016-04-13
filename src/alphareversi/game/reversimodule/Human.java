@@ -1,8 +1,6 @@
 package alphareversi.game.reversimodule;
 
-import alphareversi.game.Player;
-
-import java.util.Scanner;
+import alphareversi.game.tictactoemodule.Player;
 
 /**
  * Created by daant on 25-Mar-16.
