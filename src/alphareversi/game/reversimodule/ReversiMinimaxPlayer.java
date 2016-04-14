@@ -20,7 +20,7 @@ import javax.swing.tree.TreeNode;
  * @author Maarten le Clercq
  */
 public class ReversiMinimaxPlayer implements Player {
-    public static final int MAX_DEPTH = 2;
+    public static final int MAX_DEPTH = 4;
     public static final int THINK_TIME = 2000;
     public static final int MAX_LEAVES = 3000;
 
@@ -389,20 +389,13 @@ public class ReversiMinimaxPlayer implements Player {
                     this.lock.unlock();
                 }
 
-                this.lock.lock();
-
                 if (!didProcessLeaf) {
                     logger.log("No known leaves");
                     processWinStates();
                     if (model.amIOnTurn()) {
                         playMove();
                     }
-                    this.lock.unlock();
-                    break;
                 }
-
-                this.prune();
-                this.lock.unlock();
             }
         }
 
@@ -412,6 +405,10 @@ public class ReversiMinimaxPlayer implements Player {
          * @return heat The heat of a move
          */
         private void step(Node parent) {
+            if (parent.getLevel() > MAX_DEPTH) {
+                return;
+            }
+
             int newSide = this.flipSide(parent);
 
             Collection<Integer> validMoves = parent.getBoard().getAvailableMoves(parent.getSide());
