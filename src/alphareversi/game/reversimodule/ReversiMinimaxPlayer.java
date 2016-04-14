@@ -180,16 +180,16 @@ public class ReversiMinimaxPlayer implements Player {
             this.lock.lock();
 
             this.logger.log("Retrieving best move");
-            List<Node> leaves = this.minimaxer.getLeaves();
+            Node[] leaves = this.root.getChildren();
 
             String text = "Available moves: [";
             for (Node child : this.root.getChildren()) {
                 text += child.getMove() + ", ";
             }
-            this.logger.log("Retrieving best move out of " + leaves.size());
+            this.logger.log("Retrieving best move out of " + leaves.length);
             this.logger.log(text + "]");
 
-            Node best = leaves.get(0);
+            Node best = leaves[0];
             for (Node leaf : leaves) {
                 if (leaf.getHeat() > best.getHeat()) {
                     best = leaf;
@@ -209,16 +209,6 @@ public class ReversiMinimaxPlayer implements Player {
             this.logger.log("--------");
             this.logger.log(best.getBoard() + "");
             this.logger.log("--------");
-
-            this.logger.log("Required path:");
-            TreeNode[] path = best.getPath();
-            String pathText = "";
-            for (TreeNode node : path) {
-                pathText += " » " + node;
-            }
-            this.logger.log(pathText);
-
-            best = this.getNextMove(best);
 
             this.lock.unlock();
 
@@ -339,9 +329,6 @@ public class ReversiMinimaxPlayer implements Player {
                 } catch (InterruptedException ie) {
                     // ehh...
                 }
-                if (!model.amIOnTurn()) {
-                    continue;
-                }
 
                 LinkedList<Node> temp = new LinkedList<Node>(this.leaves);
                 boolean didProcessLeaf = false;
@@ -401,15 +388,6 @@ public class ReversiMinimaxPlayer implements Player {
 
                 this.prune();
                 this.lock.unlock();
-
-                // step++;
-                // if (step % 2 == 0) {
-                //     this.lock.lock();
-                //     logger.log("Start prune");
-                //     this.prune();
-                //     logger.log("End prune");
-                //     this.lock.unlock();
-                // }
             }
         }
 
@@ -425,6 +403,7 @@ public class ReversiMinimaxPlayer implements Player {
 
             if (validMoves.size() == 0) {
                 parent.markEndState(parent.getBoard().getWinState());
+                parent.addWinHeat(0);
                 return;
             }
 
@@ -444,15 +423,11 @@ public class ReversiMinimaxPlayer implements Player {
                     continue;
                 }
 
-                int heat;
-                if (parent.getSide() == model.getMySide()) {
-                    heat = parent.getHeat() + heatMap.getHeat(move);
-                } else {
-                    // Subtract the heat if the heat is meant for your opponent.
-                    heat = parent.getHeat() - heatMap.getHeat(move);
-                }
+                int heat = parent.getSide() == model.getMySide()
+                        ? heatMap.getHeat(move) : -heatMap.getHeat(move);
 
                 Node child = new Node(newBoard, newSide, move, heat);
+                parent.updateHeat(heat);
                 parent.add(child);
                 leaves.add(child);
             }
@@ -495,10 +470,6 @@ public class ReversiMinimaxPlayer implements Player {
          * Bubble up the winHeat to the root from every leaf
          */
         private void processWinStates() {
-            List<Node> endLeaves = this.leaves; // root.getLeaves();
-            for (Node endLeave : endLeaves) {
-                endLeave.addWinHeat(0);
-            }
             this.doneCalculating = true;
         }
 

@@ -33,6 +33,16 @@ public class Node extends DefaultMutableTreeNode {
     }
 
     /**
+     *
+     */
+    public void updateHeat(int heat) {
+        this.heat += heat;
+        if (!this.isRoot()) {
+            ((Node) this.getParent()).updateHeat(heat);
+        }
+    }
+
+    /**
      * Retrieve all immediate children of this node.
      *
      * @return This Node's children.
