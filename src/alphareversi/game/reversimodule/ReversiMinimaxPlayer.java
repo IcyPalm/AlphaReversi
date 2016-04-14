@@ -20,7 +20,7 @@ import javax.swing.tree.TreeNode;
  */
 public class ReversiMinimaxPlayer implements Player {
     public static final int MAX_DEPTH = 2;
-    public static final int THINK_TIME = 600;
+    public static final int THINK_TIME = 2000;
     public static final int MAX_LEAVES = 3000;
 
     private Logger logger = new Logger("Reversi/AI");
@@ -30,6 +30,7 @@ public class ReversiMinimaxPlayer implements Player {
     private ReversiModel model;
     private ReversiHeatmap heatMap = new ReversiHeatmap();
 
+    private boolean myTurn = false;
     private int currentSide = 0;
 
     private Node root;
@@ -55,7 +56,7 @@ public class ReversiMinimaxPlayer implements Player {
     /**
      * start turn.
      */
-    public void startTurn() {
+    public synchronized void startTurn() {
         this.starttime = System.currentTimeMillis();
 
         int move = this.model.getMostRecentMove();
@@ -71,6 +72,8 @@ public class ReversiMinimaxPlayer implements Player {
 
         if (this.minimaxer.getDoneCalculating()) {
             this.playMove();
+        } else {
+            this.myTurn = true;
         }
     }
 
@@ -117,7 +120,8 @@ public class ReversiMinimaxPlayer implements Player {
         timer.start();
     }
 
-    private void playMove() {
+    private synchronized void playMove() {
+        this.myTurn = false;
         int bestMove = this.getBestMove();
         // Also parse this move locally.
         this.incomingNewMove(bestMove);
@@ -175,7 +179,10 @@ public class ReversiMinimaxPlayer implements Player {
         if (minimaxer.getDoneCalculating()) {
             this.logger.log("Praying for winssss");
             Node newRoot = minimaxer.getHighestHeatChild(this.root);
-            return newRoot.getMove();
+            if (newRoot != null) {
+                return newRoot.getMove();
+            }
+            this.logger.err("No more moves");
         } else {
             this.lock.lock();
 
@@ -340,8 +347,7 @@ public class ReversiMinimaxPlayer implements Player {
                     "Leaves: " + temp.size()
                 );
                 for (Node leaf : temp) {
-                    if (starttime != 0 && model.amIOnTurn() &&
-                            getTimeLeft() > -1000 && getTimeLeft() < 500) {
+                    if (myTurn && getTimeLeft() > -1000 && getTimeLeft() < 500) {
                         logger.log("Playing b/c of time limit");
                         didProcessLeaf = true;
                         playMove();
@@ -483,7 +489,7 @@ public class ReversiMinimaxPlayer implements Player {
          * @return the child of the parameter Node with the highest winHeat
          */
         private Node getHighestHeatChild (Node parent) {
-            Node highest = parent;
+            Node highest = null;
             int maxHeat = Integer.MIN_VALUE;
             Node[] children = parent.getChildren();
             for (Node child : children) {
