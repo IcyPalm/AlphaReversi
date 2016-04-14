@@ -20,13 +20,29 @@ public class Logger {
         return prefix + text.replace("\n", "\n" + prefix.replaceAll(".", " "));
     }
 
+    /**
+     * Log an error message.
+     *
+     * @param text Error text.
+     * @return This.
+     */
     public Logger err(String text) {
-        System.out.println(this.message(text));
+        synchronized (System.err) {
+            System.err.println(this.message(text));
+        }
         return this;
     }
 
+    /**
+     * Log a debug message.
+     *
+     * @param text Error text.
+     * @return This.
+     */
     public Logger log(String text) {
-        System.out.println(this.message(text));
+        synchronized (System.out) {
+            System.out.println(this.message(text));
+        }
         return this;
     }
 }

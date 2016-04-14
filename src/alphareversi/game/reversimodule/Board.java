@@ -109,7 +109,8 @@ public class Board {
      * @return True if the piece can be placed in the given position, False otherwise.
      */
     public boolean isValidMove(int player, int move) {
-        return this.canAttack(player, move / 8, move % 8);
+        return this.board[move / 8][move % 8] == EMPTY
+                && this.canAttack(player, move / 8, move % 8);
     }
 
     /**
