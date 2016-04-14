@@ -123,7 +123,14 @@ public class ReversiMinimaxPlayer implements Player {
 
     private synchronized void playMove() {
         this.myTurn = false;
+        int me = this.model.getMySide();
         int bestMove = this.getBestMove();
+        // Ultra-fallbacks 😱
+        if (!this.model.getBoardInstance().isValidMove(me, bestMove)) {
+            Collection<Integer> moves = this.model.getBoardInstance().getAvailableMoves(me);
+            Integer[] fallbackArray = moves.toArray(new Integer[moves.size()]);
+            bestMove = fallbackArray[0];
+        }
         // Also parse this move locally.
         this.incomingNewMove(bestMove);
         this.notifyActionListeners(bestMove);
