@@ -19,13 +19,13 @@ public class Connection {
     private static Connection instance = null;
     public CommandDispatcher commandDispatcher;
     private boolean connected = false;
-    private Socket comms;
+    public Socket comms;
     private BufferedReader input;
     private PrintWriter output;
     private Thread serverListenerThread;
     private Logger logger = new Logger("Connection");
 
-    protected Connection() {
+    public Connection() {
         this.commandDispatcher = new CommandDispatcher();
     }
 
@@ -107,9 +107,10 @@ public class Connection {
      */
     public void closeConnection() {
         try {
-            this.input.close();
-            this.output.close();
-            this.comms.close();
+            this.connected = false;
+            input.close();
+            output.close();
+            comms.close();
         } catch (IOException exception) {
             exception.printStackTrace();
         }

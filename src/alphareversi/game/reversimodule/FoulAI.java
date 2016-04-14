@@ -55,11 +55,11 @@ public class FoulAI implements Player {
 //        } catch (IOException exception) {
 //            exception.printStackTrace();
 //        }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             Connection connection = new Connection();
             try {
                 connection.startConnection(connectionMain.comms.getInetAddress().getHostAddress(), connectionMain.comms.getPort());
-                SendLoginCommand loginCommand = new SendLoginCommand("Henk de boze ಠ‿ಠ robot (╯°□°）╯︵ ┻━┻ " + randInt(0, 9000) + i);
+                SendLoginCommand loginCommand = new SendLoginCommand("Henk de boze ಠ‿ಠ robot, (╯°□°）╯︵ ┻━┻ " + randInt(0, 9000) + i);
                 connection.sendMessage(loginCommand);
                 new Thread() {
                     public void run() {
@@ -78,7 +78,12 @@ public class FoulAI implements Player {
                             }
                             i++;
                         }
-                        connection.stopConnection();
+                        try {
+                            connection.comms.close();
+                            connection.closeConnection();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }.start();
             } catch (IOException exception) {

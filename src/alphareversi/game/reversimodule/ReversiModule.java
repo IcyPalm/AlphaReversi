@@ -17,7 +17,7 @@ import javafx.scene.layout.BorderPane;
  * Created by Robert on 7-4-2016.
  */
 public class ReversiModule extends GameModule {
-    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI", "ZONE-AI"};
+    private static final String[] playerTypes = {"HUMAN", "AI", "RANDOM-AI", "ZONE-AI", "FOUL-AI"};
     private static final String gameName = "Reversi";
     private Player player;
     private ReversiModel model;
@@ -100,6 +100,8 @@ public class ReversiModule extends GameModule {
             this.player = new RandomAi(this.model);
         } else if (playerType.equals("ZONE-AI")) {
             this.player = new ZoneAi(this.model);
+        } else if (playerType.equals("FOUL-AI")) {
+            this.player = new FoulAI(this.model);
         }
 
         if (this.player == null) {
