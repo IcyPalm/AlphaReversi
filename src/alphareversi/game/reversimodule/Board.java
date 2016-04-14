@@ -7,21 +7,21 @@ public class Board {
     /**
      * Piece/Player types.
      */
-    final public static int EMPTY = 0;
-    final public static int SELF = 1;
-    final public static int OPPONENT = 2;
+    public static final int EMPTY = 0;
+    public static final int SELF = 1;
+    public static final int OPPONENT = 2;
 
-    final public static int DRAW = 3;
+    public static final int DRAW = 3;
 
     /**
      * The size of the board (amount of rows = amount of columns).
      */
-    final private static int SIZE = 8;
+    private static final int SIZE = 8;
 
     /**
      * All directions in which pieces might be vulnerable.
      */
-    final private static Direction[] DIRECTIONS = new Direction[] {
+    private static final Direction[] DIRECTIONS = new Direction[] {
         new Direction(0, -1),
         new Direction(-1, -1),
         new Direction(-1, 0),
@@ -135,13 +135,13 @@ public class Board {
      * Check whether a piece placed at a given position would attack at least
      * one opposing piece in a single direction.
      */
-    private int attackablePiecesInDirection(int player, int row, int col, Direction d) {
+    private int attackablePiecesInDirection(int player, int row, int col, Direction direction) {
         int opponent = player == SELF ? OPPONENT : SELF;
         int hitting = 0;
-        row += d.y;
-        col += d.x;
-        while (row >= 0 && row < 8 &&
-               col >= 0 && col < 8) {
+        row += direction.col;
+        col += direction.row;
+        while (row >= 0 && row < 8
+                && col >= 0 && col < 8) {
             if (this.board[row][col] == opponent) {
                 hitting++;
             } else if (this.board[row][col] == player) {
@@ -150,8 +150,8 @@ public class Board {
                 // Empty spaces can not be attacked
                 return 0;
             }
-            row += d.y;
-            col += d.x;
+            row += direction.col;
+            col += direction.row;
         }
         return 0;
     }
@@ -175,7 +175,8 @@ public class Board {
     }
 
     /**
-     *
+     * gets the win state of the board.
+     * @return int state
      */
     public int getWinState() {
         int selfScore = this.getScore(Board.SELF);
@@ -215,12 +216,12 @@ public class Board {
 
             // Move `flip` places into the Direction, replacing all pieces with
             // ours.
-            int flipRow = row + d.y;
-            int flipCol = col + d.x;
+            int flipRow = row + d.col;
+            int flipCol = col + d.row;
             for (int i = 0; i < flip; i++) {
                 this.board[flipRow][flipCol] = player;
-                flipRow += d.y;
-                flipCol += d.x;
+                flipRow += d.col;
+                flipCol += d.row;
             }
 
             totalFlipped += flip;
@@ -279,12 +280,12 @@ public class Board {
      * pieces in.
      */
     private static class Direction {
-        public int x;
-        public int y;
+        public int row;
+        public int col;
 
-        public Direction(int x, int y) {
-            this.x = x;
-            this.y = y;
+        public Direction(int row, int col) {
+            this.row = row;
+            this.col = col;
         }
     }
 }

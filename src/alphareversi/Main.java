@@ -1,10 +1,5 @@
 package alphareversi;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import alphareversi.chat.ChatController;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
@@ -15,6 +10,7 @@ import alphareversi.game.GameModule;
 import alphareversi.game.reversimodule.ReversiModule;
 import alphareversi.game.tictactoemodule.TicTacToeModule;
 import alphareversi.lobby.LobbyController;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +20,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main extends Application implements CommandListener {
 
@@ -36,6 +37,7 @@ public class Main extends Application implements CommandListener {
     private ArrayList availableGames;
     private HashMap<String, Class> gameNameWithClass;
     private HashMap<String, String[]> gamesWithPlayers;
+    public static final int DEFAULT_TURN_TIME = 2;
 
     public Main() {
     }
@@ -131,7 +133,8 @@ public class Main extends Application implements CommandListener {
      */
     public void startGame(RecvGameMatchCommand command) throws Exception {
         Class game = gameNameWithClass.get(command.getGametype());
-        Constructor<?> cons = game.getConstructor(String.class,String.class,String.class,String.class,int.class);
+        Constructor<?> cons = game.getConstructor(
+                String.class, String.class, String.class, String.class, int.class);
         gameModule = (GameModule) cons.newInstance(
                 lobbyController.getSelectedPlayerToPlay(),
                 command.getOpponent(),
@@ -143,6 +146,8 @@ public class Main extends Application implements CommandListener {
         Platform.runLater(() -> {
             rootLayout.setCenter(gameModule.getView());
         });
+
+        lobbyController.setInGame(true);
     }
 
     private void stopGame(RecvGameResultCommand command) throws Exception {
@@ -157,6 +162,8 @@ public class Main extends Application implements CommandListener {
         alert.showAndWait();
 
         gameModule = null;
+        lobbyController.setInGame(false);
+        lobbyController.setTurnTime(DEFAULT_TURN_TIME);
         showLobby();
     }
 

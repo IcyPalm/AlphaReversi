@@ -1,37 +1,36 @@
 package alphareversi;
 
+import alphareversi.commands.CommandDispatcher;
+import alphareversi.commands.CommandParser;
+import alphareversi.commands.RecvCommand;
+import alphareversi.commands.SendCommand;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import alphareversi.commands.CommandDispatcher;
-import alphareversi.commands.CommandParser;
-import alphareversi.commands.RecvCommand;
-import alphareversi.commands.SendCommand;
-
 /**
- * Created by timmein on 24/03/16. Singleton implementation of the connection class. Holds
- * connection with server and messaging.
+ * Created by timmein on 24/03/16.
+ * Singleton implementation of the connection class. Holds connection with server and messaging.
  */
 public class Connection {
     private static Connection instance = null;
     public CommandDispatcher commandDispatcher;
-    public Socket comms;
     private boolean connected = false;
+    private Socket comms;
     private BufferedReader input;
     private PrintWriter output;
     private Thread serverListenerThread;
     private Logger logger = new Logger("Connection");
 
-    public Connection() {
+    protected Connection() {
         this.commandDispatcher = new CommandDispatcher();
     }
 
     /**
      * Singleton Implementation.
-     *
      * @return Connection instance
      */
     public static Connection getInstance() {
@@ -43,7 +42,6 @@ public class Connection {
 
     /**
      * Function to open a connection with a server and start listening.
-     *
      * @param host String server address
      * @param port int port number
      * @return boolean did the server start successfully
@@ -71,9 +69,14 @@ public class Connection {
     public void startServerResponseThread() {
         Runnable runnable = () -> {
 
-            while (connected) {
+            while (this.connected) {
                 try {
                     String line = input.readLine();
+                    if (line == null) {
+                        line = "DISCONNECT";
+                        this.connected = false;
+                        closeConnection();
+                    }
                     this.logger.log("| → " + line);
                     RecvCommand command = CommandParser.parseString(line);
                     this.commandDispatcher.sendCommand(command);
@@ -91,20 +94,7 @@ public class Connection {
     }
 
     /**
-     * stop the connection
-     */
-    public void stopConnection() {
-        this.connected = false;
-        try {
-            comms.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Sends a command object to the server.
-     *
      * @param command SendCommand send command to server
      */
     public void sendMessage(SendCommand command) {
@@ -113,8 +103,20 @@ public class Connection {
     }
 
     /**
+     * Closing the socket connection.
+     */
+    public void closeConnection() {
+        try {
+            this.input.close();
+            this.output.close();
+            this.comms.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
      * return the state of the serverconnection.
-     *
      * @return state of the connection
      */
     public boolean getConnected() {

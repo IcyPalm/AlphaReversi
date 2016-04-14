@@ -1,5 +1,6 @@
 package alphareversi.commands;
 
+import alphareversi.commands.receive.RecvDisconnectCommand;
 import alphareversi.commands.receive.RecvGameChallengeCanceledCommand;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
@@ -37,6 +38,7 @@ public class CommandParser {
             put("SVR HELP (.*?)+", RecvHelpCommand.class);
             put("ERR (.*?)+", RecvStatusErrCommand.class);
             put("OK", RecvStatusOkCommand.class);
+            put("DISCONNECT", RecvDisconnectCommand.class);
         }
     };
 
@@ -90,7 +92,8 @@ public class CommandParser {
         ArrayList<String> arrayList = new ArrayList<>();
         if (!string.contains("[]")) {
             string = string.substring(1, string.length() - 1);
-            String[] parts = CommandParser.trimStringArray(string.split(","));
+            String[] parts = CommandParser.trimStringArray(
+                    string.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"));
             for (String part : parts) {
                 arrayList.add(part.substring(1, part.length() - 1));
             }

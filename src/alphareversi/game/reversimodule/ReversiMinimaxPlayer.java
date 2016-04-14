@@ -1,18 +1,15 @@
 package alphareversi.game.reversimodule;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import alphareversi.Logger;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
-
-import javax.swing.tree.TreeNode;
-
-import alphareversi.Logger;
 
 /*
  * MiniMax AI test
@@ -22,6 +19,7 @@ import alphareversi.Logger;
 public class ReversiMinimaxPlayer implements Player {
     public static final int MAX_DEPTH = 2;
     public static final int THINK_TIME = 600;
+    public static final int MAX_LEAVES = 10000;
 
     private Logger logger = new Logger("Reversi/AI");
 
@@ -53,7 +51,7 @@ public class ReversiMinimaxPlayer implements Player {
     }
 
     /**
-     *
+     * start turn.
      */
     public void startTurn() {
         this.starttime = System.currentTimeMillis();
@@ -83,13 +81,13 @@ public class ReversiMinimaxPlayer implements Player {
     private void notifyActionListeners(int move) {
         for (ActionListener listener : this.actionListeners) {
             listener.actionPerformed(
-                new ActionEvent(this, move, "")
+                    new ActionEvent(this, move, "")
             );
         }
     }
 
     /**
-     *
+     * start the timer for the turn.
      */
     private void startTimerThread() {
         this.logger.log("Starting Turn");
@@ -109,8 +107,8 @@ public class ReversiMinimaxPlayer implements Player {
     }
 
     /**
-     * Process an incoming move, by the opponent or by us. Discards the parts of
-     * the move tree that are no longer useful.
+     * Process an incoming move, by the opponent or by us. Discards the parts of the move tree that
+     * are no longer useful.
      *
      * @param move The new move.
      */
@@ -118,8 +116,8 @@ public class ReversiMinimaxPlayer implements Player {
         Node[] children = this.root.getChildren();
 
         String text = "Incoming move: " + move
-                    + ", previous = " + this.root.getMove()
-                    + ", possible = [";
+                + ", previous = " + this.root.getMove()
+                + ", possible = [";
         for (Node child : children) {
             text += child.getMove() + ", ";
         }
@@ -135,10 +133,10 @@ public class ReversiMinimaxPlayer implements Player {
         this.logger.log("Did not predict move");
 
         this.setRoot(new Node(
-            this.model.getBoardInstance(),
-            this.model.getPlayerOnTurn() == 1 ? 2 : 1,
-            0,
-            0
+                this.model.getBoardInstance(),
+                this.model.getPlayerOnTurn() == 1 ? 2 : 1,
+                0,
+                0
         ));
     }
 
@@ -172,7 +170,6 @@ public class ReversiMinimaxPlayer implements Player {
     /**
      * Find the next move to get to the given end state.
      *
-     * @param endState
      * @return The next move.
      */
     private Node getNextMove(Node endState) {
@@ -268,9 +265,8 @@ public class ReversiMinimaxPlayer implements Player {
         }
 
         /**
-         * Configure the thread to work out the tree of a different Node.
-         * Consumers should wait for this thread's lock first to avoid
-         * concurrency fun.
+         * Configure the thread to work out the tree of a different Node. Consumers should wait for
+         * this thread's lock first to avoid concurrency fun.
          *
          * @param root The new root state.
          */
@@ -279,8 +275,8 @@ public class ReversiMinimaxPlayer implements Player {
         }
 
         /**
-         * Retrieve the current leaf states. Consumers should wait for this
-         * thread's lock first to avoid concurrency fun.
+         * Retrieve the current leaf states. Consumers should wait for this thread's lock first to
+         * avoid concurrency fun.
          *
          * @return The current leaf states.
          */
@@ -323,9 +319,7 @@ public class ReversiMinimaxPlayer implements Player {
 
         /**
          * Recursive heat-finding AI with base cases:
-         * Depth of moves reached
-         * Time limit reached
-         * Game finished
+         * Depth of moves reached Time limit reached Game finished.
          * @return heat The heat of a move
          */
         private void step(Node parent) {
@@ -369,9 +363,8 @@ public class ReversiMinimaxPlayer implements Player {
         }
 
         private void prune() {
-            final int MAX_LEAVES = 10000;
-            TreeSet<Node> leaves = new TreeSet<>((a, b) -> {
-              return a.getHeat() > b.getHeat() ? 1 : -1;
+            TreeSet<Node> leaves = new TreeSet<>((anode, bnode) -> {
+                return anode.getHeat() > bnode.getHeat() ? 1 : -1;
             });
 
             for (Node leaf : this.leaves) {

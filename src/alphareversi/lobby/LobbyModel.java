@@ -194,7 +194,7 @@ public class LobbyModel {
         @Override
         public void run() {
             while (true) {
-                if (connection.getConnected()) {
+                if (connection.getConnected() && !isInGame()) {
                     SendGetPlayerlistCommand getPlayerList = new SendGetPlayerlistCommand();
                     connection.sendMessage(getPlayerList);
                 }

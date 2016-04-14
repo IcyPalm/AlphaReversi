@@ -13,6 +13,7 @@ public class Node extends DefaultMutableTreeNode {
     private int move;
     private boolean endState = false;
     private int type = 0;
+    private int winHeat = 0;
 
     /**
      * Create a new Node.
@@ -112,5 +113,19 @@ public class Node extends DefaultMutableTreeNode {
      */
     public int getEndType() {
         return this.getEndType();
+    }
+    
+    /*
+     * Children of this node can add 1 winHeat if their endstate is a win
+     * The actual winning player can be determined with getSide()
+     * 
+     * @see getSide()
+     */
+    public void addWinHeat() {
+        this.winHeat++;
+    }
+    
+    public int getWinHeat() {
+        return this.winHeat;
     }
 }

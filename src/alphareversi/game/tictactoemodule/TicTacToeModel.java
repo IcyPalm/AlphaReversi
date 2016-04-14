@@ -41,7 +41,10 @@ public class TicTacToeModel {
         } else {
             this.side = self;
         }
-        viewController.updateBoard(board);
+
+        if (viewController != null) {
+            viewController.updateBoard(board);
+        }
     }
 
     /**
@@ -175,10 +178,6 @@ public class TicTacToeModel {
     public void setSelfPlays() {
         this.side = self;
         initSide();
-    }
-
-    public boolean opponentPlays() {
-        return side == opponent;
     }
 
     public void setViewController(TicTacToeViewController viewController) {

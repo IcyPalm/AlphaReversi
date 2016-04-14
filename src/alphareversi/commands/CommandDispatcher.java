@@ -1,10 +1,11 @@
 package alphareversi.commands;
 
+import alphareversi.Logger;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import alphareversi.Logger;
 
 /**
  * Created by timmein on 24/03/16.
@@ -24,6 +25,7 @@ public class CommandDispatcher {
 
     /**
      * Add a listener to the broadcast list.
+     *
      * @param listener to addt o broadcast list
      */
     public synchronized void addListener(CommandListener listener) {
@@ -37,11 +39,13 @@ public class CommandDispatcher {
 
     /**
      * Method for removing a listener.
+     *
      * @param listener The listener to remove.
      */
     public synchronized void removeListener(CommandListener listener) {
         synchronized (lock) {
-            for (Iterator<CommandListener> iter = commandListeners.listIterator(); iter.hasNext(); ) {
+            for (Iterator<CommandListener> iter = commandListeners.listIterator();
+                    iter.hasNext();) {
                 CommandListener listeners = iter.next();
                 if (listeners == listener) {
                     this.logger.log("- Remove listener: " + listener.getClass());
@@ -53,6 +57,7 @@ public class CommandDispatcher {
 
     /**
      * Send a command to all subscribed listeners.
+     *
      * @param command send to all subscribers
      */
     public synchronized void sendCommand(RecvCommand command) {
