@@ -77,6 +77,16 @@ public class Main extends Application implements CommandListener {
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> {
+            if (gameModule == null) {
+                Platform.exit();
+                System.exit(0);
+            } else {
+                showLobby();
+                gameModule = null;
+                event.consume();
+            }
+        });
     }
 
     public HashMap<String, String[]> getGamesWithPlayers() {

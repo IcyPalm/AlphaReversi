@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * Created by timmein on 24/03/16.
@@ -80,6 +81,13 @@ public class Connection {
                     this.logger.log("| → " + line);
                     RecvCommand command = CommandParser.parseString(line);
                     this.commandDispatcher.sendCommand(command);
+                } catch (SocketException exception) {
+                    if (exception.getMessage().equals("Connection reset")) {
+                        this.connected = false;
+                        RecvCommand command = CommandParser.parseString("DISCONNECT");
+                        this.commandDispatcher.sendCommand(command);
+                        closeConnection();
+                    }
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
@@ -110,6 +118,9 @@ public class Connection {
             this.input.close();
             this.output.close();
             this.comms.close();
+            this.comms = null;
+            this.input = null;
+            this.output = null;
         } catch (IOException exception) {
             exception.printStackTrace();
         }

@@ -4,6 +4,7 @@ import alphareversi.Connection;
 import alphareversi.Main;
 import alphareversi.commands.CommandListener;
 import alphareversi.commands.RecvCommand;
+import alphareversi.commands.receive.RecvDisconnectCommand;
 import alphareversi.commands.receive.RecvGameChallengeCommand;
 import alphareversi.commands.receive.RecvGameMatchCommand;
 import alphareversi.commands.receive.RecvGamelistCommand;
@@ -222,7 +223,8 @@ public class LobbyController implements CommandListener {
         dialog.setServerText("Please enter server address:");
         dialog.setPortText("Please enter server port");
 
-        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(this.getPrimaryStage());
 
         Connection connection = Connection.getInstance();
 
@@ -264,6 +266,11 @@ public class LobbyController implements CommandListener {
                 if (subscribeAlert != null) {
                     subscribeAlert.close();
                 }
+            } else if (command instanceof RecvDisconnectCommand) {
+                model.setInGame(false);
+                Platform.runLater(() -> {
+                    createConfigurationDialog();
+                });
             }
         });
     }
