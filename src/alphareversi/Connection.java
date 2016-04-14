@@ -82,6 +82,8 @@ public class Connection {
                     this.commandDispatcher.sendCommand(command);
                 } catch (IOException exception) {
                     exception.printStackTrace();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
             }
 

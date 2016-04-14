@@ -63,6 +63,8 @@ public class CommandParser {
                     exception.printStackTrace();
                 } catch (InvocationTargetException exception) {
                     exception.printStackTrace();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
             }
         }

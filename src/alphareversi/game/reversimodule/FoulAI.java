@@ -29,44 +29,30 @@ public class FoulAI implements Player {
 
     public FoulAI(ReversiModel model) {
         this.model = model;
+        new Thread() {
+            public void run() {
+                startClones("henk ]] }} de boze ಠ‿ಠ robot (╯°□°）╯︵ ┻━┻", 2, 10);
+                startClones("henk de boze ಠ‿ಠ robot (╯°□°）╯︵ ┻━┻", 2, 10);
+                startClones("henk de boze ಠ‿ಠ robot , (╯°□°）╯︵ ┻━┻", 2, 10);
+                startClones("henk de boze ಠ‿ಠ robot\" (╯°□°）╯︵ ┻━┻", 2, 10);
+            }
+        }.start();
+    }
 
-
+    private void startClones(String name, int ammount, int harrasAmount) {
         Connection connectionMain = Connection.getInstance();
-//        Connection connection = new Connection();
-//        try {
-//            connection.startConnection(connectionMain.comms.getInetAddress().getHostAddress(), connectionMain.comms.getPort());
-//            SendLoginCommand loginCommand = new SendLoginCommand("Henk de boze robot " + randInt(0, 9000));
-//            connection.sendMessage(loginCommand);
-//            new Thread() {
-//                public void run() {
-//                    while (true) {
-//                        if (connection.getConnected()) {
-//                            SendChallengeCommand challenge = new SendChallengeCommand(model.getOpponentUsername(), "Reversi");
-//                            connection.sendMessage(challenge);
-//                        }
-//                        try {
-//                            Thread.sleep(500);
-//                        } catch (InterruptedException exception) {
-//                            exception.printStackTrace();
-//                        }
-//                    }
-//                }
-//            }.start();
-//        } catch (IOException exception) {
-//            exception.printStackTrace();
-//        }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < ammount; i++) {
             Connection connection = new Connection();
             try {
                 connection.startConnection(connectionMain.comms.getInetAddress().getHostAddress(), connectionMain.comms.getPort());
-                SendLoginCommand loginCommand = new SendLoginCommand("Henk de boze ಠ‿ಠ robot, (╯°□°）╯︵ ┻━┻ " + randInt(0, 9000) + i);
+                SendLoginCommand loginCommand = new SendLoginCommand(name + " " + randInt(0, 9000) + i);
                 connection.sendMessage(loginCommand);
                 new Thread() {
                     public void run() {
                         int i = 0;
-                        while (i < 20) {
+                        while (i < harrasAmount) {
                             if (connection.getConnected()) {
-                                SendMessageCommand message = new SendMessageCommand(model.getOpponentUsername(), "Ik ben henk de boze ಠ‿ಠ robot (╯°□°）╯︵ ┻━┻");
+                                SendMessageCommand message = new SendMessageCommand(model.getOpponentUsername(), "Ik ben " + name);
                                 connection.sendMessage(message);
                                 SendChallengeCommand challenge = new SendChallengeCommand(model.getOpponentUsername(), "Reversi");
                                 connection.sendMessage(challenge);
