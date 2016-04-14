@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -196,31 +197,39 @@ public class ReversiMinimaxPlayer implements Player {
             this.logger.log("Retrieving best move out of " + leaves.length);
             this.logger.log(text + "]");
 
-            Node best = leaves[0];
-            for (Node leaf : leaves) {
-                if (leaf.getHeat() > best.getHeat()) {
-                    best = leaf;
+            if (leaves.length > 0) {
+                Node best = leaves[0];
+                for (Node leaf : leaves) {
+                    if (leaf.getHeat() > best.getHeat()) {
+                        best = leaf;
+                    }
                 }
+
+                this.logger.log("Current state:");
+                this.logger.log("--------");
+                this.logger.log(this.model.getBoardInstance() + "");
+                this.logger.log("--------");
+
+                this.logger.log("Desired state:");
+                this.logger.log("--------");
+                this.logger.log(best.getBoard() + "");
+                this.logger.log("--------");
+
+                this.lock.unlock();
+
+                return best == null ? -1 : best.getMove();
             }
-
-            if (!this.root.isNodeDescendant(best)) {
-                this.logger.err("ATTEMPTING TO PLAY ORPHAN NODE");
-            }
-
-            this.logger.log("Current state:");
-            this.logger.log("--------");
-            this.logger.log(this.model.getBoardInstance() + "");
-            this.logger.log("--------");
-
-            this.logger.log("Desired state:");
-            this.logger.log("--------");
-            this.logger.log(best.getBoard() + "");
-            this.logger.log("--------");
-
-            this.lock.unlock();
-
-            return best == null ? -1 : best.getMove();
         }
+
+        // 🙌
+        Collection<Integer> fallbacks = this.model.getBoardInstance()
+                .getAvailableMoves(this.model.getPlayerOnTurn());
+        Integer[] fallbackArray = fallbacks.toArray(new Integer[fallbacks.size()]);
+
+        Random fallbackGenerator = new Random();
+        int fi = fallbackGenerator.nextInt(fallbackArray.length);
+
+        return (int) fallbackArray[fi];
     }
 
     /**
@@ -259,8 +268,8 @@ public class ReversiMinimaxPlayer implements Player {
         this.logger.log("Going to set root after " + this.lock.getQueueLength());
         if (this.lock.isLocked()) {
             this.logger.log(
-                "But is locked by " +
-                (this.lock.isHeldByCurrentThread() ? "Me" : "Minimaxer")
+                    "But is locked by "
+                    + (this.lock.isHeldByCurrentThread() ? "Me" : "Minimaxer")
             );
         }
         this.lock.lock();
@@ -341,10 +350,10 @@ public class ReversiMinimaxPlayer implements Player {
                 boolean didProcessLeaf = false;
                 this.leavesWereReset = false;
                 logger.log(
-                    "startTime: " + starttime + ", " +
-                    "My Turn: " + model.amIOnTurn() + ", " +
-                    "Time left: " + getTimeLeft() + ", " +
-                    "Leaves: " + temp.size()
+                        "startTime: " + starttime + ", "
+                        + "My Turn: " + model.amIOnTurn() + ", "
+                        + "Time left: " + getTimeLeft() + ", "
+                        + "Leaves: " + temp.size()
                 );
                 for (Node leaf : temp) {
                     if (myTurn && getTimeLeft() > -1000 && getTimeLeft() < 500) {
@@ -369,8 +378,8 @@ public class ReversiMinimaxPlayer implements Player {
                     // for parent leaves that no longer exist.
                     if (this.leavesWereReset) {
                         ReversiMinimaxPlayer.this.logger.log(
-                            "Leaves were reset - Old: " + temp.size() +
-                            " - New: " + this.leaves.size()
+                                "Leaves were reset - Old: " + temp.size()
+                                + " - New: " + this.leaves.size()
                         );
                         this.lock.unlock();
                         break;
@@ -488,7 +497,7 @@ public class ReversiMinimaxPlayer implements Player {
          *
          * @return the child of the parameter Node with the highest winHeat
          */
-        private Node getHighestHeatChild (Node parent) {
+        private Node getHighestHeatChild(Node parent) {
             Node highest = null;
             int maxHeat = Integer.MIN_VALUE;
             Node[] children = parent.getChildren();

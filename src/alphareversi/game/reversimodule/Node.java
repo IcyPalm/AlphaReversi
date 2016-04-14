@@ -33,7 +33,9 @@ public class Node extends DefaultMutableTreeNode {
     }
 
     /**
+     * Bubble up a heat value.
      *
+     * @param heat Heat value.
      */
     public void updateHeat(int heat) {
         this.heat += heat;
@@ -124,19 +126,18 @@ public class Node extends DefaultMutableTreeNode {
     public int getEndType() {
         return this.type;
     }
-    
-    /*
-     * Children of this node can add 1 winHeat if their endstate is a win
-     * The actual winning player can be determined with getSide()
-     * 
-     * @see getSide()
+
+    /**
+     * Children of this node can add 1 winHeat if their endstate is a win.
+     *
+     * @param winHeat The win state value.
      */
     public void addWinHeat(int winHeat) {
-        if (!this.isRoot()) {
-            if (this.isEndState()) {
-                switch (this.type) {
-                case 0:
-                    break;
+        if (this.isRoot()) {
+            return;
+        }
+        if (this.isEndState()) {
+            switch (this.type) {
                 case 1:
                     this.winHeat += 2;
                     break;
@@ -145,15 +146,15 @@ public class Node extends DefaultMutableTreeNode {
                     break;
                 case 3:
                     this.winHeat--;
-                    break;   
-                }
+                    break;
+                default:
+                    break;
             }
-            this.winHeat += winHeat;
+        }
+        this.winHeat += winHeat;
         ((Node) this.getParent()).addWinHeat(this.winHeat);
-        } 
-        
     }
-    
+
     public int getWinHeat() {
         return this.winHeat;
     }
